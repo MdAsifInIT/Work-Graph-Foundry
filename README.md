@@ -75,21 +75,27 @@ src/
   fixtures/    # Seeded IT access request traces and policy data
   test/        # Test setup
 docs/
-  ARCHITECTURE.md
-  DATA_AND_AGENT_GUIDE.md
-  DEMO_GUIDE.md
-  DEVELOPMENT_GUIDE.md
-  ROADMAP.md
+  README.md
+  01-overview.md
+  02-architecture.md
+  03-development.md
+  04-demo-setup.md
+  05-data-access-and-security.md
+  06-testing-and-validation.md
+  07-roadmap.md
   archive/
 ```
 
 ## Documentation
 
-- [Development Guide](docs/DEVELOPMENT_GUIDE.md): setup, repo layout, development rules, extension recipes, and test workflow.
-- [Architecture](docs/ARCHITECTURE.md): solution overview, module-by-module implementation walkthrough, current limitations, and production direction.
-- [Data And Agent Guide](docs/DATA_AND_AGENT_GUIDE.md): data contracts, fixture model, deterministic agent responsibilities, provider behavior, and extension guidance.
-- [Demo Guide](docs/DEMO_GUIDE.md): presenter script, value moments, fallback talk tracks, and manual acceptance checklist.
-- [Roadmap](docs/ROADMAP.md): current MVP state, next improvements, productionization path, and testing roadmap.
+- [Documentation Index](docs/README.md): ordered guide list for developers and agents.
+- [1. Overview](docs/01-overview.md): purpose, current state, main flows, and agentic loop.
+- [2. Architecture](docs/02-architecture.md): components, data flow, module responsibilities, and production direction.
+- [3. Development](docs/03-development.md): setup, build, test, extension recipes, and agent development rules.
+- [4. Demo Setup](docs/04-demo-setup.md): requirements, local run steps, walkthrough, reset, and recovery.
+- [5. Data Access And Security](docs/05-data-access-and-security.md): organization access, data needs, non-needs, governance, and compliance FAQ.
+- [6. Testing And Validation](docs/06-testing-and-validation.md): unit tests, integration checks, UI smoke tests, and agentic verification steps.
+- [7. Roadmap](docs/07-roadmap.md): current limitations, future improvements, productionization, and testing roadmap.
 
 Historical planning prompts and phase notes are archived under `docs/archive/`.
 

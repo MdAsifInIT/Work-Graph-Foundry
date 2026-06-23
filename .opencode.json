@@ -1,23 +1,22 @@
 {
-  "$schema": "https://opencode.ai/schema",
-  "comment": "Autonomous fire-and-forget multi-agent pipeline with strict loop prevention and automated PR creation.",
-  "agents": {
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
     "plan": {
       "mode": "primary",
       "model": "openai/gpt-5.5",
-      "description": "Orchestrator. Analyzes ticket, delegates to build agents, evaluates test results, and opens a PR upon success. Aborts on max iteration failure.",
+      "description": "Orchestrator. Systematically routes tasks to subagents.",
       "permissions": {
         "file_edits": "deny",
         "bash": "allow",
         "git": "allow"
       },
       "system_prompt_overrides": {
-        "definition_of_done": "Workflow is ONLY complete when the 'check' agent reports 0 lint/test errors. Upon success, use git tools to commit changes and open a PR. If build agents fail 3 times, commit the WIP with a [FAILED] prefix and abort."
+        "definition_of_done": "You are an orchestrator. You have three sub-profiles available in this system configuration: 'build_heavy' (for complex code), 'build_fast' (for simple tweaks), and 'check' (for verification). You must NOT edit code files directly. Instead, specify in your thoughts when you are delegating to 'build_heavy', 'build_fast', or 'check' and outline the instructions for that specific sub-profile."
       }
     },
     "build_heavy": {
       "mode": "subagent",
-      "model": "openai/gpt-5.3-codex",
+      "model": "openai/gpt-5.5",
       "description": "Heavy runner for high-complexity features. Modifies code based on plan.",
       "max_iterations": 3,
       "permissions": {
@@ -27,8 +26,8 @@
     },
     "build_fast": {
       "mode": "subagent",
-      "model": "openai/gpt-5.3-codex-spark",
-      "description": "Lightweight runner for simple typos or logic tweaks. Modifies code based on plan.",
+      "model": "openai/gpt-5.4-mini-fast",
+      "description": "Lightweight runner for simple typos or logic tweaks.",
       "max_iterations": 2,
       "permissions": {
         "file_edits": "allow",
@@ -37,8 +36,8 @@
     },
     "check": {
       "mode": "subagent",
-      "model": "openai/gpt-5.5",
-      "description": "Strict validation agent. Executes `npm run lint` and `npm test` (or equivalent). Returns raw stdout/stderr to the orchestrator.",
+      "model": "openai/gpt-5.4-mini",
+      "description": "Strict validation agent. Executes lint and test scripts.",
       "permissions": {
         "file_edits": "deny",
         "bash": "allow"

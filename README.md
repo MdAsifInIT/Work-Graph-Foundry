@@ -85,11 +85,11 @@ docs/
 
 ## Documentation
 
-- [Development Guide](docs/DEVELOPMENT_GUIDE.md)
-- [Architecture](docs/ARCHITECTURE.md)
-- [Data And Agent Guide](docs/DATA_AND_AGENT_GUIDE.md)
-- [Demo Guide](docs/DEMO_GUIDE.md)
-- [Roadmap](docs/ROADMAP.md)
+- [Development Guide](docs/DEVELOPMENT_GUIDE.md): setup, repo layout, development rules, extension recipes, and test workflow.
+- [Architecture](docs/ARCHITECTURE.md): solution overview, module-by-module implementation walkthrough, current limitations, and production direction.
+- [Data And Agent Guide](docs/DATA_AND_AGENT_GUIDE.md): data contracts, fixture model, deterministic agent responsibilities, provider behavior, and extension guidance.
+- [Demo Guide](docs/DEMO_GUIDE.md): presenter script, value moments, fallback talk tracks, and manual acceptance checklist.
+- [Roadmap](docs/ROADMAP.md): current MVP state, next improvements, productionization path, and testing roadmap.
 
 Historical planning prompts and phase notes are archived under `docs/archive/`.
 

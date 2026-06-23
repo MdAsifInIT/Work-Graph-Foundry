@@ -1,65 +1,237 @@
-# Data And Agent Guide
+# Data And Agent Walkthrough
 
-## Demo Data
+This guide explains the data model, seeded demo data, deterministic agent behavior, and how to safely extend Work Graph Foundry.
 
-The seeded demo focuses on IT access requests. Fixture data includes:
+## What The Data Represents
 
-- Raw work traces across email, ticket, chat, approval log, and system action channels.
-- Policy rules for standard access, privileged access, contractor access, finance access, and analytics access.
-- Approval history with manager/system-owner decisions.
-- A new incoming Salesforce request for execution.
+The current MVP models an enterprise IT access request workflow. In a real organization, this work is scattered across systems:
 
-## Core Contracts
+- an employee sends an email
+- a ticket is created
+- a chat follow-up happens
+- a manager approves
+- IT provisions access
+- an audit log is written
 
-Important domain contracts live in `src/domain/types.ts`:
+Work Graph Foundry turns those scattered traces into a coherent work item and process graph.
 
-- `RawWorkTrace`
-- `NormalizedWorkItem`
-- `WorkPattern`
-- `WorkGraph`
-- `AutomationProposal`
-- `SimulationResult`
-- `GovernanceRecord`
-- `ExecutionRun`
-- `LearningRecommendation`
-- `PolicyRule`
+## Fixture Data
 
-Every AI-like output should map to a TypeScript contract before it reaches the UI.
+The demo data lives in `src/fixtures/demoData.ts`.
 
-## Agentic Responsibilities
+It includes:
 
-The MVP models agents as deterministic domain modules:
+- historical access request cases
+- raw traces for each case
+- policy rules
+- approval history records
+- one new incoming request for execution
 
-- Observer: ingestion and normalization.
-- Mapper: graph builder.
-- Pattern analyst: clustering and bottleneck scoring.
-- Planner: governed proposal generation.
-- Simulator: historical replay.
-- Governance reviewer: approval and audit gate.
-- Executor: safe mock tool calls.
-- Learner: improvement recommendation.
+The fixture data is intentionally realistic enough to support the full demo story:
 
-## Mock Provider
+- multiple departments
+- multiple systems
+- different urgency values
+- standard and policy-sensitive requests
+- manager approval delays
+- exception paths
+- provisioned and manual-review outcomes
 
-`MockAiProvider` returns deterministic proposal behavior through local TypeScript logic. It is the default because demo reliability matters more than live-model variability.
+## Raw Trace Contract
 
-## OpenAI Provider
+`RawWorkTrace` represents an observed signal before normalization.
 
-`OpenAiResponsesProvider` is an optional boundary for trusted runtimes. It uses the Responses API shape with structured JSON schema output for `AutomationProposal`.
+Important fields:
 
-Rules for future OpenAI work:
+- `id`: unique trace id
+- `caseId`: groups traces into one work case
+- `channel`: email, ticket, chat, approval log, or system action
+- `occurredAt`: event timestamp
+- `actor`: person or system responsible for the trace
+- `participants`: people or teams involved
+- `subject`: source-specific title
+- `body`: source-specific content
+- `metadata`: department, system, ticket id, region, severity
 
-- Never expose API keys in browser code.
-- Validate model output before using it.
-- Fall back to mock behavior when live calls fail.
-- Keep policy-sensitive actions gated by governance.
+Raw traces are messy by design. They are the product's input, not the final operating model.
 
-## Extending Contracts
+## Normalized Work Item Contract
 
-When adding new data or agent behavior:
+`NormalizedWorkItem` is the canonical case object produced by ingestion.
 
-1. Add or update TypeScript types.
-2. Add fixture examples.
-3. Add deterministic logic.
-4. Add tests for happy path and exception path.
-5. Wire UI after domain behavior is stable.
+Important fields:
+
+- `requester`
+- `requesterDepartment`
+- `requestType`
+- `urgency`
+- `systems`
+- `approver`
+- `status`
+- `submittedAt`
+- `approvedAt`
+- `completedAt`
+- `policyFlags`
+- `exceptions`
+- `outcome`
+- `sourceTraceIds`
+
+This object is the bridge between messy enterprise traces and structured automation.
+
+## Policy Data
+
+`PolicyRule` describes governance constraints for request types.
+
+Current policies cover:
+
+- standard application access
+- privileged access
+- contractor access
+- finance system access
+
+Policies define:
+
+- risk level
+- whether human review is required
+- escalation role
+- request types they apply to
+
+The planner and simulation modules use policy data to avoid unsafe automation.
+
+## Agentic Behavior Model
+
+The MVP represents agentic behavior as deterministic modules. This is deliberate. It makes the demo repeatable and makes the "AI" loop inspectable.
+
+| Agent Role | Module | Responsibility |
+| --- | --- | --- |
+| Observer | `ingestion.ts` | Convert raw traces into normalized work items. |
+| Mapper | `graph.ts` | Build process nodes, edges, and metrics. |
+| Pattern analyst | `patterns.ts` | Detect repeated work and bottlenecks. |
+| Planner | `planner.ts` | Generate governed automation proposals. |
+| Simulator | `simulation.ts` | Replay historical cases against a proposal. |
+| Governance reviewer | `governance.ts` | Track approval and audit events. |
+| Executor | `execution.ts` | Run safe mock tool calls after approval. |
+| Learner | `execution.ts` | Recommend improvements from signals. |
+
+## Proposal Contract
+
+`AutomationProposal` is the central AI-like output.
+
+It contains:
+
+- trigger
+- required data
+- eligibility rules
+- policy checks
+- actions
+- escalations
+- confidence
+- risk level
+- expected value
+- audit rationale
+- version
+
+Any future live model output should match this contract before the UI accepts it.
+
+## Simulation Contract
+
+`SimulationResult` explains how the proposal would have behaved on historical cases.
+
+Case statuses:
+
+- `pass`: eligible for automation after approval.
+- `fail`: missing required information.
+- `needs_human`: policy or exception requires review.
+- `policy_risk`: high-risk access must stay under human control.
+
+Simulation exists to make governance credible. It shows what the automation will and will not do.
+
+## Governance Contract
+
+`GovernanceRecord` captures:
+
+- proposal id
+- reviewer role
+- decision
+- comments
+- timestamp
+- proposal version
+
+Execution checks these records before running. A proposal must be approved at the correct version before mock tools are called.
+
+## Execution Contract
+
+`ExecutionRun` captures:
+
+- proposal id
+- incoming request trace id
+- execution status
+- mock tool calls
+- audit trail
+
+The current MVP never calls real enterprise tools. Tool calls are explicit mock records shown in the UI.
+
+## Learning Contract
+
+`LearningRecommendation` captures:
+
+- signal source
+- recommendation
+- expected impact
+- risk level
+- suggested proposal change
+
+The current recommendation is based on simulation and execution signals. For example, exception-heavy cases can be split into a human-review lane.
+
+## Mock AI Provider
+
+`MockAiProvider` is the default provider. It delegates to deterministic TypeScript logic.
+
+Use mock behavior when:
+
+- running local demos
+- running tests
+- building UI
+- working without credentials
+- presenting in unreliable network environments
+
+## OpenAI Provider Boundary
+
+`OpenAiResponsesProvider` is implemented as a boundary for trusted runtimes.
+
+It is designed to:
+
+- call the Responses API
+- request structured JSON
+- validate the response shape
+- return an `AutomationProposal`
+
+The current browser app does not use a live API key. A future server-side route should own the key and call this provider.
+
+## How To Add A New Agent Output
+
+1. Define the TypeScript contract in `src/domain/types.ts`.
+2. Add deterministic fixture-backed behavior first.
+3. Add tests for valid and invalid cases.
+4. Add UI only after domain tests pass.
+5. If using OpenAI, define structured output schema.
+6. Validate model output before it reaches the dashboard.
+
+## How To Add More Demo Data
+
+1. Add raw traces with realistic channel variation.
+2. Ensure every case has enough signals for normalization.
+3. Add policy rules if new risk behavior exists.
+4. Add approval history when approval is part of the process.
+5. Run fixture validation tests.
+6. Check that graph, pattern, and simulation outputs still make sense.
+
+## Current Data Limitations
+
+- Data is seeded for demo clarity, not scale.
+- There is no persistence layer.
+- There are no live connectors.
+- Source text is realistic but not imported from real systems.
+- The model does not yet learn over time; it produces a recommendation from deterministic signals.
+
+These limitations are acceptable for the MVP and are called out in the roadmap.

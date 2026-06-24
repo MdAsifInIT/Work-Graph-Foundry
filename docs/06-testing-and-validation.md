@@ -70,34 +70,59 @@ When an agent validates this repo, it should perform these steps:
 2. Read numbered docs in `docs/`.
 3. Run `rg --files` to inspect the repo.
 4. Run `npm run verify:demo`.
-5. If browser access is available, start preview with `npm run preview`.
-6. Open the app.
-7. Click `Load Scenario`.
-8. Click `Analyze`.
-9. Confirm normalized evidence, selectable graph inspection, and pattern details render.
-10. Click `Generate Proposal`.
-11. Confirm proposal, simulation, governance, execution, and audit panels render.
-12. Click `Approve`.
-13. Confirm execution gate is open.
-14. Click `Run Mock`.
-15. Confirm mock tool calls and learning recommendation.
-16. Click `Export Summary`.
-17. Confirm JSON includes the selected scenario id.
-18. Click `Reset`.
-19. Confirm generated state clears.
-20. Switch to `Procurement intake`.
-21. Repeat load, analyze, generate proposal.
-22. Check mobile width for horizontal overflow.
+5. Run `npm run test:e2e` when Playwright browser binaries are installed.
+6. If manual browser access is needed, start preview with `npm run preview`.
+7. Open the app.
+8. Click `Load Scenario`.
+9. Click `Analyze`.
+10. Confirm normalized evidence, selectable graph inspection, and pattern details render.
+11. Click `Generate Proposal`.
+12. Confirm proposal, simulation, governance, execution, and audit panels render.
+13. Click `Approve`.
+14. Confirm execution gate is open.
+15. Click `Run Mock`.
+16. Confirm mock tool calls and learning recommendation.
+17. Click `Export Summary`.
+18. Confirm JSON includes the selected scenario id.
+19. Click `Reset`.
+20. Confirm generated state clears.
+21. Switch to `Procurement intake`.
+22. Repeat load, analyze, generate proposal.
+23. Check mobile width for horizontal overflow.
 
-Browser automation and Playwright coverage are deferred here because this environment lacks browser access.
+The Playwright e2e suite is the preferred browser verification path. It serves Vite locally, runs deterministic Chromium tests, and validates the two golden scenarios plus localStorage reload and reset recovery.
 
-## 6.5 Full Verification Command Set
+## 6.5 Playwright E2E Tests
+
+Run:
+
+```powershell
+npm run test:e2e
+```
+
+Expected behavior:
+
+- Playwright starts the Vite app with a local web server.
+- Tests run in local Chromium against deterministic demo data.
+- Both golden scenarios complete load, analyze, proposal generation, governance approval, mock execution, export, and reset checks.
+- localStorage recovery is validated by reloading persisted state and confirming reset clears generated state.
+- Successful runs leave no browser artifacts that need to be committed.
+- Failed runs capture screenshots, videos, and traces for debugging.
+
+Browser dependency notes:
+
+- The command requires the Playwright Chromium browser binary to be installed on the machine.
+- If the runner reports a missing browser executable, install the browser binaries after dependency installation with `npx playwright install chromium`.
+- CI and local agents should use the installed Playwright browser binaries rather than a system browser so results stay deterministic.
+
+## 6.6 Full Verification Command Set
 
 ```powershell
 npm run verify:demo
+npm run test:e2e
 ```
 
-Expected current baseline:
+Expected current baseline for `npm run verify:demo`:
 
 - typecheck passes
 - 10 test files pass
@@ -105,11 +130,20 @@ Expected current baseline:
 - build passes
 - audit reports 0 vulnerabilities
 
-## 6.6 Test Map
+Expected current baseline for `npm run test:e2e`:
+
+- local Vite server starts
+- deterministic Chromium browser tests pass
+- golden paths pass for `IT access requests` and `Procurement intake`
+- localStorage reload and reset recovery checks pass
+
+## 6.7 Test Map
 
 | Behavior | Test File |
 | --- | --- |
 | Dashboard golden path | `src/App.test.tsx` |
+| Browser golden paths | Playwright e2e suite via `npm run test:e2e` |
+| Browser localStorage recovery | Playwright e2e suite via `npm run test:e2e` |
 | Provider behavior | `src/ai/providers.test.ts` |
 | Fixture validation | `src/domain/fixtures.test.ts` |
 | Scenario loading | `src/domain/fixtures.test.ts` |
@@ -121,7 +155,7 @@ Expected current baseline:
 | Simulation and governance | `src/domain/simulation.test.ts` |
 | Execution and learning | `src/domain/execution.test.ts` |
 
-## 6.7 Manual Browser Validation
+## 6.8 Manual Browser Validation
 
 Manual smoke path:
 
@@ -139,12 +173,14 @@ Manual smoke path:
 12. Confirm learning recommendation mentions human-review lane.
 13. Click `Export Summary`.
 14. Confirm summary JSON appears.
-15. Click `Reset`.
-16. Confirm run output disappears.
+15. Refresh the browser and confirm the selected scenario and generated state recover from localStorage.
+16. Click `Reset`.
+17. Confirm run output disappears.
+18. Refresh again and confirm reset state persists.
 
-If browser access is unavailable, treat `npm run verify:demo` as the local POC verification gate and skip browser automation.
+If Playwright browser binaries are unavailable, treat `npm run verify:demo` plus this manual path as the local POC verification gate.
 
-## 6.8 Mobile Validation
+## 6.9 Mobile Validation
 
 At a mobile-width viewport:
 
@@ -156,7 +192,7 @@ At a mobile-width viewport:
 - golden path should remain usable
 - text should not overlap inside compact controls
 
-## 6.9 What To Test When Extending
+## 6.10 What To Test When Extending
 
 For a new workflow:
 
@@ -189,7 +225,7 @@ For enterprise connectors:
 - duplicate source records
 - provenance preservation
 
-## 6.10 Release Checklist
+## 6.11 Release Checklist
 
 Before a release or push:
 
@@ -198,6 +234,7 @@ Before a release or push:
 - no secrets committed
 - `.env.example` updated if env vars changed
 - tests pass
+- Playwright e2e passes or missing browser binaries are documented
 - build passes
 - audit clean
 - manual golden path checked

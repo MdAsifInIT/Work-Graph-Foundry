@@ -12,7 +12,8 @@
     "verify:demo": "npm run typecheck && npm test && npm run build && npm audit --audit-level=low",
     "preview": "vite preview --host 127.0.0.1 --configLoader runner",
     "typecheck": "tsc -b",
-    "test": "vitest run --configLoader runner --pool vmThreads"
+    "test": "vitest run --configLoader runner --pool vmThreads",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@vitejs/plugin-react": "5.2.0",
@@ -23,6 +24,7 @@
     "vite": "6.4.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.2",
     "@types/node": "26.0.0",

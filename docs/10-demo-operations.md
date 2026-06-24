@@ -18,6 +18,14 @@ npm run verify:demo
 
 That command typechecks, runs the test suite, builds the app, and audits dependencies. Use it as the non-browser verification gate in this environment.
 
+Browser e2e verification:
+
+```powershell
+npm run test:e2e
+```
+
+That command starts the Vite app through Playwright, runs deterministic local Chromium tests, and verifies both golden scenarios plus localStorage reload and reset recovery.
+
 Production-preview fallback:
 
 ```powershell
@@ -50,6 +58,8 @@ All scenario data is synthetic and stored in `src/fixtures/demoData.ts`.
 12. Click `Reset`.
 13. Switch to `Procurement intake` and repeat load, analyze, inspect graph, and proposal generation.
 
+The Playwright e2e suite exercises this path for both scenarios with deterministic demo data. On failure, Playwright captures screenshots, videos, and traces for debugging; do not commit those artifacts unless they are intentionally attached to an investigation.
+
 ## 10.4 Reset And Seed
 
 Normal operator reset:
@@ -73,6 +83,8 @@ npm run demo:reset -- procurement-intake
 The CLI helper prints deterministic JSON or a browser-console localStorage snippet. The app itself owns the normal reset path because the persisted state lives in the browser profile.
 
 If you do have browser access, pair the CLI helpers with `npm run demo:dev` or `npm run preview` to confirm the seeded state in the UI.
+
+The e2e suite also validates browser recovery behavior by reloading persisted localStorage state, then resetting the app and confirming generated run state stays cleared after another reload.
 
 ## 10.5 Import And Export
 
@@ -108,6 +120,7 @@ If the UI looks stale:
 2. Refresh the browser.
 3. Restart `npm run demo:dev`.
 4. Use `npm run build` and `npm run preview` as a fallback.
+5. If localStorage still appears stale, run the Playwright e2e suite to validate reload and reset recovery.
 
 If tests or build fail, run:
 
@@ -116,6 +129,14 @@ npm run verify:demo
 ```
 
 Fix deterministic domain failures before changing the UI.
+
+If browser e2e fails, run:
+
+```powershell
+npm run test:e2e
+```
+
+Review the failure screenshot, video, and trace before changing application behavior.
 
 ## 10.8 Browserless POC Verification
 
@@ -126,4 +147,4 @@ When browser automation is not available, verify the local POC with:
 3. `npm run verify:demo` to confirm typecheck, tests, build, and audit
 4. `npm run demo:seed` and `npm run demo:reset` to confirm the operator helpers still emit deterministic output
 
-Playwright and other browser automation remain deferred in this environment because browser access is unavailable.
+When browser automation is available, `npm run test:e2e` is the browser verification gate. The command requires Playwright browser binaries; if Chromium is missing, install it after dependencies with `npx playwright install chromium`.

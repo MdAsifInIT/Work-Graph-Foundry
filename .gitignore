@@ -4,5 +4,7 @@ dist/
 .env.local
 .vite/
 .vitest-attachments/
+test-results/
+playwright-report/
 .codex/
 *.log

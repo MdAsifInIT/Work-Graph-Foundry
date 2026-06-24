@@ -21,15 +21,14 @@ These limitations are acceptable for a local-first demo but should be addressed 
 
 Recommended local POC improvements:
 
-1. Stabilize graph node and edge identifiers so graph views, exported summaries, and future visual layouts can compare runs reliably.
-2. Expand Playwright e2e beyond the current Chromium golden path.
-3. Add mobile viewport e2e coverage for the full demo path.
-4. Add accessibility checks for keyboard navigation, labels, focus order, and contrast.
-5. Add CI coverage for typecheck, unit tests, build, audit, and Playwright.
-6. Add richer proposal versioning and comparison.
-7. Add a richer visual graph canvas.
-8. Add more workflow templates.
-9. Add dataset import beyond the current run-summary import/export.
+1. Expand Playwright e2e beyond the current Chromium golden path.
+2. Add mobile viewport e2e coverage for the full demo path.
+3. Add accessibility checks for keyboard navigation, labels, focus order, and contrast.
+4. Add CI coverage for typecheck, unit tests, build, audit, and Playwright.
+5. Add richer proposal versioning and comparison.
+6. Add a richer visual graph canvas.
+7. Add more workflow templates.
+8. Add dataset import beyond the current run-summary import/export.
 
 ## 7.3 Production-Only Roadmap
 
@@ -137,7 +136,7 @@ Why it fits:
 Suggested order:
 
 1. Harden the local demo with expanded e2e, mobile, accessibility, and CI checks.
-2. Stabilize graph identifiers and add proposal versions.
+2. Add proposal versions; graph identifiers are already deterministic and scenario-scoped.
 3. Add a richer graph visualization that preserves provenance and bottleneck inspection.
 4. Add server-side API.
 5. Add database.

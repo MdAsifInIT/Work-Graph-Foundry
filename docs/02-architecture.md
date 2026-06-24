@@ -100,6 +100,8 @@ This module converts messy source signals into structured fields that later modu
 - exception review
 - outcome
 
+Graph, node, and edge identifiers are deterministic and scoped by scenario id plus pattern id. Node ids use typed node kind and stable role names, and edge ids use stable source role, relation, and target role names so persisted selections and exported summaries do not collide across scenarios.
+
 It also calculates graph metrics:
 
 - average cycle time
@@ -206,8 +208,8 @@ The data flow is strictly ordered:
 1. `loadDemoScenario(scenarioId)`
 2. `validateDemoFixtures(fixtures)`
 3. `ingestWorkTraces(rawTraces, approvalHistory)`
-4. `buildWorkGraph(items)`
-5. `detectWorkPatterns(items)`
+4. `detectWorkPatterns(items)`
+5. `buildWorkGraph(items, scenarioId, patternId)`
 6. `generateAutomationProposal(context)`
 7. `simulateAutomation(proposal, items)`
 8. `createGovernanceRecord(...)`

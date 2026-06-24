@@ -1,19 +1,37 @@
-import type { GraphEdge, GraphNode, NormalizedWorkItem, RiskLevel, WorkGraph } from "./types";
+import type { GraphEdge, GraphNode, NormalizedWorkItem, RiskLevel, ScenarioId, WorkGraph } from "./types";
 
-export function buildWorkGraph(items: NormalizedWorkItem[], patternId: string): WorkGraph {
+type GraphNodeRole =
+  | "requester"
+  | "manager-approval"
+  | "policy-check"
+  | "system-action"
+  | "audit-log"
+  | "exception-review"
+  | "outcome";
+
+export function buildWorkGraph(items: NormalizedWorkItem[], scenarioId: ScenarioId, patternId: string): WorkGraph {
   const total = items.length || 1;
   const exceptionCount = items.filter((item) => item.exceptions.length > 0).length;
   const provisionedCount = items.filter((item) => item.status === "provisioned").length;
   const humanReviewCount = items.filter((item) => item.status === "needs_human").length;
+  const nodeIds: Record<GraphNodeRole, string> = {
+    requester: nodeId(scenarioId, patternId, "actor", "requester"),
+    "manager-approval": nodeId(scenarioId, patternId, "approval", "manager-approval"),
+    "policy-check": nodeId(scenarioId, patternId, "policy", "policy-check"),
+    "system-action": nodeId(scenarioId, patternId, "system", "system-action"),
+    "audit-log": nodeId(scenarioId, patternId, "action", "audit-log"),
+    "exception-review": nodeId(scenarioId, patternId, "exception", "exception-review"),
+    outcome: nodeId(scenarioId, patternId, "outcome", "outcome")
+  };
 
   const nodes: GraphNode[] = [
-    node("node-requester", "actor", "Requester", total, "low"),
-    node("node-manager-approval", "approval", "Manager approval", total, "medium"),
-    node("node-policy-check", "policy", "Policy check", total, exceptionCount ? "medium" : "low"),
-    node("node-it-provisioning", "system", "System action", provisionedCount, "low"),
-    node("node-audit-log", "action", "Audit log", provisionedCount, "low"),
-    node("node-exception-review", "exception", "Exception review", humanReviewCount, humanReviewCount ? "high" : "low"),
-    node("node-outcome", "outcome", "Outcome", total, exceptionCount ? "medium" : "low")
+    node(nodeIds.requester, "actor", "Requester", total, "low"),
+    node(nodeIds["manager-approval"], "approval", "Manager approval", total, "medium"),
+    node(nodeIds["policy-check"], "policy", "Policy check", total, exceptionCount ? "medium" : "low"),
+    node(nodeIds["system-action"], "system", "System action", provisionedCount, "low"),
+    node(nodeIds["audit-log"], "action", "Audit log", provisionedCount, "low"),
+    node(nodeIds["exception-review"], "exception", "Exception review", humanReviewCount, humanReviewCount ? "high" : "low"),
+    node(nodeIds.outcome, "outcome", "Outcome", total, exceptionCount ? "medium" : "low")
   ];
 
   const approvalDelayHours = average(
@@ -25,33 +43,73 @@ export function buildWorkGraph(items: NormalizedWorkItem[], patternId: string): 
   const exceptionRate = exceptionCount / total;
 
   const edges: GraphEdge[] = [
-    edge("edge-requester-approval", "node-requester", "node-manager-approval", "submits request", total, approvalDelayHours, 0),
-    edge("edge-approval-policy", "node-manager-approval", "node-policy-check", "approval received", total, 1.2, exceptionRate),
     edge(
-      "edge-policy-provisioning",
-      "node-policy-check",
-      "node-it-provisioning",
+      edgeId(scenarioId, patternId, "requester", "submits", "manager-approval"),
+      nodeIds.requester,
+      nodeIds["manager-approval"],
+      "submits request",
+      total,
+      approvalDelayHours,
+      0
+    ),
+    edge(
+      edgeId(scenarioId, patternId, "manager-approval", "approval-received", "policy-check"),
+      nodeIds["manager-approval"],
+      nodeIds["policy-check"],
+      "approval received",
+      total,
+      1.2,
+      exceptionRate
+    ),
+    edge(
+      edgeId(scenarioId, patternId, "policy-check", "eligible-action", "system-action"),
+      nodeIds["policy-check"],
+      nodeIds["system-action"],
       "eligible for action",
       provisionedCount,
       1.1,
       0
     ),
-    edge("edge-provisioning-audit", "node-it-provisioning", "node-audit-log", "write audit event", provisionedCount, 0.2, 0),
     edge(
-      "edge-policy-exception",
-      "node-policy-check",
-      "node-exception-review",
+      edgeId(scenarioId, patternId, "system-action", "audit-event", "audit-log"),
+      nodeIds["system-action"],
+      nodeIds["audit-log"],
+      "write audit event",
+      provisionedCount,
+      0.2,
+      0
+    ),
+    edge(
+      edgeId(scenarioId, patternId, "policy-check", "human-review", "exception-review"),
+      nodeIds["policy-check"],
+      nodeIds["exception-review"],
       "requires human review",
       humanReviewCount,
       4.5,
       humanReviewCount / total
     ),
-    edge("edge-audit-outcome", "node-audit-log", "node-outcome", "complete", provisionedCount, 0.1, 0),
-    edge("edge-exception-outcome", "node-exception-review", "node-outcome", "manual decision", humanReviewCount, 2.8, 0)
+    edge(
+      edgeId(scenarioId, patternId, "audit-log", "complete", "outcome"),
+      nodeIds["audit-log"],
+      nodeIds.outcome,
+      "complete",
+      provisionedCount,
+      0.1,
+      0
+    ),
+    edge(
+      edgeId(scenarioId, patternId, "exception-review", "manual-decision", "outcome"),
+      nodeIds["exception-review"],
+      nodeIds.outcome,
+      "manual decision",
+      humanReviewCount,
+      2.8,
+      0
+    )
   ];
 
   return {
-    id: `graph-${patternId}`,
+    id: graphId(scenarioId, patternId),
     patternId,
     nodes,
     edges,
@@ -61,6 +119,33 @@ export function buildWorkGraph(items: NormalizedWorkItem[], patternId: string): 
       approvalDelayHours: round(approvalDelayHours)
     }
   };
+}
+
+function graphId(scenarioId: ScenarioId, patternId: string): string {
+  return id("graph", scenarioId, patternId);
+}
+
+function nodeId(
+  scenarioId: ScenarioId,
+  patternId: string,
+  kind: GraphNode["kind"],
+  role: GraphNodeRole
+): string {
+  return id("node", scenarioId, patternId, kind, role);
+}
+
+function edgeId(
+  scenarioId: ScenarioId,
+  patternId: string,
+  sourceRole: GraphNodeRole,
+  relation: string,
+  targetRole: GraphNodeRole
+): string {
+  return id("edge", scenarioId, patternId, sourceRole, relation, targetRole);
+}
+
+function id(...parts: string[]): string {
+  return parts.join("-");
 }
 
 function node(id: string, kind: GraphNode["kind"], label: string, count: number, riskLevel: RiskLevel): GraphNode {

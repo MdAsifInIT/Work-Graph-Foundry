@@ -123,7 +123,7 @@ export function useWorkGraphDemoController() {
   const sampleItem = ingestion?.items[0];
   const topPattern = patternDetection?.patterns[0];
   const graph = useMemo(
-    () => (ingestion ? buildWorkGraph(ingestion.items, topPattern?.id ?? `scenario-${scenario.id}`) : undefined),
+    () => (ingestion ? buildWorkGraph(ingestion.items, scenario.id, topPattern?.id ?? `scenario-${scenario.id}`) : undefined),
     [ingestion, scenario.id, topPattern?.id]
   );
   const topBottleneck = topPattern

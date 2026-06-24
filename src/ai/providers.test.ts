@@ -16,7 +16,7 @@ function makeContext() {
     throw new Error("Expected a top pattern");
   }
 
-  const graph = buildWorkGraph(ingestion.items, pattern.id);
+  const graph = buildWorkGraph(ingestion.items, "it-access", pattern.id);
   const bottleneck = detection.bottlenecks.find((item) => item.patternId === pattern.id);
   const opportunity = detection.opportunities.find((item) => item.patternId === pattern.id);
 

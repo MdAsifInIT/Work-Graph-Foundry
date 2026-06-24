@@ -18,22 +18,21 @@ The next build should preserve that foundation while making the demo more stable
 
 Use this file as the active handoff for the next implementation pass. Keep changes scoped, deterministic, and compatible with concurrent edits.
 
-1. Fix graph identifiers so nodes, edges, bottlenecks, exports, and future graph views use stable ids across reloads, resets, and scenario switches.
-2. Expand QA around the existing Playwright e2e path, including mobile viewports, accessibility checks, rejection gates, import/export, and reset recovery.
-3. Add proposal versioning so regenerated proposals can be compared, approved, rejected, exported, and audited without overwriting prior review context.
-4. Add a richer graph visualization that makes process stages, bottlenecks, exceptions, provenance, and selected scenario context easier to inspect.
-5. Keep all execution mock-only and governance-gated while these improvements land.
+1. Expand QA around the existing Playwright e2e path, including mobile viewports, accessibility checks, rejection gates, import/export, and reset recovery.
+2. Add proposal versioning so regenerated proposals can be compared, approved, rejected, exported, and audited without overwriting prior review context.
+3. Add a richer graph visualization that makes process stages, bottlenecks, exceptions, provenance, and selected scenario context easier to inspect.
+4. Keep all execution mock-only and governance-gated while these improvements land.
 
 ## 8.3 Work Notes
 
 ### 8.3.1 Graph Id Fix
 
-Target outcome:
+Completed baseline:
 
-- each graph node and edge has a deterministic, scenario-scoped id
-- persisted state and exported summaries can reference graph elements safely
-- UI selections do not drift after reload, reset, import, or scenario switch
-- tests cover id stability for both IT access and procurement scenarios
+- each graph, node, and edge id is deterministic and scenario-scoped
+- node ids include scenario id, pattern id, typed node kind, and stable role
+- edge ids include scenario id, pattern id, stable source role, relation, and target role
+- tests cover repeated graph builds, IT/procurement id separation, expected important ids, and unchanged graph counts and metrics
 
 ### 8.3.2 QA Expansion
 

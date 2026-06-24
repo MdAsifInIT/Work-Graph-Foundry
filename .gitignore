@@ -6,5 +6,4 @@ dist/
 .vitest-attachments/
 test-results/
 playwright-report/
-.codex/
 *.log

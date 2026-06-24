@@ -204,3 +204,5 @@ The product is production-ready only when:
 - model output is validated
 - monitoring captures failures and overrides
 - deployment and rollback are documented
+
+For the hackathon-specific readiness bar, see [Hackathon Demo](11-hackathon-demo.md).

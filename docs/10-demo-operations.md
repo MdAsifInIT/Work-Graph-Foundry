@@ -33,6 +33,8 @@ npm run build
 npm run preview
 ```
 
+For the compact hackathon talk track, safe/local scope, and browser fallback steps, see [Hackathon Demo](11-hackathon-demo.md).
+
 ## 10.2 Scenarios
 
 Available scenarios:

@@ -116,6 +116,7 @@ docs/
 - [8. Continuation Plan](docs/08-continuation-plan.md): current implementation plan and guardrails.
 - [9. Agentic Build Guide](docs/09-agentic-build-guide.md): safe continuation checklist for future agents.
 - [10. Demo Operations](docs/10-demo-operations.md): operator runbook, reset, import/export, and recovery.
+- [11. Hackathon Demo](docs/11-hackathon-demo.md): concise hackathon talk track, safety framing, and verification commands.
 
 Historical planning prompts and phase notes are archived under `docs/archive/`.
 
@@ -159,12 +160,14 @@ Current browser baseline:
 - Playwright e2e exists under `tests/e2e`
 - `npm run test:e2e` runs the golden demo path in Chromium
 - sandboxed environments may require permission to install Chromium or launch the browser
+- if Chromium launch is blocked, use `npm run verify:demo` plus `npm run build` and `npm run preview` as the fallback local check
 
 ## Troubleshooting
 
 - If `npm run dev` fails during dependency optimization in a restricted sandbox, run `npm run build` followed by `npm run preview`.
 - If live OpenAI calls fail, leave `OPENAI_API_KEY` unset and use the deterministic mock provider.
 - If the UI appears stale after changes, rebuild or reload the preview server.
+- If Playwright binaries are missing, run `npm run test:e2e:install` before retrying browser tests.
 
 ## Contributing
 

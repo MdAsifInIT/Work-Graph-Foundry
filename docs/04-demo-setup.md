@@ -198,6 +198,8 @@ Short version:
 
 "Work Graph Foundry observes how work actually moves, builds a live graph, finds repeated patterns and bottlenecks, proposes governed automation, simulates it against history, requires human approval, executes safely through mock tools, persists the audit trail locally, and learns from exceptions."
 
+For a shorter hackathon talk track and the exact browser fallback path, see [Hackathon Demo](11-hackathon-demo.md).
+
 ## 4.6 Demo Acceptance Checklist
 
 Before presenting:

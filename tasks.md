@@ -3,11 +3,13 @@
 ## Decisions
 
 - Made the app landing-first with a `Launch` CTA and a hash-backed `#demo` workspace.
+- Applied the Apple-inspired token/premium UI pass with a compact workflow context in the top bar.
 - Positioned the landing page as reviewer-first and hackathon-friendly: clear claim, compact preview, and direct entry into the governed workspace.
 - Kept the public landing claim explicit: Work Graph Foundry finds repeated patterns in an organization and turns them into governed automation.
 - Kept `useWorkGraphDemoController` and the persisted demo state shape unchanged.
 - Reduced workspace navigation to `Overview`, `Evidence`, `Graph`, `Review & Run`, and `Audit`.
 - Replaced stacked `Plan`, `Govern`, and `Execute` rendering with one reviewer-oriented `Review & Run` surface.
+- Demoted approval, execution, export, import, and reset actions into the `Review & Run` and `Audit` views instead of the global shell.
 - Removed decorative radial/orb page backgrounds and avoided adding animation libraries.
 - Used a code-native product preview on the landing page because no bitmap image generation tool was available in this execution environment.
 - Preserved export/import, reset, malformed localStorage recovery, proposal versions, approval/rejection, gated simulation, and mock execution behavior.
@@ -59,6 +61,18 @@
 
 ## Verification Log
 
+- Apple-inspired UI pass:
+  - `worker_nano A` owned the landing copy and code-native product preview update in `src/App.tsx`.
+  - `worker_nano B` owned the shell/design-system CSS pass in `src/app/AppShell.tsx` and `src/styles.css`.
+  - Main thread resolved the small integration gap by moving `Reset workflow state` into `Audit` and adding compact `Workflow context` text in the top bar.
+  - `worker_nano C` updated unit/e2e selectors and live docs for `Workflow context`, view-level `Review & Run` governance actions, and `Audit` export/import/reset actions.
+  - `worker_test` verified `npm run typecheck`, `npm test`, `npm run typecheck:e2e`, `npm run build`, and `npm run verify:demo` successfully.
+  - `worker_test` ran `npm run test:e2e:install`; `npm run test:e2e` and `npm run test:e2e:preview` were still blocked before app assertions by Chromium `spawn EPERM` from the local Playwright headless shell.
+  - Main thread reran `npm run typecheck`, `npm test`, `npm run typecheck:e2e`, and `npm run build`; all passed.
+  - Main thread scanned `src/styles.css` for `backdrop-filter`, `radial-gradient`, `--text-kpi`, `text-align: right`, and `text-transform: uppercase`; the final scan returned no matches.
+  - Main thread used the in-app Browser against a production build served by a temporary in-session static server. Browser smoke passed landing identity, `Launch` to `#demo`, workflow context, load/analyze/proposal, approval-gated run, Audit export, Audit reset, and empty console warning/error logs.
+  - Browser responsive overflow checks passed at 1440px, 768px, 390px, and 375px for both the landing page and launched workspace with zero horizontal overflow.
+  - Production build output was removed after verification because `dist/` is ignored generated output.
 - Commands run so far:
   - CTA copy scan over README, numbered docs, tests, source, and `tasks.md`
   - `Get-Content src/App.test.tsx`

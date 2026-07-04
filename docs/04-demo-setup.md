@@ -60,13 +60,14 @@ Point out:
 - `Load workflow`
 - `Analyze workflow`
 - `Generate automation proposal`
-- `Approve` and `Reject`
-- `Run simulation`
-- `Export Summary`
-- `Reset workflow state`
+- `Approve` and `Reject` in `Review & Run`
+- `Run approved workflow`
+- `Export Summary` in `Audit`
+- `Reset workflow state` in `Audit`
 - deterministic mock AI mode
 - governed execution state
 - five workspace views: `Overview`, `Evidence`, `Graph`, `Review & Run`, and `Audit`
+- compact workflow context in the top bar instead of a shell-level action strip
 
 ### 4.3.2 Choose A Scenario
 
@@ -144,9 +145,9 @@ Optional branch: click `Reject` to show that the execution gate remains blocked.
 
 This is the govern step.
 
-### 4.3.10 Run Simulation
+### 4.3.10 Run Approved Workflow
 
-Click `Run simulation`.
+Click `Run approved workflow`.
 
 Explain:
 
@@ -166,7 +167,7 @@ This is the improve step.
 
 ## 4.4 Reset And Recovery
 
-Click `Reset workflow state` to replay the demo. Reset clears generated local state for the selected scenario and writes a deterministic seeded baseline back to browser localStorage.
+Click `Reset workflow state` in `Audit` to replay the demo. Reset clears generated local state for the selected scenario and writes a deterministic seeded baseline back to browser localStorage.
 
 Seed state helper:
 
@@ -213,12 +214,12 @@ Before presenting:
 - `Load workflow` renders source counts.
 - `Analyze workflow` renders normalized evidence, graph, and patterns.
 - `Generate automation proposal` renders proposal, simulation, and governance notes.
-- `Approve` opens the execution gate.
-- `Reject` keeps the execution gate blocked.
-- `Run simulation` shows mock tool calls.
+- `Approve` opens the execution gate in `Review & Run`.
+- `Reject` keeps the execution gate blocked in `Review & Run`.
+- `Run approved workflow` shows mock tool calls.
 - Learning recommendation appears.
-- `Export Summary` produces JSON.
-- `Reset` restores seeded demo state.
+- `Export Summary` produces JSON in `Audit`.
+- `Reset` restores seeded demo state in `Audit`.
 - No API key is required.
 - Mobile layout has no horizontal overflow.
 

@@ -1,4 +1,4 @@
-import { Download, Upload } from "lucide-react";
+import { Download, RotateCcw, Upload } from "lucide-react";
 import { SectionPanel } from "../../components/shared/SectionPanel";
 import type { WorkGraphDemoController } from "../../app/useWorkGraphDemoController";
 
@@ -30,6 +30,10 @@ export function ReviewView({ controller }: ReviewViewProps) {
             <button className="export-button" type="button" onClick={actions.importSummary} disabled={!importText.trim()}>
               <Upload size={16} />
               <span>Import Summary</span>
+            </button>
+            <button className="export-button" type="button" onClick={actions.resetDemo}>
+              <RotateCcw size={16} />
+              <span>Reset workflow state</span>
             </button>
           </div>
         }

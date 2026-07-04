@@ -54,9 +54,7 @@ function LandingPage({
       <section className="landing-hero" aria-label="Product landing page">
         <div className="landing-hero-copy">
           <h1>Work Graph Foundry</h1>
-          <p className="landing-copy">
-            Work Graph Foundry finds repeated patterns in an organization and turns them into governed automation.
-          </p>
+          <p className="landing-copy">Find the patterns. Turn them into governed automation.</p>
           <div className="landing-actions">
             <button type="button" className="landing-primary-action" onClick={onLaunch}>
               Launch
@@ -68,39 +66,27 @@ function LandingPage({
           aiProviderLabel={aiProvider.status.available ? "Safe local simulation" : "Safe local preview"}
           currentStageLabel={currentStage?.label ?? "Load Workflow"}
           scenarioLabel={scenario.label}
+          scenarioName={scenario.workflowName}
           workflowName={scenario.workflowName}
         />
       </section>
 
-      <section className="landing-section landing-value" aria-label="Product value">
-        <h2>From trace evidence to governed execution.</h2>
-        <p>
-          The product keeps the page minimal: a code-native preview of how evidence turns into a reviewable proposal
-          and a safe run.
-        </p>
-      </section>
-
-      <section className="landing-section landing-process" aria-label="How the workflow works">
-        {workflowStages.slice(0, 5).map((stage) => (
-          <article key={stage.id}>
-            <span>{stage.index}</span>
-            <strong>{stage.label}</strong>
-            <p>{stage.detail}</p>
-          </article>
-        ))}
-      </section>
-
-      <section className="landing-section landing-safety" aria-label="Governance and safety">
-        <div>
-          <h2>Designed for reviewers, not blind automation.</h2>
-          <p>
-            Proposals show the required data, forbidden data, simulation outcome, approval state, mock execution
-            output, and audit trail before a run is considered complete.
-          </p>
-        </div>
-        <button type="button" className="landing-primary-action" onClick={onLaunch}>
-          Launch
-        </button>
+      <section className="landing-section landing-process" aria-label="Landing workflow blocks">
+        <article>
+          <span>{workflowStages[1]?.index ?? 2}</span>
+          <strong>Pattern discovery</strong>
+          <p>{workflowStages[1]?.detail ?? "Trace signals surface repeated work, bottlenecks, and exceptions."}</p>
+        </article>
+        <article>
+          <span>{workflowStages[3]?.index ?? 4}</span>
+          <strong>Governed proposal</strong>
+          <p>{workflowStages[3]?.detail ?? "A reviewable proposal captures policy context, assumptions, and gates."}</p>
+        </article>
+        <article>
+          <span>{workflowStages[6]?.index ?? 7}</span>
+          <strong>Safe execution</strong>
+          <p>{workflowStages[6]?.detail ?? "Approved runs stay bounded, logged, and reversible."}</p>
+        </article>
       </section>
     </main>
   );
@@ -110,11 +96,13 @@ function ProductPreview({
   aiProviderLabel,
   currentStageLabel,
   scenarioLabel,
+  scenarioName,
   workflowName
 }: {
   aiProviderLabel: string;
   currentStageLabel: string;
   scenarioLabel: string;
+  scenarioName: string;
   workflowName: string;
 }) {
   return (
@@ -129,23 +117,23 @@ function ProductPreview({
           <strong>{scenarioLabel}</strong>
         </div>
         <div>
-          <span>Automation proposal</span>
-          <strong>Governed and reviewable</strong>
+          <span>Proposal ready</span>
+          <strong>{workflowName}</strong>
         </div>
         <div>
-          <span>Safe run</span>
+          <span>Approved run</span>
           <strong>{currentStageLabel}</strong>
         </div>
       </div>
       <div className="preview-graph" aria-hidden="true">
-        <span data-node="actor">Requester</span>
-        <span data-node="approval">Manager approval</span>
-        <span data-node="policy">Policy check</span>
-        <span data-node="action">Mock task</span>
+        <span data-node="actor">{scenarioName}</span>
+        <span data-node="approval">Proposal review</span>
+        <span data-node="policy">Approval gate</span>
+        <span data-node="action">Approved run</span>
       </div>
       <div className="preview-footer">
-        <span>No external writes</span>
-        <span>Audit-ready</span>
+        <span>Scenario: {scenarioLabel}</span>
+        <span>{aiProviderLabel}</span>
       </div>
     </aside>
   );

@@ -2,7 +2,7 @@
 
 Work Graph Foundry is a local-first enterprise work intelligence and governed automation demo. It observes messy work traces, builds a live work graph, identifies repeated work patterns, proposes governed automations, simulates them against historical cases, executes approved workflows through safe mock tools, and recommends improvements.
 
-The demo opens on a customer-facing product page with a `Launch` call to action. The interactive workspace is available at `#demo` and surfaces five primary views: Overview, Evidence, Graph, Review & Run, and Audit. It still shows an AI-native enterprise work loop: observe, understand, map, reason, plan, simulate, govern, execute, and improve.
+The demo opens on a customer-facing product page with a `Launch` call to action. The interactive workspace is available at `#demo` and surfaces five primary views: Overview, Evidence, Graph, Review & Run, and Audit. The Apple-inspired polish pass keeps the workflow context compact in the top bar and demotes approval, execution, export, import, and reset into the relevant `Review & Run` and `Audit` surfaces. It still shows an AI-native enterprise work loop: observe, understand, map, reason, plan, simulate, govern, execute, and improve.
 
 The landing page is reviewer-first and hackathon-friendly: it shows a clear product claim, a compact preview of the workflow, and a direct path into the workspace without requiring a chatbot or setup ceremony.
 
@@ -63,10 +63,10 @@ npm run preview
 5. Open `Evidence` when source traces or normalized evidence need review.
 6. Click `Generate Proposal`.
 7. Review required data, forbidden data, assumptions, policy checks, escalations, simulation results, and governance notes in `Review & Run`.
-8. Click `Approve` or `Reject`.
-9. Click `Run Simulation` after approval.
+8. Use the `Approve` and `Reject` actions in `Review & Run`.
+9. Click `Run approved workflow` after approval in `Review & Run`.
 10. Open `Audit` to review export/import controls and persisted audit state.
-11. Use `Export Summary` for a portable run summary or `Reset` to restore seeded state.
+11. Use `Export Summary` in `Audit` for a portable run summary or `Reset` in `Audit` to restore seeded state.
 
 ## Scripts
 

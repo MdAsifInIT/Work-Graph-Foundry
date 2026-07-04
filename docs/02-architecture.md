@@ -245,6 +245,7 @@ The menu-based console includes:
 - Graph view for the work graph, node inspection, patterns, bottlenecks, and opportunity/risk signals
 - Review & Run view for proposal generation, proposal versions, rules, assumptions, actions, simulation, and approval/rejection
 - Audit view for audit trail, run summary export/import, localStorage recovery, and reset verification
+- Compact top-bar workflow context for scenario, step, and execution gate state
 
 The layout is responsive, landing-first, and avoids cluttered dashboard chrome.
 

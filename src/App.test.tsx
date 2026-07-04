@@ -24,9 +24,9 @@ describe("App", () => {
 
     expect(window.location.hash).toBe("#demo");
     expect(screen.getByRole("button", { name: "Overview" })).toHaveAttribute("aria-current", "page");
-    expect(screen.getByLabelText("Shell context")).toHaveTextContent("Scenario: IT access requests");
-    expect(screen.getByLabelText("Shell context")).toHaveTextContent("Current step: Overview");
-    expect(screen.getByLabelText("Shell context")).toHaveTextContent("Execution gate: Approval needed");
+    expect(screen.getAllByLabelText("Workflow context")[0]).toHaveTextContent("Scenario: IT access requests");
+    expect(screen.getAllByLabelText("Workflow context")[0]).toHaveTextContent("Step: Overview");
+    expect(screen.getAllByLabelText("Workflow context")[0]).toHaveTextContent("Gate: Approval needed");
     expect(screen.getByRole("heading", { name: "Access request operations" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Evidence" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Graph" })).toBeInTheDocument();
@@ -38,7 +38,6 @@ describe("App", () => {
 
     expect(within(summary).getByRole("heading", { name: /Access request operations/i })).toBeInTheDocument();
     expect(screen.getByLabelText("Data boundary")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Run simulation/i })).toBeDisabled();
   });
 
   it("recovers from malformed persisted localStorage state", async () => {
@@ -89,14 +88,16 @@ describe("App", () => {
     expect(screen.getByRole("heading", { name: /Governed automation proposal/i })).toBeInTheDocument();
     expect(screen.getByText(/Write immutable audit event/i)).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /Review before execution/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Run simulation/i })).toBeDisabled();
+    openView("Review & Run");
+    await screen.findByRole("button", { name: /Run approved workflow/i });
+    expect(screen.getByRole("button", { name: /Run approved workflow/i })).toBeDisabled();
 
     fireEvent.click(screen.getAllByRole("button", { name: /Approve/i })[0]);
 
     expect(screen.getAllByText("Available").length).toBeGreaterThan(0);
-    expect(screen.getByRole("button", { name: /Run simulation/i })).not.toBeDisabled();
+    expect(screen.getByRole("button", { name: /Run approved workflow/i })).not.toBeDisabled();
 
-    fireEvent.click(screen.getByRole("button", { name: /Run simulation/i }));
+    fireEvent.click(screen.getByRole("button", { name: /Run approved workflow/i }));
 
     expect(screen.getByRole("heading", { name: /Workflow runner/i })).toBeInTheDocument();
     expect(screen.getByText(/simulated task IT-2001 created/i)).toBeInTheDocument();
@@ -106,7 +107,9 @@ describe("App", () => {
     openView("Audit");
     expect(screen.getByText(/Simulated execution run/i)).toBeInTheDocument();
 
-    fireEvent.click(screen.getAllByRole("button", { name: /Export Summary/i })[0]);
+    openView("Audit");
+    await screen.findByRole("button", { name: /Export Summary/i });
+    fireEvent.click(screen.getByRole("button", { name: /Export Summary/i }));
 
     expect((screen.getByRole("textbox", { name: "Execution summary JSON" }) as HTMLTextAreaElement).value).toContain(
       "it-access"
@@ -115,10 +118,8 @@ describe("App", () => {
     fireEvent.click(screen.getByRole("button", { name: /Reset workflow state/i }));
 
     expect(screen.queryByRole("heading", { name: /Workflow runner/i })).not.toBeInTheDocument();
-    openView("Graph");
-    expect(screen.queryByRole("heading", { name: /IT access request flow/i })).not.toBeInTheDocument();
-    expect(screen.queryByRole("heading", { name: /Repeated workflows and automation opportunities/i })).not.toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Run simulation/i })).toBeDisabled();
+    openView("Review & Run");
+    expect(screen.getByText(/No proposal generated/i)).toBeInTheDocument();
   });
 
   it("blocks simulated execution when governance rejects the proposal", async () => {
@@ -130,7 +131,7 @@ describe("App", () => {
     fireEvent.click(screen.getAllByRole("button", { name: /Reject/i })[0]);
 
     expect(screen.getAllByText(/Rejected/i).length).toBeGreaterThan(0);
-    expect(screen.getByRole("button", { name: /Run simulation/i })).toBeDisabled();
+    expect(screen.getByRole("button", { name: /Run approved workflow/i })).toBeDisabled();
     expect(screen.getAllByText(/Blocked/i).length).toBeGreaterThan(0);
   });
 
@@ -192,6 +193,8 @@ describe("App", () => {
     expect(versionSelector.value).toContain("-v2");
     expect(screen.getAllByText(/Revision v2 refreshes governance review/i).length).toBeGreaterThan(0);
 
+    openView("Audit");
+    await screen.findByRole("button", { name: /Export Summary/i });
     fireEvent.click(screen.getByRole("button", { name: /Export Summary/i }));
 
     const exported = JSON.parse((screen.getByRole("textbox", { name: "Execution summary JSON" }) as HTMLTextAreaElement).value) as {

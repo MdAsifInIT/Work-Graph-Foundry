@@ -56,13 +56,13 @@ All scenario data is synthetic and stored in `src/fixtures/demoData.ts`.
 8. Click `Generate Proposal`.
 9. Review Review & Run for required data, forbidden data, assumptions, eligibility rules, policy checks, escalations, actions, proposal status, and versions.
 10. Open Review & Run to review simulation, governance notes, approval state, policy context, and execution gate state.
-11. Click `Approve` or `Reject`.
+11. Click `Approve` or `Reject` in `Review & Run`.
 12. Confirm the approval gate state changes.
-13. Click `Run Simulation` after approval.
+13. Click `Run approved workflow` after approval.
 14. Confirm Review & Run shows the incoming request, mock tool calls, execution audit trail, and learning recommendation.
 15. Open Audit and click `Export Summary`.
 16. Confirm the exported run summary JSON appears.
-17. Click `Reset`.
+17. Click `Reset` in `Audit`.
 18. Confirm generated output clears from Graph, Review & Run, and Audit.
 19. Switch to `Procurement intake` and repeat load, analyze, inspect graph, and proposal generation.
 

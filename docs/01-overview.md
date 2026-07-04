@@ -4,7 +4,7 @@
 
 Work Graph Foundry is a local-first enterprise work intelligence and governed automation demo. It shows how an AI-native operating layer can observe messy work traces, infer the real process, identify repeated work patterns, generate governed automation, simulate that automation, execute approved work safely, and recommend improvements.
 
-The current demo opens with a customer-facing landing page rather than a chatbot. The first screen introduces the product and then moves into a `#demo` workspace with five primary views: Overview, Evidence, Graph, Review & Run, and Audit. The product is meant to feel like a real enterprise tool for process owners, IT operators, compliance reviewers, and automation teams. The landing story is reviewer-first and hackathon-friendly: it gives a fast path from claim to evidence to governed automation.
+The current demo opens with a customer-facing landing page rather than a chatbot. The first screen introduces the product and then moves into a `#demo` workspace with five primary views: Overview, Evidence, Graph, Review & Run, and Audit. The UI pass keeps the top-bar workflow context compact and pushes approval, execution, export, import, and reset into the relevant review and audit surfaces. The product is meant to feel like a real enterprise tool for process owners, IT operators, compliance reviewers, and automation teams. The landing story is reviewer-first and hackathon-friendly: it gives a fast path from claim to evidence to governed automation.
 
 ## 1.2 Product Problem
 
@@ -69,8 +69,8 @@ The product demonstrates these agentic behaviors:
 - Reason: calculate bottlenecks, opportunity, and risk.
 - Plan: generate a structured automation proposal.
 - Simulate: replay historical cases before execution.
-- Govern: require approval and create audit events.
-- Execute: run only approved workflows through mock tools.
+- Govern: require approval in `Review & Run` and create audit events.
+- Execute: run only approved workflows through mock tools from the demoted review surface.
 - Improve: recommend a future proposal update.
 
 ## 1.6 What The Solution Is Not

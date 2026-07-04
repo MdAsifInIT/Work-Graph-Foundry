@@ -50,15 +50,18 @@ It checks:
 - customer-facing landing page renders first
 - sidebar navigation exposes Overview, Evidence, Graph, Review & Run, and Audit with active state
 - operational summary shows scenario, demo path, current stage, AI mode, governance state, and mock safety boundary
+- workflow context stays compact in the top bar and replaces the old shell-level action strip
 - scenario selector renders
 - `Launch` opens the workspace and `Load Workflow` opens Evidence with source counts
 - `Analyze` opens Graph and reveals graph and pattern discovery
 - Evidence still shows normalized evidence after analysis
 - graph and pattern selection details render from the Graph menu view
 - proposal, governance, execution, and audit panels render from their dedicated menu views
-- approval opens the execution gate and enables `Run Simulation`
+- approval and rejection actions live in `Review & Run`
+- export/import and reset actions live in `Audit`
+- approval opens the execution gate and enables `Run approved workflow`
 - rejection keeps execution blocked
-- `Run Simulation` keeps the user in Review & Run and shows mock tool output
+- `Run approved workflow` keeps the user in Review & Run and shows mock tool output
 - Audit shows audit trail and export/import controls
 - learning recommendation appears
 - `Export Summary` produces run JSON
@@ -85,7 +88,7 @@ When an agent validates this repo, it should perform these steps:
 15. Open Review & Run and confirm simulation, policy context, and approval controls render.
 16. Click `Approve`.
 17. Confirm execution gate is open.
-18. Click `Run Simulation`.
+18. Click `Run approved workflow`.
 19. Confirm Review & Run shows mock tool calls and learning recommendation.
 20. Open Audit.
 21. Click `Export Summary`.
@@ -184,7 +187,7 @@ Manual smoke path:
 10. Open Review & Run and confirm simulation plus governance controls render.
 11. Click `Approve`.
 12. Confirm execution gate changes from `Blocked` to `Open`.
-13. Click `Run Simulation`.
+13. Click `Run approved workflow`.
 14. Confirm Review & Run shows `mock task IT-2001 created`.
 15. Confirm learning recommendation mentions human-review lane.
 16. Open Audit and click `Export Summary`.

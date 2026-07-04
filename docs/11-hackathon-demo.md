@@ -46,10 +46,10 @@ Use this sequence for a live demo:
 4. Click `Load workflow`.
 5. Click `Analyze workflow` and point out the `Evidence` and `Graph` views.
 6. Click `Generate automation proposal` and review `Review & Run`.
-7. Click `Approve`.
-8. Click `Run simulation` and emphasize that no external system changes.
+7. Click `Approve` in `Review & Run`.
+8. Click `Run approved workflow` and emphasize that no external system changes.
 9. Open `Audit`, then click `Export Summary` to show portable demo state.
-10. Click `Reset workflow state` to prove the demo can be replayed.
+10. Click `Reset workflow state` in `Audit` to prove the demo can be replayed.
 11. Switch to `Procurement intake` if you want a second scenario.
 
 Short talk track:

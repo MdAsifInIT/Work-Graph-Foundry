@@ -1,15 +1,9 @@
 import {
   Brain,
   Database,
-  Download,
-  Network,
-  Play,
-  RotateCcw,
-  ShieldCheck,
-  XCircle
+  Network
 } from "lucide-react";
 import type { ReactNode } from "react";
-import { StatusPill } from "../components/shared/StatusPill";
 import { ToolbarButton } from "../components/shared/ToolbarButton";
 import type { ScenarioId } from "../domain/types";
 import { navigationItems, type ViewId } from "./navigation";
@@ -23,15 +17,7 @@ interface AppShellProps {
 }
 
 export function AppShell({ activeView, children, controller, onViewChange }: AppShellProps) {
-  const {
-    actions,
-    demoState,
-    executionReady,
-    proposal,
-    proposalGenerationReady,
-    scenario,
-    scenarioOptions
-  } = controller;
+  const { actions, demoState, executionReady, proposalGenerationReady, scenario, scenarioOptions } = controller;
   const activeNavigationItem = navigationItems.find((item) => item.id === activeView) ?? navigationItems[0];
 
   return (
@@ -66,6 +52,10 @@ export function AppShell({ activeView, children, controller, onViewChange }: App
             <p className="eyebrow">{activeNavigationItem.label}</p>
             <h1>Work Graph Foundry</h1>
             <p className="topbar-summary">{activeNavigationItem.purpose}</p>
+            <p className="topbar-meta" aria-label="Workflow context">
+              Scenario: {scenario.label} · Step: {activeNavigationItem.label} · Gate:{" "}
+              {executionReady ? "Ready to run" : "Approval needed"}
+            </p>
           </div>
           <div className="mobile-view-picker">
             <label>
@@ -141,84 +131,7 @@ export function AppShell({ activeView, children, controller, onViewChange }: App
                 Generate Proposal
               </ToolbarButton>
             </div>
-            <div className="toolbar-row toolbar-row-secondary" aria-label="Governance and utility controls">
-              <ToolbarButton
-                icon={ShieldCheck}
-                aria-label="Approve"
-                title="Approve proposal"
-                className="toolbar-button-secondary"
-                disabled={!proposal}
-                onClick={() => {
-                  actions.approveProposal();
-                  onViewChange("review-run");
-                }}
-              >
-                Approve
-              </ToolbarButton>
-              <ToolbarButton
-                icon={XCircle}
-                aria-label="Reject"
-                title="Reject proposal"
-                className="toolbar-button-secondary toolbar-button-danger"
-                disabled={!proposal}
-                onClick={() => {
-                  actions.rejectProposal();
-                  onViewChange("review-run");
-                }}
-              >
-                Reject
-              </ToolbarButton>
-              <ToolbarButton
-                icon={Play}
-                aria-label="Run simulation"
-                title={executionReady ? "Run simulation" : "Governance approval is required before simulation can run"}
-                className="toolbar-button-run"
-                disabled={!executionReady}
-                onClick={() => {
-                  actions.runMockExecution();
-                  onViewChange("review-run");
-                }}
-              >
-                Run Simulation
-              </ToolbarButton>
-              <ToolbarButton
-                icon={Download}
-                aria-label="Export Summary"
-                title="Export Summary"
-                className="toolbar-button-secondary"
-                onClick={() => {
-                  actions.exportSummary();
-                  onViewChange("audit");
-                }}
-              >
-                Export Summary
-              </ToolbarButton>
-              <ToolbarButton
-                icon={RotateCcw}
-                aria-label="Reset workflow state"
-                title="Reset workflow state"
-                className="toolbar-button-secondary"
-                onClick={() => {
-                  actions.resetDemo();
-                  onViewChange("overview");
-                }}
-              >
-                Reset
-              </ToolbarButton>
-            </div>
           </div>
-        </section>
-
-        <section className="shell-context" aria-label="Shell context">
-          <StatusPill tone="neutral">
-            {`Scenario: ${scenario.label}`}
-          </StatusPill>
-          <StatusPill tone="neutral">
-            {`Current step: ${activeNavigationItem.label}`}
-          </StatusPill>
-          <StatusPill tone={executionReady ? "good" : "warn"}>
-            {`Execution gate: ${executionReady ? "Ready to run" : "Approval needed"}`}
-          </StatusPill>
         </section>
 
         <div className="view-content">{children}</div>

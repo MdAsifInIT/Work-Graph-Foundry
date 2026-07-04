@@ -1,14 +1,24 @@
 # Work Graph Foundry
 
-Work Graph Foundry is a local-first enterprise work intelligence and governed automation demo. It observes messy work traces, builds a live work graph, identifies repeated work patterns, proposes governed automations, simulates them against historical cases, executes approved workflows through safe mock tools, and recommends improvements.
+Work Graph Foundry is a local-first enterprise automation demo that finds repeated organizational patterns in messy work traces and turns them into governed AI automation. It builds a work graph, surfaces process intelligence, proposes workflow automation, simulates changes against historical cases, and runs approved actions through safe mock tools.
 
-The demo opens on a customer-facing product page with a single visible `Launch` call to action. The interactive workspace is available at `#demo` and surfaces five primary views: Overview, Evidence, Graph, Review & Run, and Audit. The landing preview now makes the flow explicit with three workflow blocks, a connected automation path, and a final proof band that points back to the workspace. The Apple-inspired polish pass keeps the workflow context compact in the top bar and demotes approval, execution, export, import, and reset into the relevant `Review & Run` and `Audit` surfaces. It still shows an AI-native enterprise work loop: observe, understand, map, reason, plan, simulate, govern, execute, and improve.
+The product is designed to be easy to evaluate in a hackathon setting. Reviewers get a polished landing page, a direct path into the demo, and a clear before-and-after story: observe work, understand the pattern, govern the proposal, and execute only what is approved. The language and flows are intentionally customer-facing, but the behavior remains deterministic and local-first for reliable judging.
 
-The landing page is reviewer-first and hackathon-friendly: it shows a clear product claim, a compact preview of the workflow, and a direct path into the workspace without requiring a chatbot or setup ceremony.
+## Demo Value
+
+The demo shows how an organization can move from scattered requests and manual handoffs to governed automation without pretending the system has production access.
+
+It highlights:
+
+- enterprise automation for repeated internal work
+- work graph modeling across people, systems, approvals, and outcomes
+- process intelligence that identifies bottlenecks and recurring patterns
+- governed AI automation with explicit review, simulation, and audit steps
+- workflow automation that stays safe by using deterministic mock execution by default
 
 ## What The Demo Shows
 
-The demo includes two synthetic workflow scenarios:
+The app includes two synthetic workflow scenarios:
 
 1. IT access requests: employees request access through email, tickets, chat, approvals, and system logs.
 2. Procurement intake: teams request software purchases, vendor onboarding, and invoice exception handling through intake traces, approvals, and procurement-system updates.
@@ -25,7 +35,7 @@ The default scenario is IT access requests:
 8. It simulates that proposal against historical cases.
 9. A human reviewer approves the proposal.
 10. A new request runs through safe mock tools.
-11. The state persists locally for replay, export, import, and reset.
+11. State persists locally for replay, export, import, and reset.
 12. The learning loop recommends a future improvement.
 
 ## Tech Stack
@@ -71,16 +81,16 @@ npm run preview
 ## Scripts
 
 ```powershell
-npm run dev        # Start local development server
-npm run demo:dev   # Start local demo server
-npm run demo:seed  # Print deterministic seed state JSON
-npm run demo:reset # Print browser localStorage reset snippet
-npm run build      # Typecheck and build production artifact
+npm run dev         # Start local development server
+npm run demo:dev    # Start local demo server
+npm run demo:seed   # Print deterministic seed state JSON
+npm run demo:reset  # Print browser localStorage reset snippet
+npm run build       # Typecheck and build production artifact
 npm run verify:demo # Run typecheck, tests, build, and audit
-npm run test:e2e   # Run Playwright Chromium e2e tests
-npm run preview    # Preview production build
-npm run typecheck  # Run TypeScript checks
-npm test           # Run Vitest suite
+npm run test:e2e    # Run Playwright Chromium e2e tests
+npm run preview     # Preview production build
+npm run typecheck   # Run TypeScript checks
+npm test            # Run Vitest suite
 ```
 
 ## Project Structure

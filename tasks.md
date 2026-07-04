@@ -102,7 +102,10 @@
 - Console/page error monitoring passed across the Playwright e2e suite.
 - Production build output succeeded with no added animation library.
 - `worker_nano` owned the GitHub Pages deployment cleanup. The workflow now uses the repository name for `VITE_BASE_PATH` and current Pages action majors: `configure-pages@v6`, `upload-pages-artifact@v5`, and `deploy-pages@v5`.
+- Copilot recommendation applied as an artifact sanity check after `npm run build`; if deploy still fails after artifact upload, the remaining issue is GitHub Pages hosted deployment/repo Pages settings, not local Vite output.
 - The failed GitHub Pages run was checked through public GitHub Actions metadata and the user-provided log. Build, artifact upload, and deployment creation succeeded; the failure occurred while polling the Pages deployment status from `actions/deploy-pages@v4`.
+- The next failed run after the Pages action bump also passed build, tests, Pages configuration, and artifact upload, then failed only at the hosted `Deploy to GitHub Pages` step with GitHub's generic `Deployment failed, try again later.` annotation.
+- Public Pages metadata for the repository still returns `404 Not Found`, so repo Pages enablement/source settings remain the likely external blocker if the diagnostic workflow continues to fail.
 - A Pages-path build simulation passed with `VITE_BASE_PATH=/Work-Graph-Foundry/`; `dist/index.html` referenced CSS and JS under `/Work-Graph-Foundry/assets/...`.
 - `worker_test` verified `npm run typecheck`, `npm test`, `npm run build`, the Pages-path build simulation, `git diff --check`, and `git status --short`.
 - Ignored generated artifacts were cleaned after verification: `dist/`, `test-results/`, `tmp/`, and local server `*.log` files. `git ls-files` confirmed none were tracked before deletion.
@@ -115,3 +118,4 @@
 - `docs/06-testing-and-validation.md` now reflects the current `npm test` baseline of 41 tests.
 - The Pages deploy failure was isolated to `actions/deploy-pages` after artifact upload; workflow actions were bumped to the current Node-24-compatible majors (`configure-pages@v6`, `upload-pages-artifact@v5`, `deploy-pages@v5`).
 - The real GitHub Pages deployment still needs a fresh CI run after commit/push or manual workflow dispatch; local checks cannot complete GitHub's hosted Pages deployment step.
+- If the next run still fails after the new artifact sanity check passes, GitHub Pages must be enabled for custom workflows in repository settings, or by an admin through the Pages API/settings UI.

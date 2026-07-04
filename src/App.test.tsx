@@ -13,8 +13,12 @@ describe("App", () => {
     render(<App />);
 
     expect(screen.getByRole("heading", { name: "Work Graph Foundry" })).toBeInTheDocument();
-    expect(screen.getAllByRole("button", { name: "Launch" }).length).toBeGreaterThan(0);
+    expect(screen.getByRole("button", { name: "Launch" })).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: "Launch" })).toHaveLength(1);
     expect(screen.getByLabelText("Work Graph Foundry product preview")).toBeInTheDocument();
+    expect(screen.getByLabelText("Connected automation path")).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: "Landing workflow blocks" })).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: "Landing proof and call to action" })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Overview" })).not.toBeInTheDocument();
   });
 
@@ -234,7 +238,7 @@ describe("App", () => {
 });
 
 async function launchDemo() {
-  fireEvent.click(screen.getAllByRole("button", { name: "Launch" })[0]);
+  fireEvent.click(screen.getByRole("button", { name: "Launch" }));
   await screen.findByRole("button", { name: "Overview" });
 }
 

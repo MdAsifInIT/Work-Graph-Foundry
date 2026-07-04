@@ -13,27 +13,18 @@
 - Removed decorative radial/orb page backgrounds and avoided adding animation libraries.
 - Used a code-native product preview on the landing page because no bitmap image generation tool was available in this execution environment.
 - Preserved export/import, reset, malformed localStorage recovery, proposal versions, approval/rejection, gated simulation, and mock execution behavior.
+- Closed the landing completion gap audit with subagent-owned landing markup, CSS polish, test selector, and live documentation updates.
+- Kept main-thread edits limited to small integration fixes after worker review: truthful provider wording, connected preview path styling, unique `Launch` selector safety, and task-log correction.
 
 ## Files Changed
 
 - `src/App.tsx`
-- `src/app/navigation.ts`
-- `src/app/AppShell.tsx`
-- `src/features/overview/OverviewView.tsx`
-- `src/features/observe/ObserveView.tsx`
-- `src/features/analyze/AnalyzeView.tsx`
-- `src/features/review-run/ReviewRunView.tsx`
-- `src/features/review/ReviewView.tsx`
 - `src/styles.css`
 - `src/App.test.tsx`
 - `tests/e2e/golden-demo.e2e.ts`
 - `README.md`
 - `docs/01-overview.md`
-- `docs/02-architecture.md`
-- `docs/04-demo-setup.md`
 - `docs/06-testing-and-validation.md`
-- `docs/08-continuation-plan.md`
-- `docs/09-agentic-build-guide.md`
 - `docs/10-demo-operations.md`
 - `docs/11-hackathon-demo.md`
 - `tasks.md`
@@ -61,6 +52,19 @@
 
 ## Verification Log
 
+- Landing completion follow-up:
+  - `worker_nano A` owned landing markup/copy in `src/App.tsx`: unique primary `Launch`, static customer-facing copy, explicit workflow blocks, final proof band, and preview-flow structure.
+  - `worker_nano B` owned CSS polish in `src/styles.css`: true three-card landing grid, proof-band styling, stale landing CSS removal, run-button shared states, and graph crowding reduction.
+  - `worker_nano C` owned selector/doc/task tracking updates across `src/App.test.tsx`, `tests/e2e/golden-demo.e2e.ts`, README, live docs, and `tasks.md`.
+  - Main thread reviewed worker patches and applied small integration fixes for provider-safe preview wording, connected automation path semantics/styling, unique `Launch` selector safety, and final e2e selector correctness.
+  - Files changed in this pass: `src/App.tsx`, `src/styles.css`, `src/App.test.tsx`, `tests/e2e/golden-demo.e2e.ts`, `README.md`, `docs/01-overview.md`, `docs/06-testing-and-validation.md`, `docs/10-demo-operations.md`, `docs/11-hackathon-demo.md`, and `tasks.md`.
+  - Commands run in this pass: repository file inspection, landing selector scan, docs scan, UI diff review, stale CSS/provider scans, `npm run typecheck`, `npm test`, `npm run typecheck:e2e`, `npm run build`, `npm run verify:demo`, `npm run test:e2e`, `npm run test:e2e:preview`, animation-library scan, and `git diff --check`.
+  - `npm run typecheck`, `npm test`, `npm run typecheck:e2e`, `npm run build`, and `npm run verify:demo` passed.
+  - `npm run test:e2e` and `npm run test:e2e:preview` still fail before app assertions because Playwright cannot launch Chromium in this environment: `browserType.launch: spawn EPERM`.
+  - In-app Browser QA against the production build passed landing identity, single visible `Launch`, three equal workflow cards, connected automation path, final proof band, zero default-width horizontal overflow, `Launch` to `#demo`, load/analyze/proposal/approve/run/export/reset visible behavior, and empty warning/error console logs.
+  - Browser viewport override did not resize the in-app browser during this pass, so 768px/390px/375px responsive validation remains covered by the Playwright test definitions but blocked locally by Chromium `spawn EPERM`.
+  - Animation library scan found no `framer-motion`, `gsap`, or `animejs`; the only `motion` match was the existing `prefers-reduced-motion` rule.
+  - Remaining risk: local Playwright browser execution needs the Windows Chromium permission issue resolved before the e2e responsive and long-task suites can complete in this environment.
 - Apple-inspired UI pass:
   - `worker_nano A` owned the landing copy and code-native product preview update in `src/App.tsx`.
   - `worker_nano B` owned the shell/design-system CSS pass in `src/app/AppShell.tsx` and `src/styles.css`.

@@ -56,6 +56,8 @@ Short talk track:
 
 "This demo observes messy work traces, finds repeated patterns in an organization, turns them into governed automation, simulates them against history, requires human approval, executes safely through mock tools, and persists the result locally."
 
+The opening screen should read as a product landing page, not a shell: one visible `Launch` CTA, three workflow blocks, a connected automation path, and a proof band that points into the workspace.
+
 ## 11.5 Verification Commands
 
 Use these exact commands:

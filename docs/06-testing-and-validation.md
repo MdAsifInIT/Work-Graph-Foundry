@@ -48,6 +48,8 @@ Current UI coverage lives in `src/App.test.tsx`.
 It checks:
 
 - customer-facing landing page renders first
+- landing page exposes exactly one visible `Launch` button
+- landing workflow blocks, connected automation path, and proof band render
 - sidebar navigation exposes Overview, Evidence, Graph, Review & Run, and Audit with active state
 - operational summary shows scenario, demo path, current stage, AI mode, governance state, and mock safety boundary
 - workflow context stays compact in the top bar and replaces the old shell-level action strip
@@ -151,6 +153,7 @@ Expected current baseline for `npm run test:e2e`:
 - local Vite server starts
 - deterministic Chromium browser tests pass
 - golden paths pass for `IT access requests` and `Procurement intake`
+- landing screen checks the three workflow blocks, connected automation path, proof band, and single visible `Launch` CTA
 - rejection, export/import, localStorage recovery, mobile overflow, and preview-backed checks pass
 
 ## 6.7 Test Map

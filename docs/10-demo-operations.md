@@ -68,6 +68,8 @@ All scenario data is synthetic and stored in `src/fixtures/demoData.ts`.
 
 The Playwright e2e suite exercises this path for both scenarios with deterministic demo data and the menu-based shell. On failure, Playwright captures screenshots, videos, and traces for debugging; do not commit those artifacts unless they are intentionally attached to an investigation.
 
+The landing page that starts this path should show one visible `Launch` CTA, three workflow blocks, a connected automation path, and a proof band action that also enters `#demo`.
+
 ## 10.4 Reset And Seed
 
 Normal operator reset:

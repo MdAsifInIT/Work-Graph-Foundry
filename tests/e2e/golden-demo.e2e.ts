@@ -88,7 +88,21 @@ test.beforeEach(async ({ page }) => {
 test("loads the landing-first screen without browser page or console errors", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Work Graph Foundry" })).toBeVisible();
   await expect(page.getByLabel("Work Graph Foundry product preview")).toBeVisible();
-  await page.getByRole("button", { name: "Launch" }).first().click();
+  await expect(page.getByRole("button", { name: "Launch" })).toHaveCount(1);
+  const landingBlocks = page.getByRole("region", { name: "Landing workflow blocks" });
+  const automationPath = page.getByLabel("Connected automation path");
+
+  await expect(landingBlocks).toBeVisible();
+  await expect(automationPath).toBeVisible();
+  await expect(page.getByRole("region", { name: "Landing proof and call to action" })).toBeVisible();
+  await expect(landingBlocks.getByText("Pattern discovery")).toBeVisible();
+  await expect(landingBlocks.getByText("Governed proposal")).toBeVisible();
+  await expect(landingBlocks.getByText("Safe execution")).toBeVisible();
+  await expect(automationPath.getByText("Pattern found")).toBeVisible();
+  await expect(automationPath.getByText("Proposal ready")).toBeVisible();
+  await expect(automationPath.getByText("Approved run")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Open workspace" })).toBeVisible();
+  await page.getByRole("button", { name: "Launch" }).click();
   await expect(page.getByRole("button", { name: "Overview", exact: true })).toHaveAttribute("aria-current", "page");
   await expect(page.getByLabel("Workflow context").first()).toContainText("Scenario: IT access requests");
   await expect(page.getByLabel("Workflow context").first()).toContainText("Step: Overview");
@@ -264,7 +278,8 @@ test("performance smoke keeps core interactions within the long-task budget", as
 
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Work Graph Foundry" })).toBeVisible();
-  await page.getByRole("button", { name: "Launch" }).first().click();
+  await expect(page.getByRole("button", { name: "Launch" })).toHaveCount(1);
+  await page.getByRole("button", { name: "Launch" }).click();
   await openView(page, "Evidence");
   await openView(page, "Graph");
   await openView(page, "Overview");
@@ -429,7 +444,7 @@ async function assertNoHorizontalOverflow(page: Page, label: string) {
 }
 
 async function enterWorkspace(page: Page) {
-  const launchButton = page.getByRole("button", { name: "Launch" }).first();
+  const launchButton = page.getByRole("button", { name: "Launch" });
 
   if (await launchButton.isVisible()) {
     await launchButton.click();

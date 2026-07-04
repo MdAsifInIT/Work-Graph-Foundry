@@ -40,21 +40,21 @@ function LandingPage({
   controller: ReturnType<typeof useWorkGraphDemoController>;
   onLaunch: () => void;
 }) {
-  const { aiProvider, currentStage, scenario, workflowStages } = controller;
+  const { aiProvider, scenario } = controller;
 
   return (
     <main className="landing-page">
       <header className="landing-nav" aria-label="Landing navigation">
         <strong>Work Graph Foundry</strong>
-        <button type="button" className="landing-nav-button" onClick={onLaunch}>
-          Launch
-        </button>
       </header>
 
       <section className="landing-hero" aria-label="Product landing page">
         <div className="landing-hero-copy">
           <h1>Work Graph Foundry</h1>
-          <p className="landing-copy">Find the patterns. Turn them into governed automation.</p>
+          <p className="landing-copy">
+            Detect repeatable work, shape it into governed proposals, and launch safe execution with a clear audit
+            trail.
+          </p>
           <div className="landing-actions">
             <button type="button" className="landing-primary-action" onClick={onLaunch}>
               Launch
@@ -63,8 +63,7 @@ function LandingPage({
         </div>
 
         <ProductPreview
-          aiProviderLabel={aiProvider.status.available ? "Safe local simulation" : "Safe local preview"}
-          currentStageLabel={currentStage?.label ?? "Load Workflow"}
+          aiProviderLabel={aiProvider.status.label}
           scenarioLabel={scenario.label}
           scenarioName={scenario.workflowName}
           workflowName={scenario.workflowName}
@@ -73,20 +72,30 @@ function LandingPage({
 
       <section className="landing-section landing-process" aria-label="Landing workflow blocks">
         <article>
-          <span>{workflowStages[1]?.index ?? 2}</span>
+          <span>01</span>
           <strong>Pattern discovery</strong>
-          <p>{workflowStages[1]?.detail ?? "Trace signals surface repeated work, bottlenecks, and exceptions."}</p>
+          <p>Surface repeated work, bottlenecks, and exceptions from customer context and operational traces.</p>
         </article>
         <article>
-          <span>{workflowStages[3]?.index ?? 4}</span>
+          <span>02</span>
           <strong>Governed proposal</strong>
-          <p>{workflowStages[3]?.detail ?? "A reviewable proposal captures policy context, assumptions, and gates."}</p>
+          <p>Create a reviewable proposal with policy context, assumptions, and explicit approval gates.</p>
         </article>
         <article>
-          <span>{workflowStages[6]?.index ?? 7}</span>
+          <span>03</span>
           <strong>Safe execution</strong>
-          <p>{workflowStages[6]?.detail ?? "Approved runs stay bounded, logged, and reversible."}</p>
+          <p>Run only after approval, with bounded actions, logs, and a reversible path back.</p>
         </article>
+      </section>
+
+      <section className="landing-section landing-proof" aria-label="Landing proof and call to action">
+        <div>
+          <strong>Proof before execution.</strong>
+          <p>See the pattern, review the proposal, and approve the run before anything touches the workflow.</p>
+        </div>
+        <button type="button" className="landing-secondary-action" onClick={onLaunch}>
+          Open workspace
+        </button>
       </section>
     </main>
   );
@@ -94,13 +103,11 @@ function LandingPage({
 
 function ProductPreview({
   aiProviderLabel,
-  currentStageLabel,
   scenarioLabel,
   scenarioName,
   workflowName
 }: {
   aiProviderLabel: string;
-  currentStageLabel: string;
   scenarioLabel: string;
   scenarioName: string;
   workflowName: string;
@@ -118,17 +125,24 @@ function ProductPreview({
         </div>
         <div>
           <span>Proposal ready</span>
-          <strong>{workflowName}</strong>
+          <strong>Governed proposal</strong>
         </div>
         <div>
           <span>Approved run</span>
-          <strong>{currentStageLabel}</strong>
+          <strong>Safe execution</strong>
         </div>
+      </div>
+      <div className="preview-path" aria-label="Connected automation path">
+        <span>Pattern found</span>
+        <i aria-hidden="true" />
+        <span>Proposal ready</span>
+        <i aria-hidden="true" />
+        <span>Approved run</span>
       </div>
       <div className="preview-graph" aria-hidden="true">
         <span data-node="actor">{scenarioName}</span>
-        <span data-node="approval">Proposal review</span>
-        <span data-node="policy">Approval gate</span>
+        <span data-node="approval">Pattern found</span>
+        <span data-node="policy">Proposal ready</span>
         <span data-node="action">Approved run</span>
       </div>
       <div className="preview-footer">

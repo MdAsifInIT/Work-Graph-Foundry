@@ -13,5 +13,6 @@ Read these guides in order if you are new to the repository. They are numbered s
 9. [Agentic Build Guide](09-agentic-build-guide.md)
 10. [Demo Operations](10-demo-operations.md)
 11. [Hackathon Demo](11-hackathon-demo.md)
+12. [Backend Implementation Plan](12-backend-implementation-plan.md)
 
 The canonical run path is in [Demo Operations](10-demo-operations.md). Historical implementation plans, prompts, and phase notes are kept in [archive](archive/). They are not required for normal development.

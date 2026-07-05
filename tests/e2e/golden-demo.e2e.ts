@@ -95,7 +95,7 @@ test("loads the landing-first screen without browser page or console errors", as
 
   await expect(landingBlocks).toBeVisible();
   await expect(automationPath).toBeVisible();
-  await expect(page.getByRole("region", { name: "Landing proof and call to action" })).toBeVisible();
+  await expect(page.getByRole("region", { name: "Impact evidence" })).toBeVisible();
   await expect(landingBlocks.getByText("Pattern discovery")).toBeVisible();
   await expect(landingBlocks.getByText("Governed proposal")).toBeVisible();
   await expect(landingBlocks.getByText("Safe execution")).toBeVisible();
@@ -105,13 +105,8 @@ test("loads the landing-first screen without browser page or console errors", as
   await expect(page.getByRole("button", { name: "Open workspace" })).toBeVisible();
   await page.getByRole("button", { name: "Launch" }).click();
   await expect(page.getByRole("button", { name: "Overview", exact: true })).toHaveAttribute("aria-current", "page");
-  await expect(page.getByLabel("Workflow context").first()).toContainText("Scenario: IT access requests");
-  await expect(page.getByLabel("Workflow context").first()).toContainText("Step: Overview");
-  await expect(page.getByLabel("Workflow context").first()).toContainText("Gate: Approval needed");
-  await expect(page.getByLabel("Backend and provider status")).toContainText("AI provider");
-  await expect(page.getByLabel("Backend and provider status")).toContainText("Deterministic mock");
-  await expect(page.getByLabel("Backend and provider status")).toContainText("Backend connected");
-  await expect(page.getByLabel("Backend and provider status")).toContainText("Mock simulation only");
+  await expect(page.getByLabel("System status")).toContainText("Validation engine");
+  await expect(page.getByLabel("System status")).toContainText("Backend connected");
   await expect(page.getByRole("button", { name: "Evidence", exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "Graph", exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "Review & Run", exact: true })).toBeVisible();
@@ -148,8 +143,9 @@ test("keeps simulated execution blocked after governance rejects a proposal", as
   await expect(page.getByText("Rejected").first()).toBeVisible();
   await expect(page.getByText("Blocked by rejection").first()).toBeVisible();
   await openView(page, "Review & Run");
-  await expect(page.getByText("Execution is blocked by rejection until the proposal is revised and approved.")).toBeVisible();
-  await expect(page.getByRole("button", { name: "Run mock simulation" })).toBeDisabled();
+  await page.getByText("Technical details").click();
+  await expect(page.getByText("Safe execution is blocked by rejection until the proposal is revised and approved.")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Execute workflow" })).toBeDisabled();
   await expect(page.getByText(scenario.mockOutput)).toHaveCount(0);
 
   await waitForStoredDemoStateField(page, "governanceDecision", "rejected");
@@ -177,14 +173,15 @@ test("recovers a generated run after reload and restores seeded workspace state 
 
   await page.reload();
 
-  await expect(page.getByRole("heading", { name: "Work Graph Foundry" })).toBeVisible();
+  await expect(page.getByText("Work Graph Foundry").first()).toBeVisible();
   await openView(page, "Graph");
   await expect(page.getByRole("heading", { name: scenario.graphTitle })).toBeVisible();
   await expect(page.getByRole("heading", { name: scenario.patternLabel })).toBeVisible();
   await openView(page, "Review & Run");
+  await page.getByText("Technical details").click();
   await expect(page.getByRole("heading", { name: "Workflow runner" })).toBeVisible();
   await expect(page.getByText(scenario.mockOutput)).toBeVisible();
-  await expect(page.getByRole("button", { name: "Run mock simulation" })).toBeEnabled();
+  await expect(page.getByRole("button", { name: "Execute workflow" })).toBeEnabled();
 
   await resetDemo(page, request, scenario);
 
@@ -214,7 +211,7 @@ test("recovers a generated run after reload and restores seeded workspace state 
   await openView(page, "Review & Run");
   await expect(page.getByRole("heading", { name: "Workflow runner" })).toHaveCount(0);
   await expect(page.getByText(scenario.mockOutput)).toHaveCount(0);
-  await expect(page.getByRole("button", { name: "Run mock simulation" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Execute workflow" })).toHaveCount(0);
 });
 
 test("restores a generated run from an exported summary import round trip", async ({ page, request }) => {
@@ -237,6 +234,7 @@ test("restores a generated run from an exported summary import round trip", asyn
   await expect(page.getByRole("heading", { name: exportedScenario.graphTitle })).toBeVisible();
   await expect(page.getByRole("heading", { name: exportedScenario.patternLabel })).toBeVisible();
   await openView(page, "Review & Run");
+  await page.getByText("Technical details").click();
   await expect(page.getByLabel("Review and run workflow").getByText(exportedScenario.mockOutput)).toBeVisible();
 
   await waitForStoredDemoStateField(page, "selectedScenarioId", exportedScenario.id);
@@ -255,12 +253,12 @@ test("recovers to seeded state when persisted workspace mirror is malformed", as
   await page.reload();
   await enterWorkspace(page);
 
-  await expect(page.getByRole("heading", { name: "Work Graph Foundry" })).toBeVisible();
+  await expect(page.getByText("Work Graph Foundry").first()).toBeVisible();
   await expectScenarioContext(page, scenarios[0].label);
   await openView(page, "Graph");
   await expect(page.getByRole("heading", { name: scenarios[0].graphTitle })).toHaveCount(0);
   await openView(page, "Review & Run");
-  await expect(page.getByRole("button", { name: "Run mock simulation" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Execute workflow" })).toHaveCount(0);
 
   await waitForStoredDemoStateField(page, "selectedScenarioId", scenarios[0].id);
   const recoveredState = await readStoredDemoState(page);
@@ -315,7 +313,8 @@ test("performance smoke keeps core interactions within the long-task budget", as
   await openView(page, "Review & Run");
   await openView(page, "Review & Run");
   await page.getByRole("button", { name: "Approve", exact: true }).click();
-  await page.getByRole("button", { name: "Run mock simulation" }).click();
+  await page.getByRole("button", { name: "Execute workflow" }).click();
+  await page.getByText("Technical details").click();
   await expect(page.getByText(scenarios[0].mockOutput)).toBeVisible();
   await settleFrames(page);
 
@@ -357,9 +356,10 @@ async function runGoldenPath(page: Page, request: APIRequestContext, scenario: S
 
   await page.getByRole("button", { name: "Approve", exact: true }).click();
   await expect(page.getByText("Available").first()).toBeVisible();
-  await expect(page.getByRole("button", { name: "Run mock simulation" })).toBeEnabled();
+  await expect(page.getByRole("button", { name: "Execute workflow" })).toBeEnabled();
 
-  await page.getByRole("button", { name: "Run mock simulation" }).click();
+  await page.getByRole("button", { name: "Execute workflow" }).click();
+  await page.getByText("Technical details").click();
   await expect(page.getByRole("heading", { name: "Workflow runner" })).toBeVisible();
   await expect(page.getByText(scenario.mockOutput)).toBeVisible();
   await expectWorkspaceApiState(request, {
@@ -369,7 +369,7 @@ async function runGoldenPath(page: Page, request: APIRequestContext, scenario: S
 }
 
 async function expectScenarioContext(page: Page, label: string) {
-  await expect(page.getByLabel("Workflow context").first()).toContainText(`Scenario: ${label}`);
+  // Topbar context was removed in polish plan. State is verified via API and UI blocks.
 }
 
 async function generateProposal(page: Page, request: APIRequestContext, scenario: ScenarioExpectation) {
@@ -386,13 +386,13 @@ async function generateProposal(page: Page, request: APIRequestContext, scenario
   await expect(page.getByRole("heading", { name: scenario.patternLabel })).toBeVisible();
 
   await page.getByRole("button", { name: "Generate automation proposal" }).click();
-  await expect(page.getByRole("heading", { name: "Governed automation proposal" })).toBeVisible();
   await openView(page, "Review & Run");
-  await expect(page.getByLabel("Proposal provider provenance")).toContainText("Deterministic mock");
+  await expect(page.getByRole("heading", { name: "Is the automation safe to approve and run?" })).toBeVisible();
+  await expect(page.getByLabel("Proposal provider provenance")).toContainText("Validation engine");
   await expect(page.getByLabel("Proposal provider provenance")).toContainText("Output validation");
-  await expect(page.getByRole("heading", { name: "Review before execution" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Run mock simulation" })).toBeDisabled();
-  await expect(page.getByText("Mock simulation only. No enterprise connector, provisioning system, or customer workflow is modified.")).toBeVisible();
+
+  await expect(page.getByRole("button", { name: "Execute workflow" })).toBeDisabled();
+
   await expect(page.getByText("Blocked").first()).toBeVisible();
   await expectWorkspaceApiState(request, {
     governanceDecision: "pending",
@@ -432,7 +432,7 @@ async function resetDemo(page: Page, request: APIRequestContext, scenario: Scena
   await expect(page.getByRole("heading", { name: "Governed automation proposal" })).toHaveCount(0);
   await expect(page.getByRole("heading", { name: "Workflow runner" })).toHaveCount(0);
   await expect(page.getByText(scenario.mockOutput)).toHaveCount(0);
-  await expect(page.getByRole("button", { name: "Run mock simulation" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Execute workflow" })).toHaveCount(0);
   await expectWorkspaceApiState(request, {
     executionRuns: 0,
     proposals: 0,

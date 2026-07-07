@@ -16,7 +16,7 @@ export function ObserveView({ controller }: ObserveViewProps) {
         <>
           <div className="dashboard-bento">
             <section className="bento-card metrics-card" aria-label="Loaded workflow summary">
-              <h2 style={{ marginBottom: 0, fontSize: 'var(--text-title)' }}>Source Evidence</h2>
+              <h2 className="evidence-card-title">Source Evidence</h2>
               <div className="overview-facts">
                 <span><strong>Raw traces</strong>{validation.summary.rawTraceCount}</span>
                 <span><strong>Cases</strong>{validation.summary.caseCount}</span>
@@ -26,7 +26,7 @@ export function ObserveView({ controller }: ObserveViewProps) {
             </section>
 
             <section className="bento-card metrics-card" aria-label="Sample source channels">
-              <h2 style={{ marginBottom: 0, fontSize: 'var(--text-title)' }}>Channels</h2>
+              <h2 className="evidence-card-title">Channels</h2>
               <div className="overview-facts">
                 {Object.entries(validation.summary.channelCounts).map(([channel, count]) => (
                   <span key={channel}>
@@ -43,13 +43,13 @@ export function ObserveView({ controller }: ObserveViewProps) {
       )}
 
       {ingestion ? (
-        <div className="dashboard-bento" style={{ marginTop: '0' }}>
+        <div className="dashboard-bento evidence-summary-row">
           <section className="bento-card quick-action-card" aria-label="Ingestion summary">
-            <div className="overview-facts" style={{ marginTop: '0', width: '100%', display: 'flex', gap: 'var(--gap-sm)' }}>
-              <span style={{ flex: 1 }}><strong>Normalized items</strong>{ingestion.summary.normalizedItemCount}</span>
-              <span style={{ flex: 1 }}><strong>Warnings</strong>{ingestion.summary.issueCount}</span>
-              <span style={{ flex: 1 }}><strong>{scenario.topSystemLabel}</strong>{topSystem?.[0] ?? "None"}</span>
-              <span style={{ flex: 1 }}><strong>Top system cases</strong>{topSystem?.[1] ?? 0}</span>
+            <div className="overview-facts evidence-summary-facts">
+              <span><strong>Normalized items</strong>{ingestion.summary.normalizedItemCount}</span>
+              <span><strong>Warnings</strong>{ingestion.summary.issueCount}</span>
+              <span><strong>{scenario.topSystemLabel}</strong>{topSystem?.[0] ?? "None"}</span>
+              <span><strong>Top system cases</strong>{topSystem?.[1] ?? 0}</span>
             </div>
           </section>
         </div>

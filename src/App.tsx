@@ -11,19 +11,36 @@ import { ReviewView } from "./features/review/ReviewView";
 export function App() {
   const controller = useWorkGraphDemoController();
   const [activeView, setActiveView] = useState<ViewId>("overview");
-  const [workspaceOpen, setWorkspaceOpen] = useState(() => window.location.hash === "#demo");
+  const [workspaceOpen, setWorkspaceOpen] = useState(() => window.location.pathname === "/dashboard" || window.location.hash === "#demo");
 
   useEffect(() => {
-    const syncHash = () => setWorkspaceOpen(window.location.hash === "#demo");
+    const syncWorkspaceRoute = () => {
+      const isDashboardRoute = window.location.pathname === "/dashboard";
+      const isLegacyDemoHash = window.location.hash === "#demo";
 
-    syncHash();
-    window.addEventListener("hashchange", syncHash);
+      setWorkspaceOpen(isDashboardRoute || isLegacyDemoHash);
 
-    return () => window.removeEventListener("hashchange", syncHash);
+      if (isLegacyDemoHash) {
+        window.history.replaceState(window.history.state, "", "/dashboard");
+      }
+    };
+
+    syncWorkspaceRoute();
+    window.addEventListener("popstate", syncWorkspaceRoute);
+
+    return () => window.removeEventListener("popstate", syncWorkspaceRoute);
   }, []);
 
   if (!workspaceOpen) {
-    return <LandingPage controller={controller} onLaunch={() => (window.location.hash = "demo")} />;
+    return (
+      <LandingPage
+        controller={controller}
+        onLaunch={() => {
+          window.history.pushState(window.history.state, "", "/dashboard");
+          setWorkspaceOpen(true);
+        }}
+      />
+    );
   }
 
   return (
@@ -52,7 +69,7 @@ function LandingPage({
         <div className="landing-hero-copy">
           <h1>Work Graph Foundry</h1>
           <p className="landing-copy">
-            Turn hidden work patterns into governed automation - with proof it works before anything runs.
+            Turn hidden work patterns into governed automation, with validation before anything runs.
           </p>
           <div className="landing-actions">
             <button type="button" className="landing-primary-action" onClick={onLaunch}>
@@ -89,15 +106,23 @@ function LandingPage({
 
       <section className="landing-section landing-proof" aria-label="Impact evidence">
         <div>
-          <strong>Proven impact from real workflow data.</strong>
-          <p>Measured against synthetic enterprise traces - ready for production validation.</p>
+          <strong>Projected impact from synthetic workflow traces.</strong>
+          <p>Measured against governed enterprise-style fixtures before production validation.</p>
           <div className="impact-metrics" aria-label="Key impact metrics">
             <div>
-              <strong>62h to 2h</strong>
+              <strong className="impact-range">
+                <span>62h</span>
+                <small>to</small>
+                <span>2h</span>
+              </strong>
               <span>Approval time</span>
             </div>
             <div>
-              <strong>12% to 0%</strong>
+              <strong className="impact-range">
+                <span>12%</span>
+                <small>to</small>
+                <span>0%</span>
+              </strong>
               <span>Exception rate</span>
             </div>
             <div>
@@ -145,8 +170,8 @@ function ProductPreview({
           <strong>Governed proposal</strong>
         </div>
         <div>
-          <span>Approved run</span>
-          <strong>Safe execution</strong>
+          <span>Execution gated</span>
+          <strong>Approval required</strong>
         </div>
       </div>
       <div className="preview-path" aria-label="Connected automation path">
@@ -154,13 +179,13 @@ function ProductPreview({
         <i aria-hidden="true" />
         <span>Proposal ready</span>
         <i aria-hidden="true" />
-        <span>Approved run</span>
+        <span>Execution gated</span>
       </div>
       <div className="preview-graph" aria-hidden="true">
         <span data-node="actor">{scenarioName}</span>
         <span data-node="approval">Pattern found</span>
         <span data-node="policy">Proposal ready</span>
-        <span data-node="action">Approved run</span>
+        <span data-node="action">Execution gated</span>
       </div>
     </aside>
   );

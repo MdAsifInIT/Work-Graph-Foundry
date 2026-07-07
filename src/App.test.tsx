@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
 import { App } from "./App";
 import { createSeedDemoState, DEMO_STORAGE_KEY, saveDemoState } from "./domain/persistence";
@@ -22,11 +22,11 @@ describe("App", () => {
     expect(screen.queryByRole("button", { name: "Overview" })).not.toBeInTheDocument();
   });
 
-  it("opens the hash-backed five-view workspace", async () => {
+  it("opens the path-backed five-view workspace", async () => {
     render(<App />);
     await launchDemo();
 
-    expect(window.location.hash).toBe("#demo");
+    expect(window.location.pathname).toBe("/dashboard");
     expect(screen.getByRole("button", { name: "Overview" })).toHaveAttribute("aria-current", "page");
     expect(screen.getByRole("heading", { name: "Overview" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Access request operations" })).toBeInTheDocument();
@@ -35,14 +35,50 @@ describe("App", () => {
     expect(screen.getByRole("button", { name: "Review & Run" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Audit" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Load workflow/i })).toBeInTheDocument();
-    expect(screen.getByLabelText("System status")).toHaveTextContent("AI provider");
+    expect(screen.getByLabelText("System status")).toHaveTextContent("Provider");
     expect(screen.getByLabelText("System status")).toHaveTextContent("Validation engine");
 
     const summary = screen.getByRole("region", { name: /Operational summary/i });
 
     expect(within(summary).getByRole("heading", { name: /Access request operations/i })).toBeInTheDocument();
-    expect(screen.getByLabelText("Impact comparison")).toBeInTheDocument();
-    expect(screen.getByText("System details")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Before - Manual Process" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "After - Governed Automation" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Review boundary" })).toBeInTheDocument();
+    expect(screen.getByLabelText("Select app view")).toHaveValue("overview");
+  });
+
+  it("opens the workspace directly at /dashboard", () => {
+    window.history.pushState(null, "", "/dashboard");
+
+    render(<App />);
+
+    expect(screen.getByRole("button", { name: "Overview" })).toHaveAttribute("aria-current", "page");
+    expect(screen.getByRole("heading", { name: "Overview" })).toBeInTheDocument();
+  });
+
+  it("normalizes the legacy #demo route to /dashboard", async () => {
+    window.history.pushState(null, "", "/#demo");
+
+    render(<App />);
+
+    await waitFor(() => {
+      expect(window.location.pathname).toBe("/dashboard");
+    });
+    expect(window.location.hash).toBe("");
+    expect(screen.getByRole("button", { name: "Overview" })).toHaveAttribute("aria-current", "page");
+  });
+
+  it("returns to the landing page on browser back navigation", async () => {
+    render(<App />);
+    await launchDemo();
+
+    act(() => {
+      window.history.pushState(null, "", "/");
+      window.dispatchEvent(new PopStateEvent("popstate"));
+    });
+
+    await screen.findByRole("button", { name: "Launch" });
+    expect(screen.queryByRole("button", { name: "Overview" })).not.toBeInTheDocument();
   });
 
   it("shows backend fallback recovery controls when the API is unavailable", async () => {
@@ -52,8 +88,8 @@ describe("App", () => {
     await waitFor(() => {
       expect(screen.getAllByText(/browser fallback mirror/i).length).toBeGreaterThan(0);
     });
-    expect(screen.getByRole("button", { name: /Retry backend/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Reset workflow/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Retry" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Reset" })).toBeInTheDocument();
   });
 
   it("shows sanitized provider fallback metadata from the browser mirror", async () => {
@@ -80,7 +116,7 @@ describe("App", () => {
     render(<App />);
     await launchDemo();
 
-    expect(screen.getByLabelText("System status")).toHaveTextContent("Fallback used");
+    expect(screen.getByLabelText("System status")).toHaveTextContent("Browser fallback mirror");
     expect(screen.getAllByText(/Reason code: provider_error/i).length).toBeGreaterThan(0);
     expect(screen.queryByText(/OPENAI_API_KEY/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Bearer/i)).not.toBeInTheDocument();
@@ -167,8 +203,8 @@ describe("App", () => {
     fireEvent.click(screen.getByRole("button", { name: /Reset workflow state/i }));
 
     expect(screen.queryByRole("heading", { name: /Workflow runner/i })).not.toBeInTheDocument();
-    openView("Review & Run");
-    expect(screen.getByText(/No proposal generated/i)).toBeInTheDocument();
+    openView("Overview");
+    expect(screen.getByLabelText("Workflow context")).toHaveTextContent("Not generated");
   });
 
   it("blocks simulated execution when governance rejects the proposal", async () => {
@@ -243,6 +279,7 @@ describe("App", () => {
     expect(versionSelector.value).toContain("-v2");
     expect(screen.getAllByText(/Revision v2 refreshes governance review/i).length).toBeGreaterThan(0);
 
+    fireEvent.click(screen.getAllByRole("button", { name: /Approve/i })[0]);
     openView("Audit");
     await screen.findByRole("button", { name: /Export Summary/i });
     fireEvent.click(screen.getByRole("button", { name: /Export Summary/i }));
@@ -269,6 +306,10 @@ describe("App", () => {
   it("shows a safe error for malformed import summaries", async () => {
     render(<App />);
     await launchDemo();
+    fireEvent.click(screen.getByRole("button", { name: /Load workflow/i }));
+    fireEvent.click(screen.getByRole("button", { name: /Analyze workflow/i }));
+    fireEvent.click(screen.getByRole("button", { name: /Generate automation proposal/i }));
+    fireEvent.click(screen.getAllByRole("button", { name: /Approve/i })[0]);
 
     openView("Audit");
     fireEvent.change(screen.getByRole("textbox", { name: /Import execution summary JSON/i }), {

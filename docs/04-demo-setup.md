@@ -30,7 +30,7 @@ npm run backend:seed
 npm run dev:fullstack
 ```
 
-Open the printed local URL, then click `Launch` to enter the hash-backed demo workspace.
+Open the printed local URL, then click `Launch` to enter the path-backed demo workspace.
 
 Fallback production path:
 
@@ -214,7 +214,7 @@ Before presenting:
 - `npm run test:e2e` passes when browser launch is allowed.
 - `npm run build` passes.
 - `npm test` passes.
-- Landing page renders first and `Launch` opens `#demo`.
+- Landing page renders first and `Launch` opens `/dashboard`.
 - `Load workflow` renders source counts.
 - `Analyze workflow` renders normalized evidence, graph, and patterns.
 - `Generate automation proposal` renders proposal, simulation, and governance notes.

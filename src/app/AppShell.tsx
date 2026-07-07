@@ -119,10 +119,30 @@ export function AppShell({ activeView, children, controller, onViewChange }: App
           </div>
           
           <div className="header-center">
+            <label className="mobile-view-picker">
+              <select
+                aria-label="Select app view"
+                className="apple-select"
+                value={activeView}
+                onChange={(event) => onViewChange(event.target.value as ViewId)}
+              >
+                {navigationItems.map((item) => {
+                  const state = getNavState(item.id);
+
+                  return (
+                    <option key={item.id} value={item.id} disabled={state === "locked"}>
+                      {item.label}
+                    </option>
+                  );
+                })}
+              </select>
+            </label>
             <div className="toolbar-inline">
               <label className="scenario-picker-inline">
+                <span>Workflow</span>
                 <select
                   aria-label="Select workflow"
+                  className="apple-select"
                   value={demoState.selectedScenarioId}
                   onChange={(event) => {
                     actions.selectScenario(event.target.value as ScenarioId);

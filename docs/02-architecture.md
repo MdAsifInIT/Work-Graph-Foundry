@@ -2,7 +2,7 @@
 
 ## 2.1 Architecture Summary
 
-Work Graph Foundry is implemented as a local-first full-stack demo. React renders a landing-first product page and a hash-backed demo workspace, while a local TypeScript backend owns workspace state, SQLite persistence, API envelopes, seed/reset, import/export, and audit retrieval. Shared TypeScript domain modules still perform the deterministic product logic.
+Work Graph Foundry is implemented as a local-first full-stack demo. React renders a landing-first product page and a path-backed demo workspace, while a local TypeScript backend owns workspace state, SQLite persistence, API envelopes, seed/reset, import/export, and audit retrieval. Shared TypeScript domain modules still perform the deterministic product logic.
 
 This architecture keeps the solution easy to run, easy to test, and easy for a new developer or agent to inspect.
 
@@ -44,13 +44,13 @@ flowchart LR
 
 ### 2.3.1 Frontend Shell
 
-`src/App.tsx` is the composition root. It creates the demo controller, renders the customer-facing landing page at `/`, opens the interactive workspace at `#demo`, owns the local active view state, and renders `src/app/AppShell.tsx` plus the selected feature view.
+`src/App.tsx` is the composition root. It creates the demo controller, renders the customer-facing landing page at `/`, opens the interactive workspace at `/dashboard`, owns the local active view state, and renders `src/app/AppShell.tsx` plus the selected feature view.
 
 The frontend is split into:
 
 - `src/app/useWorkGraphDemoController.ts`: demo state, derived workflow data, persistence snapshot, and workflow actions.
 - `src/app/navigation.ts`: menu metadata and the `ViewId` union.
-- `src/App.tsx`: landing page, `#demo` workspace entry, and workspace view composition.
+- `src/App.tsx`: landing page, `/dashboard` workspace entry, and workspace view composition.
 - `src/app/AppShell.tsx`: sidebar navigation, mobile view selector, compact topbar status, progress stepper, scenario selector, workflow controls, and main content region.
 - `src/features/overview/OverviewView.tsx`: compact workspace overview, next action, state summary, before/after impact comparison, and collapsible system details.
 - `src/features/observe/ObserveView.tsx`: evidence intake, source channels, validation, ingestion, and normalized evidence.

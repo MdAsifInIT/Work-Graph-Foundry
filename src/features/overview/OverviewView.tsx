@@ -12,22 +12,56 @@ export function OverviewView({ controller }: OverviewViewProps) {
     currentStage,
     demoState,
     executionReady,
+    executionRun,
     governanceDecisionLabel,
     graph,
     providerFallbackMessage,
     providerStatusDetail,
     providerStatusLabel,
     scenario,
+    simulation,
     validation,
     workflowStages
   } = controller;
+  const hasLoadedWorkflow = demoState.sampleLoaded;
+  const hasGraph = demoState.analysisRequested && Boolean(graph);
+  const hasProposal = demoState.proposalRequested && Boolean(simulation);
+  const hasExecutedWorkflow = Boolean(executionRun);
   const stateItems = [
-    ["Workflow", demoState.sampleLoaded ? "Loaded" : "Baseline"],
-    ["Analysis", demoState.analysisRequested ? "Graph ready" : "Not started"],
-    ["Proposal", demoState.proposalRequested ? "Generated" : "Not generated"],
-    ["Governance", governanceDecisionLabel],
-    ["Execution", executionReady ? "Available" : "Blocked"]
+    ["Workflow", hasLoadedWorkflow ? "Loaded" : "Not loaded"],
+    ["Analysis", hasGraph ? "Graph ready" : "Not analyzed"],
+    ["Proposal", hasProposal ? "Generated" : "Not generated"],
+    ["Governance", hasProposal ? governanceDecisionLabel : "Awaiting proposal"],
+    ["Execution", hasExecutedWorkflow ? "Completed" : executionReady ? "Available" : "Blocked"]
   ];
+  const beforeMetrics = {
+    cycleTime: hasGraph ? `${graph?.metrics.averageCycleTimeHours}h` : "Pending",
+    approvalDelay: hasGraph ? `${graph?.metrics.approvalDelayHours}h` : "Pending",
+    exceptionRate: hasGraph && graph ? `${Math.round(graph.metrics.exceptionRate * 100)}%` : "Pending"
+  };
+  const afterMetrics = {
+    cycleTime: hasExecutedWorkflow && graph && simulation
+      ? `${Math.max(0, Math.round(graph.metrics.averageCycleTimeHours - simulation.avoidedDelayHours))}h`
+      : "Execute to view",
+    approvalDelay: hasExecutedWorkflow ? "2h" : "Execute to view",
+    exceptionRate: hasExecutedWorkflow ? "0%" : "Execute to view",
+    manualSteps: hasExecutedWorkflow ? "1" : "Execute to view",
+    auditTrail: hasExecutedWorkflow ? "Full" : "Execute to view"
+  };
+  const nextActionTone = hasExecutedWorkflow
+    ? "good"
+    : demoState.governanceDecision === "rejected"
+      ? "blocked"
+      : "warn";
+  const nextActionLabel = hasExecutedWorkflow
+    ? "Workflow executed"
+    : executionReady
+      ? "Ready to execute"
+      : governanceDecisionLabel;
+  const boundaryNotice =
+    scenario.id === "procurement-intake" && scenario.syntheticDataNotice.startsWith("All procurement requesters")
+      ? ""
+      : scenario.syntheticDataNotice;
 
   return (
     <>
@@ -54,8 +88,8 @@ export function OverviewView({ controller }: OverviewViewProps) {
             <h2>Next best action</h2>
             <p>{currentStage?.detail ?? "Load the selected workflow to begin."}</p>
           </div>
-          <StatusPill tone={executionReady ? "good" : demoState.governanceDecision === "rejected" ? "blocked" : "warn"}>
-            {executionReady ? "Ready for simulation" : governanceDecisionLabel}
+          <StatusPill tone={nextActionTone}>
+            {nextActionLabel}
           </StatusPill>
         </div>
       </section>
@@ -65,56 +99,56 @@ export function OverviewView({ controller }: OverviewViewProps) {
         <dl>
           <div>
             <dt>Cycle time</dt>
-            <dd><strong className="metric-before">{graph?.metrics.averageCycleTimeHours ?? 137}h</strong></dd>
+            <dd><strong className="metric-before">{beforeMetrics.cycleTime}</strong></dd>
           </div>
           <div>
             <dt>Approval delay</dt>
-            <dd><strong className="metric-before">{graph?.metrics.approvalDelayHours ?? 62}h</strong></dd>
+            <dd><strong className="metric-before">{beforeMetrics.approvalDelay}</strong></dd>
           </div>
           <div>
             <dt>Exception rate</dt>
-            <dd><strong className="metric-before">{graph ? `${Math.round(graph.metrics.exceptionRate * 100)}%` : "12%"}</strong></dd>
+            <dd><strong className="metric-before">{beforeMetrics.exceptionRate}</strong></dd>
           </div>
           <div>
             <dt>Manual steps</dt>
-            <dd><strong className="metric-before">6</strong></dd>
+            <dd><strong className="metric-before">{hasGraph ? "6" : "Pending"}</strong></dd>
           </div>
           <div>
             <dt>Audit trail</dt>
-            <dd><strong className="metric-before">None</strong></dd>
+            <dd><strong className="metric-before">{hasGraph ? "None" : "Pending"}</strong></dd>
           </div>
         </dl>
       </section>
 
-      <section className="bento-card metrics-card after-panel">
+      <section className="bento-card metrics-card after-panel" data-executed={hasExecutedWorkflow ? "true" : "false"}>
         <h2>After - Governed Automation</h2>
         <dl>
           <div>
             <dt>Cycle time</dt>
-            <dd><strong className="metric-after">{graph ? `${Math.round(graph.metrics.averageCycleTimeHours * 0.56)}h` : "77h"}</strong></dd>
+            <dd><strong className="metric-after">{afterMetrics.cycleTime}</strong></dd>
           </div>
           <div>
             <dt>Approval delay</dt>
-            <dd><strong className="metric-after">2h</strong> <span className="metric-delta">auto-routed</span></dd>
+            <dd><strong className="metric-after">{afterMetrics.approvalDelay}</strong> {hasExecutedWorkflow ? <span className="metric-delta">auto-routed</span> : null}</dd>
           </div>
           <div>
             <dt>Exception rate</dt>
-            <dd><strong className="metric-after">0%</strong> <span className="metric-delta">policy-gated</span></dd>
+            <dd><strong className="metric-after">{afterMetrics.exceptionRate}</strong> {hasExecutedWorkflow ? <span className="metric-delta">policy-gated</span> : null}</dd>
           </div>
           <div>
             <dt>Manual steps</dt>
-            <dd><strong className="metric-after">1</strong> <span className="metric-delta">approve only</span></dd>
+            <dd><strong className="metric-after">{afterMetrics.manualSteps}</strong> {hasExecutedWorkflow ? <span className="metric-delta">approve only</span> : null}</dd>
           </div>
           <div>
             <dt>Audit trail</dt>
-            <dd><strong className="metric-after">Full</strong> <span className="metric-delta">every step logged</span></dd>
+            <dd><strong className="metric-after">{afterMetrics.auditTrail}</strong> {hasExecutedWorkflow ? <span className="metric-delta">every step logged</span> : null}</dd>
           </div>
         </dl>
       </section>
 
       <section className="bento-card boundary-card">
         <h2>Review boundary</h2>
-        <p>{scenario.syntheticDataNotice}</p>
+        {boundaryNotice ? <p>{boundaryNotice}</p> : null}
         <dl>
           <div>
             <dt>Needs</dt>
@@ -131,7 +165,7 @@ export function OverviewView({ controller }: OverviewViewProps) {
         </dl>
       </section>
 
-      <section className="bento-card status-card">
+      <section className="bento-card status-card" aria-label="System status">
         <h2>System status</h2>
         <dl>
           <div>
@@ -157,7 +191,7 @@ export function OverviewView({ controller }: OverviewViewProps) {
             <dt>Persistence</dt>
             <dd>
               {backendSyncStatus === "synced"
-                ? "Backend SQLite state is authoritative; browser mirror is for reload recovery."
+                ? "Backend connected. SQLite state is authoritative; browser mirror is for reload recovery."
                 : "Browser fallback mirror is active until the backend reconnects."}
             </dd>
           </div>

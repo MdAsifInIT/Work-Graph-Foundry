@@ -258,3 +258,143 @@ Append future phases using this schema:
   - Proposal ID: `proposal-pattern-standard_access-v1`.
   - Audit trail included `Live OpenAI proposal generated`.
 - Blockers: none.
+
+### 2026-07-07: Dashboard UI Refinement Loop
+
+- Branch: `backend-branch`
+- Agents used: main orchestrator only. No subagents were used for this implementation pass.
+- Trigger: user reported dashboard text, pre-execution green states, premature loaded/generated content, dropdown styling, spacing, and graph viewer issues from screenshots.
+
+#### Iteration 1: Landing Metric Text
+
+- Objective: prevent landing proof metrics from wrapping into awkward multi-line values and correct the synthetic-data wording.
+- Files changed: `src/App.tsx`, `src/styles.css`, `tests/e2e/golden-demo.e2e.ts`.
+- Implementation notes: replaced single metric strings with structured non-wrapping range spans, changed the proof copy to synthetic workflow traces, and changed preview execution copy from an approved run to a gated execution state.
+- Verification result: passed automated verification and browser QA.
+- Remaining issue: none known before verification.
+
+#### Iteration 2: Premature Green States
+
+- Objective: reserve green success styling for true success/completion instead of available or pre-execution states.
+- Files changed: `src/app/AppShell.tsx`, `src/features/overview/OverviewView.tsx`, `src/features/review-run/ReviewRunView.tsx`, `src/styles.css`.
+- Implementation notes: changed completed nav indicators to blue, made approval controls neutral/blue, made Overview next-action success depend on an actual execution run, and gated Review & Run success card styling behind `executionRun`.
+- Verification result: passed automated verification and browser QA.
+- Remaining issue: none known before verification.
+
+#### Iteration 3: Dashboard Text Scale
+
+- Objective: normalize dashboard text hierarchy across cards, summaries, status blocks, and review panels.
+- Files changed: `src/styles.css`.
+- Implementation notes: reduced oversized Overview/Review body copy, added shared card heading styles, tightened metrics typography, and kept labels on caption-sized tokens.
+- Verification result: passed automated verification and browser QA.
+- Remaining issue: none known before verification.
+
+#### Iteration 4: Preloaded Before Execution
+
+- Objective: avoid showing generated/executed outcomes before the corresponding workflow action exists.
+- Files changed: `src/features/overview/OverviewView.tsx`, `src/features/review-run/ReviewRunView.tsx`.
+- Implementation notes: Overview now shows pending/not-loaded/not-analyzed states until the relevant state exists; after-automation metrics remain neutral `Execute to view` values until `executionRun` exists; Review & Run delay savings remain a forecast until execution.
+- Verification result: passed automated verification and browser QA.
+- Remaining issue: none known before verification.
+
+#### Iteration 5: Review Boundary And System Status Styling
+
+- Objective: make dense review/status panels readable and polished.
+- Files changed: `src/styles.css`.
+- Implementation notes: extended bordered definition-list row styling to `.boundary-card` and `.status-card`, with wrapping `dd` content and consistent label hierarchy.
+- Verification result: passed automated verification and browser QA.
+- Remaining issue: none known before verification.
+
+#### Iteration 6: Workflow Chooser Dropdowns
+
+- Objective: apply a consistent native dropdown style across the workflow chooser and other dashboard selects.
+- Files changed: `src/app/AppShell.tsx`, `src/styles.css`.
+- Implementation notes: added a visible Workflow label to the toolbar chooser, preserved native select semantics, and made compact toolbar selects use the same bordered `.apple-select` treatment instead of transparent overrides.
+- Verification result: passed automated verification and browser QA.
+- Remaining issue: none known before verification.
+
+#### Iteration 7: Spacing Repair
+
+- Objective: repair broken dashboard/header/evidence spacing without changing product behavior.
+- Files changed: `src/features/observe/ObserveView.tsx`, `src/styles.css`.
+- Implementation notes: removed inline Evidence layout styles, added named Evidence summary classes, tightened bento card padding, and made the compact toolbar wrap cleanly on mobile.
+- Verification result: passed automated verification and browser QA.
+- Remaining issue: none known before verification.
+
+#### Iteration 8: Workflow Viewer Graph
+
+- Objective: make the workflow graph auto-size with a dotted background while preserving interaction and accessibility.
+- Files changed: `src/app/useWorkGraphDemoController.ts`, `src/styles.css`.
+- Implementation notes: spread visual graph node coordinates across more of the canvas, removed fixed graph min-width behavior, added a dotted canvas background, and reduced node sizing responsively.
+- Verification result: passed automated verification and browser QA.
+- Remaining issue: none known before verification.
+
+#### Final Bug-Specific Pass
+
+- Landing metric text: passed; landing metrics use structured non-wrapping ranges and corrected synthetic-data copy.
+- Buttons/statuses green before execution: passed; pre-execution controls/statuses are neutral or blue, with green reserved for executed success.
+- Dashboard text sizes: passed; Overview, Evidence, Review & Run, and status panels use the normalized text scale.
+- Preloaded generated/executed content before workflow execution: passed; generated proposal and execution success content are gated by workflow state.
+- Review boundary/System status styling: passed; definition rows are bordered, wrapped, and readable.
+- Workflow chooser dropdown: passed; workflow, mobile view, and proposal version selects share the updated native select styling.
+- Broken spacing: passed; header, toolbar, evidence, and dashboard layouts have no page-level horizontal overflow at tested viewports.
+- Workflow viewer auto-resize with dotted background: passed; graph canvas uses a dotted background, auto-sized container, preserved labels/legend/pressed state, and no measured node overlaps in browser QA.
+
+#### Verification Commands
+
+- `npm run typecheck`: passed.
+- `npm test`: passed, 12 files and 67 tests.
+- `npm run build`: passed.
+- `npm run typecheck:e2e`: passed.
+- `npm run test:e2e`: passed, 12 Chromium tests.
+- `npm run verify:demo`: passed, including `npm audit --audit-level=low` with 0 vulnerabilities.
+- `git diff --check`: passed with line-ending warnings only.
+- Browser QA: passed on `http://127.0.0.1:5173/`; landing, clean `/dashboard`, Graph, and Review & Run pre-execution states had no relevant console warnings/errors.
+
+### 2026-07-07: Dashboard Copy And 100 Percent Scaling Follow-Up
+
+- Branch: `backend-branch`
+- Agents used: main orchestrator plus `worker_nano` for bounded copy/state edits; no `worker_major` was needed.
+- Trigger: user reported remaining procurement synthetic notice, raw validation/provider copy, `0h`/`0 of 10`/`0/10` validation messaging, and graph breakage at 100% scaling.
+
+#### Iteration 9: Procurement Notice Removal
+
+- Objective: remove the visible procurement synthetic fixture sentence.
+- Files changed: `src/fixtures/demoData.ts`, `src/features/overview/OverviewView.tsx`.
+- Implementation notes: replaced the long procurement notice with short synthetic metadata and added a UI guard so the removed sentence is not rendered even if an older backend snapshot returns it.
+- Verification result: browser QA at 100% scaling passed; automated verification passed.
+- Remaining issue: none known before verification.
+
+#### Iteration 10: Validation And Provider Copy
+
+- Objective: remove raw/awkward status text such as `Output validation: not_applicable`, generated timestamp prose, `~0h`, and `0 of 10`/`0/10` claims from user-facing panels.
+- Files changed: `src/app/useWorkGraphDemoController.ts`, `src/features/review-run/ReviewRunView.tsx`, `tests/e2e/golden-demo.e2e.ts`.
+- Implementation notes: converted provider details and technical validation rows to plain-language labels, removed the generated timestamp from provider summary copy, and changed zero-savings or zero-pass simulations to a needs-review message rather than a success claim.
+- Verification result: `npm run typecheck` passed locally; browser QA at 100% scaling found none of the reported bad strings; automated verification passed.
+- Remaining issue: none known before verification.
+
+#### Iteration 11: Graph Responsiveness At 100 Percent Scaling
+
+- Objective: keep the workflow graph responsive at normal desktop browser scaling without page-level overflow, node overlap, or clipped labels.
+- Files changed: `src/styles.css`.
+- Implementation notes: increased graph canvas height responsiveness, gave the graph area more grid share, reduced fixed node width, contained node text/paint, and preserved the dotted background plus existing node/edge/legend semantics.
+- Verification result: browser QA at 100% scaling passed with zero measured node overlaps, dotted background present, edge labels and pressed state preserved, and no page-level overflow; automated verification passed.
+- Remaining issue: none known before verification.
+
+#### Follow-Up Bug-Specific Pass
+
+- Procurement synthetic fixture text: passed; exact removed sentence is not visible.
+- Raw validation copy: passed; no visible `Output validation`, `not_applicable`, or generated-date provider phrase.
+- Zero savings / zero validations copy: passed; no visible `~0h`, `0 of 10`, `0 / 10`, or `0/10` claim.
+- Graph at 100% scaling: passed; `visualViewport.scale` was `1`, graph map measured 855px by 560px, and measured node overlaps were empty.
+- Responsive page overflow: passed; measured page-level horizontal overflow was `0`.
+
+#### Follow-Up Verification Commands
+
+- `npm run typecheck`: passed.
+- `npm test`: passed, 12 files and 67 tests.
+- `npm run build`: passed.
+- `npm run typecheck:e2e`: passed.
+- `npm run test:e2e`: passed, 12 Chromium tests.
+- `npm run verify:demo`: passed, including `npm audit --audit-level=low` with 0 vulnerabilities.
+- `git diff --check`: passed with CRLF normalization warnings only.

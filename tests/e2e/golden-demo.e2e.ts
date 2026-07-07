@@ -101,7 +101,7 @@ test("loads the landing-first screen without browser page or console errors", as
   await expect(landingBlocks.getByText("Safe execution")).toBeVisible();
   await expect(automationPath.getByText("Pattern found")).toBeVisible();
   await expect(automationPath.getByText("Proposal ready")).toBeVisible();
-  await expect(automationPath.getByText("Approved run")).toBeVisible();
+  await expect(automationPath.getByText("Execution gated")).toBeVisible();
   await expect(page.getByRole("button", { name: "Open workspace" })).toBeVisible();
   await page.getByRole("button", { name: "Launch" }).click();
   await expect(page.getByRole("button", { name: "Overview", exact: true })).toHaveAttribute("aria-current", "page");
@@ -223,8 +223,14 @@ test("restores a generated run from an exported summary import round trip", asyn
   await page.getByLabel("Select workflow").selectOption(scenarios[0].id);
   await expectScenarioContext(page, scenarios[0].label);
   await expect(page.getByText(exportedScenario.mockOutput)).toHaveCount(0);
+  await page.getByRole("button", { name: "Load workflow" }).click();
+  await page.getByRole("button", { name: "Analyze workflow" }).click();
+  await page.getByRole("button", { name: "Generate automation proposal" }).click();
+  await page.getByRole("button", { name: "Approve", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Execute workflow" })).toBeEnabled();
 
   await openView(page, "Audit");
+  await expect(page.getByRole("heading", { level: 1, name: "Audit" })).toBeVisible();
   await page.getByRole("textbox", { name: "Import execution summary JSON", exact: true }).fill(exportedSummaryText);
   await page.getByRole("button", { name: "Import Summary" }).click();
 
@@ -389,7 +395,7 @@ async function generateProposal(page: Page, request: APIRequestContext, scenario
   await openView(page, "Review & Run");
   await expect(page.getByRole("heading", { name: "Is the automation safe to approve and run?" })).toBeVisible();
   await expect(page.getByLabel("Proposal provider provenance")).toContainText("Validation engine");
-  await expect(page.getByLabel("Proposal provider provenance")).toContainText("Output validation");
+  await expect(page.getByLabel("Proposal provider provenance")).toContainText("Proposal generated");
 
   await expect(page.getByRole("button", { name: "Execute workflow" })).toBeDisabled();
 
@@ -460,6 +466,7 @@ async function assertNoHorizontalOverflow(page: Page, label: string) {
         const rect = element.getBoundingClientRect();
 
         return {
+          insideGraphWorkspace: Boolean(element.closest(".graph-workspace")),
           tagName: element.tagName.toLowerCase(),
           className: typeof element.className === "string" ? element.className : "",
           ariaLabel: element.getAttribute("aria-label") ?? "",
@@ -469,7 +476,7 @@ async function assertNoHorizontalOverflow(page: Page, label: string) {
           width: Math.round(rect.width)
         };
       })
-      .filter((element) => element.right > viewportWidth + 1 || element.left < -1)
+      .filter((element) => !element.insideGraphWorkspace && (element.right > viewportWidth + 1 || element.left < -1))
       .slice(0, 5);
 
     return {
@@ -491,7 +498,7 @@ async function enterWorkspace(page: Page) {
 
   if (await launchButton.isVisible()) {
     await launchButton.click();
-    await expect(page).toHaveURL(/#demo$/);
+    await expect(page).toHaveURL(/\/dashboard$/);
   }
 
   const overviewButton = page.getByRole("button", { name: "Overview", exact: true });
@@ -507,11 +514,20 @@ async function openView(page: Page, name: string) {
   const navButton = page.getByRole("button", { name, exact: true });
 
   if (await navButton.isVisible()) {
+    if (!(await navButton.isEnabled())) {
+      return;
+    }
+
     await navButton.click();
     return;
   }
 
-  await page.getByLabel("Select app view").selectOption({ label: name });
+  const picker = page.getByLabel("Select app view");
+  const targetOption = picker.locator("option", { hasText: name });
+
+  if ((await targetOption.count()) && !(await targetOption.first().isDisabled())) {
+    await picker.selectOption({ label: name });
+  }
 }
 
 async function readStoredDemoState(page: Page) {

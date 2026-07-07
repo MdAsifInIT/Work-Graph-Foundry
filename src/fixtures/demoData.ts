@@ -700,7 +700,7 @@ export const demoScenarios: DemoScenario[] = [
     operatorGoal: "Show how repeated low-risk software procurement can be accelerated while vendor and invoice exceptions stay human-reviewed.",
     graphTitle: "Procurement intake flow",
     topSystemLabel: "Top procurement system",
-    syntheticDataNotice: "All procurement requesters, vendors, amounts, tickets, and approvals are synthetic evaluation fixtures.",
+    syntheticDataNotice: "Synthetic procurement workflow fixtures.",
     requiredOrgData: [
       "workflow metadata",
       "purchase request events",

@@ -47,7 +47,8 @@ export function AnalyzeView({ controller }: AnalyzeViewProps) {
           <div className="graph-split-view">
             {visualGraph ? (
               <div className="graph-workspace" aria-label="Interactive work graph visualization">
-                <div className="graph-map">
+                <div className="graph-map-container" style={{ overflowX: 'auto', width: '100%' }}>
+                  <div className="graph-map">
                   <svg className="graph-edge-layer" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
                     {visualGraph.edges.map((edge) => (
                       <line
@@ -66,7 +67,7 @@ export function AnalyzeView({ controller }: AnalyzeViewProps) {
                       className="graph-edge-label"
                       style={{
                         left: `${(edge.source.x + edge.target.x) / 2}%`,
-                        top: `${(edge.source.y + edge.target.y) / 2}%`
+                        top: `calc(${(edge.source.y + edge.target.y) / 2}% + ${edge.labelOffsetY}px)`
                       }}
                     >
                       {edge.label}
@@ -89,6 +90,7 @@ export function AnalyzeView({ controller }: AnalyzeViewProps) {
                       <small>{node.count} cases</small>
                     </button>
                   ))}
+                  </div>
                 </div>
                 <div className="graph-legend" aria-label="Graph risk legend">
                   <span data-risk="low">Low risk</span>

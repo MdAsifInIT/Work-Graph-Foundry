@@ -28,6 +28,8 @@ export function ReviewRunView({ controller }: ReviewRunViewProps) {
     simulation,
     simulationCasePreview
   } = controller;
+  const hasSuccessfulSimulation = Boolean(simulation && simulation.totalCases > 0 && simulation.passed > 0 && simulation.avoidedDelayHours > 0);
+  const validationDisplay = validationStatusLabel(aiProvider.status.lastInvocation?.validationStatus);
 
   if (!proposal || !simulation) {
     return (
@@ -45,23 +47,39 @@ export function ReviewRunView({ controller }: ReviewRunViewProps) {
       <div className="review-run-header">
         <div>
           <h2>Is the automation safe to approve and run?</h2>
-          <p className="review-impact-headline" style={{ marginTop: '12px', fontSize: 'var(--text-body)', color: 'var(--ink)' }}>
-            This automation will save ~<strong>{simulation.avoidedDelayHours}h</strong> per cycle and passed <strong>{simulation.passed}</strong> of{" "}
-            <strong>{simulation.totalCases}</strong> historical validations.
+          <p className="review-impact-headline">
+            {hasSuccessfulSimulation ? (
+              <>
+                This automation is forecast to save ~<strong>{simulation.avoidedDelayHours}h</strong> per cycle and passed{" "}
+                <strong>{simulation.passed}</strong> of <strong>{simulation.totalCases}</strong> historical validations.
+              </>
+            ) : (
+              "Automation proposal generated. Review simulation results before claiming savings or validation coverage."
+            )}
           </p>
-          <details className="system-details-toggle" style={{ marginTop: '16px' }}>
-            <summary style={{ padding: '8px 12px', fontSize: 'var(--text-caption)' }}>View audit rationale</summary>
-            <div style={{ padding: '16px', background: 'var(--surface-subtle)', borderRadius: 'var(--radius-md)', marginTop: '8px' }}>
-              <p style={{ margin: 0, fontSize: 'var(--text-caption)', color: 'var(--ink-secondary)' }}>{proposal.auditRationale}</p>
+          <details className="system-details-toggle review-run-audit-toggle">
+            <summary>View audit rationale</summary>
+            <div className="review-run-audit-panel">
+              <p>{proposal.auditRationale}</p>
             </div>
           </details>
         </div>
         <div className="review-run-actions" aria-label="Proposal governance actions">
-          <button className="approve-button" type="button" onClick={actions.approveProposal}>
+          <button
+            className="approve-button"
+            type="button"
+            aria-pressed={demoState.governanceDecision === "approved"}
+            onClick={actions.approveProposal}
+          >
             <ShieldCheck size={16} />
             <span>{demoState.governanceDecision === "approved" ? "Approved" : "Approve"}</span>
           </button>
-          <button className="reject-button" type="button" onClick={actions.rejectProposal}>
+          <button
+            className="reject-button"
+            type="button"
+            aria-pressed={demoState.governanceDecision === "rejected"}
+            onClick={actions.rejectProposal}
+          >
             <XCircle size={16} />
             <span>{demoState.governanceDecision === "rejected" ? "Rejected" : "Reject"}</span>
           </button>
@@ -85,7 +103,11 @@ export function ReviewRunView({ controller }: ReviewRunViewProps) {
         <p>{providerFallbackMessage || providerStatusDetail}</p>
       </div>
 
-      <div className="review-run-status" data-decision={demoState.governanceDecision}>
+      <div
+        className="review-run-status"
+        data-decision={demoState.governanceDecision}
+        data-executed={executionRun ? "true" : "false"}
+      >
         <div>
           <span>Governance</span>
           <strong>{governanceDecisionLabel}</strong>
@@ -105,12 +127,12 @@ export function ReviewRunView({ controller }: ReviewRunViewProps) {
         <div className="status-highlight">
           <span>Validations</span>
           <strong>
-            {simulation.passed} / {simulation.totalCases} passed
+            {hasSuccessfulSimulation ? `${simulation.passed} / ${simulation.totalCases} passed` : "Needs review"}
           </strong>
         </div>
         <div className="status-highlight status-primary">
-          <span>Avoided delay</span>
-          <strong>{simulation.avoidedDelayHours}h saved</strong>
+          <span>{executionRun ? "Avoided delay" : "Forecast delay"}</span>
+          <strong>{hasSuccessfulSimulation ? `${simulation.avoidedDelayHours}h ${executionRun ? "saved" : "forecast"}` : "Needs review"}</strong>
         </div>
         <div>
           <span>Enterprise execution</span>
@@ -122,6 +144,7 @@ export function ReviewRunView({ controller }: ReviewRunViewProps) {
         <label>
           <span>Version</span>
           <select
+            className="apple-select"
             aria-label="Select proposal version"
             value={proposal.id}
             onChange={(event) => actions.selectProposalVersion(event.target.value)}
@@ -176,7 +199,7 @@ export function ReviewRunView({ controller }: ReviewRunViewProps) {
               </div>
               <div>
                 <dt>Validation</dt>
-                <dd>{aiProvider.status.lastInvocation?.validationStatus ?? "Not generated yet"}</dd>
+                <dd>{validationDisplay}</dd>
               </div>
             </dl>
             <h4>Required data</h4>
@@ -282,4 +305,20 @@ export function ReviewRunView({ controller }: ReviewRunViewProps) {
       ) : null}
     </section>
   );
+}
+
+function validationStatusLabel(status: "validated" | "not_applicable" | "failed" | undefined) {
+  if (status === "validated") {
+    return "Proposal generated and validated";
+  }
+
+  if (status === "failed") {
+    return "Proposal generated; validation needs review";
+  }
+
+  if (status === "not_applicable") {
+    return "Proposal generated; validation pending";
+  }
+
+  return "Not generated yet";
 }

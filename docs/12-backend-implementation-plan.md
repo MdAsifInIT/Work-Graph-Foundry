@@ -111,7 +111,7 @@ Backend requirements:
 
 Frontend requirements:
 - Preserve existing landing-first UI.
-- Preserve #demo workspace behavior.
+- Preserve `/dashboard` workspace behavior.
 - Preserve current scenario flow and five views.
 - Add backend loading and error states only where necessary.
 - Do not redesign the app.
@@ -188,7 +188,7 @@ The frontend should read and write through backend APIs while preserving the exi
 Preserve:
 
 - landing-first entry
-- `#demo` workspace
+- `/dashboard` workspace
 - five workspace views
 - IT access and procurement scenarios
 - proposal generation

@@ -84,7 +84,7 @@ npm run preview:fullstack -- --port 4174
 
 ## Demo Path
 
-1. Click `Launch` from the product page.
+1. Click `Launch` from the product page to open `/dashboard`.
 2. Choose `IT access requests` or `Procurement intake`.
 3. Click `Load Workflow`.
 4. Click `Analyze` and inspect `Graph`.

@@ -784,18 +784,21 @@ h2 {
 }
 
 .sidebar-resize-handle {
-  cursor: col-resize;
-  inset: 0 -4px 0 auto;
+  cursor: ew-resize;
+  inset: 0 -8px 0 auto;
   position: absolute;
-  width: 8px;
+  width: 16px;
 }
 
 .sidebar-resize-handle::after {
   background: transparent;
   border-radius: var(--radius-full);
   content: "";
-  inset: 18px 3px;
+  inset: 50% 5px auto;
+  height: 34px;
   position: absolute;
+  transform: translateY(-50%) scaleX(0.6);
+  width: auto;
   transition:
     background-color var(--duration-fast) var(--ease-out),
     transform var(--motion-ui) var(--motion-spring);
@@ -803,8 +806,17 @@ h2 {
 
 .sidebar-resize-handle:hover::after,
 .sidebar-resizing .sidebar-resize-handle::after {
+  background: rgba(0, 113, 227, 0.2);
+  transform: translateY(-50%) scaleX(1);
+}
+
+.sidebar-resize-handle:hover::after {
+  box-shadow: inset 0 0 0 1px rgb(0 113 227 / 24%);
+}
+
+.sidebar-resizing .sidebar-resize-handle::after {
   background: var(--accent);
-  transform: scaleX(1.35);
+  box-shadow: 0 6px 16px rgb(0 113 227 / 22%);
 }
 
 .sidebar-footer-scenario {

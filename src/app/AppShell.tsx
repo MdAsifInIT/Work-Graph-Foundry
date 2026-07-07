@@ -78,7 +78,7 @@ export function AppShell({ activeView, children, controller, onViewChange }: App
     const previousUserSelect = document.body.style.userSelect;
 
     setSidebarResizing(true);
-    document.body.style.cursor = "col-resize";
+    document.body.style.cursor = "ew-resize";
     document.body.style.userSelect = "none";
 
     const handlePointerMove = (moveEvent: PointerEvent) => {

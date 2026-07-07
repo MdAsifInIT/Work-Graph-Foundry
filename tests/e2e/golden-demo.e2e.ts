@@ -1,6 +1,6 @@
 import { expect, type APIRequestContext, type ConsoleMessage, type Page, test as base } from "@playwright/test";
 
-const DEMO_STORAGE_KEY = "work-graph-foundry.demo-state.v1";
+const DEMO_STORAGE_KEY = "samruna.demo-state.v1";
 
 type ScenarioExpectation = {
   id: "it-access" | "procurement-intake";
@@ -87,8 +87,8 @@ test.beforeEach(async ({ page, request }) => {
 });
 
 test("loads the landing-first screen without browser page or console errors", async ({ page }) => {
-  await expect(page.getByRole("heading", { name: "Work Graph Foundry" })).toBeVisible();
-  await expect(page.getByLabel("Work Graph Foundry product preview")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Samruna" })).toBeVisible();
+  await expect(page.getByLabel("Samruna product preview")).toBeVisible();
   await expect(page.getByRole("button", { name: "Launch" })).toHaveCount(1);
   const landingBlocks = page.getByRole("region", { name: "Landing workflow blocks" });
   const automationPath = page.getByLabel("Connected automation path");
@@ -173,7 +173,7 @@ test("recovers a generated run after reload and restores seeded workspace state 
 
   await page.reload();
 
-  await expect(page.getByText("Work Graph Foundry").first()).toBeVisible();
+  await expect(page.getByText("Samruna").first()).toBeVisible();
   await openView(page, "Graph");
   await expect(page.getByRole("heading", { name: scenario.graphTitle })).toBeVisible();
   await expect(page.getByRole("heading", { name: scenario.patternLabel })).toBeVisible();
@@ -259,7 +259,7 @@ test("recovers to seeded state when persisted workspace mirror is malformed", as
   await page.reload();
   await enterWorkspace(page);
 
-  await expect(page.getByText("Work Graph Foundry").first()).toBeVisible();
+  await expect(page.getByText("Samruna").first()).toBeVisible();
   await expectScenarioContext(page, scenarios[0].label);
   await openView(page, "Graph");
   await expect(page.getByRole("heading", { name: scenarios[0].graphTitle })).toHaveCount(0);
@@ -286,12 +286,12 @@ test("recovers to seeded state when persisted workspace mirror is malformed", as
 
 test("performance smoke keeps core interactions within the long-task budget", async ({ page, request }) => {
   await page.addInitScript(() => {
-    const monitoredWindow = window as Window & { __wgfLongTasks?: LongTaskEntry[] };
-    monitoredWindow.__wgfLongTasks = [];
+    const monitoredWindow = window as Window & { __samrunaLongTasks?: LongTaskEntry[] };
+    monitoredWindow.__samrunaLongTasks = [];
 
     try {
       const observer = new PerformanceObserver((list) => {
-        monitoredWindow.__wgfLongTasks?.push(
+        monitoredWindow.__samrunaLongTasks?.push(
           ...list.getEntries().map((entry) => ({
             duration: entry.duration,
             name: entry.name,
@@ -302,12 +302,12 @@ test("performance smoke keeps core interactions within the long-task budget", as
 
       observer.observe({ type: "longtask", buffered: true });
     } catch {
-      monitoredWindow.__wgfLongTasks = [];
+      monitoredWindow.__samrunaLongTasks = [];
     }
   });
 
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: "Work Graph Foundry" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Samruna" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Launch" })).toHaveCount(1);
   await page.getByRole("button", { name: "Launch" }).click();
   await openView(page, "Evidence");
@@ -325,9 +325,9 @@ test("performance smoke keeps core interactions within the long-task budget", as
   await settleFrames(page);
 
   const longTasks = await page.evaluate(() => {
-    const monitoredWindow = window as Window & { __wgfLongTasks?: LongTaskEntry[] };
+    const monitoredWindow = window as Window & { __samrunaLongTasks?: LongTaskEntry[] };
 
-    return (monitoredWindow.__wgfLongTasks ?? [])
+    return (monitoredWindow.__samrunaLongTasks ?? [])
       .filter((entry) => entry.duration >= 200)
       .map((entry) => ({
         duration: Math.round(entry.duration),
@@ -347,8 +347,8 @@ for (const viewport of qaViewports) {
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
     await page.goto("/");
 
-    await expect(page.getByRole("heading", { name: "Work Graph Foundry" })).toBeVisible();
-    await expect(page.getByLabel("Work Graph Foundry product preview")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Samruna" })).toBeVisible();
+    await expect(page.getByLabel("Samruna product preview")).toBeVisible();
     await assertNoHorizontalOverflow(page, `${viewport.name} landing`);
 
     await runGoldenPath(page, request, scenarios[0]);

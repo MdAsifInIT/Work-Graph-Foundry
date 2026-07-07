@@ -7,7 +7,7 @@ const backend = spawnNpm(["run", "backend:dev"], {
   stdio: "inherit",
   env: {
     ...process.env,
-    PORT: process.env.WGF_BACKEND_PORT ?? "8787"
+    PORT: process.env.SAMRUNA_BACKEND_PORT ?? "8787"
   }
 });
 children.push(backend);

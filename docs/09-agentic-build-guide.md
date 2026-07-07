@@ -2,7 +2,7 @@
 
 ## 9.1 Purpose
 
-This guide is a historical handoff for a future agent or developer continuing Work Graph Foundry safely. The repository is a runnable local full-stack demo, not a blank prototype. Preserve the existing React/Vite/TypeScript app, local backend, typed domain modules, Historical validation engine, governance flow, simulation logic, local persistence, fixtures, tests, and numbered docs.
+This guide is a historical handoff for a future agent or developer continuing Samruna safely. The repository is a runnable local full-stack demo, not a blank prototype. Preserve the existing React/Vite/TypeScript app, local backend, typed domain modules, Historical validation engine, governance flow, simulation logic, local persistence, fixtures, tests, and numbered docs.
 
 ## 9.2 Required First Steps
 

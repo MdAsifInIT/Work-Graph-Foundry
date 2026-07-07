@@ -1,6 +1,6 @@
-# Work Graph Foundry
+# Samruna
 
-Work Graph Foundry is a local-first enterprise automation demo that finds repeated organizational patterns in messy work traces and turns them into governed AI automation. It builds a work graph, surfaces process intelligence, proposes workflow automation, validates changes against historical cases, and executes approved work in safe simulation mode.
+Fusing fragmented enterprise operations into autonomous, self-healing workflows. It builds a work graph, surfaces process intelligence, proposes workflow automation, validates changes against historical cases, and executes approved work in safe simulation mode.
 
 The product is designed to be easy to evaluate in a hackathon setting. Reviewers get a polished landing page, a direct path into the demo, and a clear before-and-after story: observe work, understand the pattern, govern the proposal, and execute only what is approved. The language and flows are intentionally customer-facing, while the seeded data and local validation behavior stay reproducible for reliable judging.
 
@@ -73,7 +73,7 @@ npm run backend:seed
 npm run dev:fullstack
 ```
 
-The local backend listens on `127.0.0.1:8787` by default, and the Vite app proxies `/api` to it. The generated SQLite database is stored at `.wgf/work-graph-foundry.sqlite` unless `WGF_DB_PATH` is set.
+The local backend listens on `127.0.0.1:8787` by default, and the Vite app proxies `/api` to it. The generated SQLite database is stored at `.samruna/samruna.sqlite` unless `SAMRUNA_DB_PATH` is set.
 
 If Vite dev dependency optimization is blocked by a local sandbox, use the built full-stack server:
 

@@ -107,7 +107,7 @@ Implementation steps:
 
 ## 3.6 Local Persistence
 
-Backend demo state is owned by `server/workspace.ts` and persisted to SQLite at `.wgf/work-graph-foundry.sqlite` by default. Set `WGF_DB_PATH` to use a different local database path. The browser writes a `localStorage` mirror through `src/domain/persistence.ts` for reload resilience and backend-unavailable fallback.
+Backend demo state is owned by `server/workspace.ts` and persisted to SQLite at `.samruna/samruna.sqlite` by default. Set `SAMRUNA_DB_PATH` to use a different local database path. The browser writes a `localStorage` mirror through `src/domain/persistence.ts` for reload resilience and backend-unavailable fallback.
 
 It persists:
 
@@ -182,7 +182,7 @@ Ignored files:
 - `.env.local`
 - `.vite/`
 - `.vitest-attachments/`
-- `.wgf/`
+- `.samruna/`
 - `.codex/`
 - `*.sqlite`
 - `*.sqlite-shm`

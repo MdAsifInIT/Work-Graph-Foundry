@@ -1,4 +1,4 @@
-# Work Graph Foundry Documentation
+# Samruna Documentation
 
 Read these guides in order if you are new to the repository. They are numbered so a developer or agent can follow the solution end to end without guessing.
 

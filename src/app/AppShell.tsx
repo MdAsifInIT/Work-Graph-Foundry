@@ -62,7 +62,7 @@ export function AppShell({ activeView, children, controller, onViewChange }: App
     <div className="app-shell">
       <aside className="sidebar" aria-label="Primary navigation">
         <div className="brand-block">
-          <strong>Work Graph Foundry</strong>
+          <strong>Samruna</strong>
         </div>
         <nav className="menu-list">
           {navigationItems.map((item) => {

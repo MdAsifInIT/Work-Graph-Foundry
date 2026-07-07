@@ -62,12 +62,12 @@ function LandingPage({
   return (
     <main className="landing-page">
       <header className="landing-nav" aria-label="Landing navigation">
-        <strong>Work Graph Foundry</strong>
+        <strong>Samruna</strong>
       </header>
 
       <section className="landing-hero" aria-label="Product landing page">
         <div className="landing-hero-copy">
-          <h1>Work Graph Foundry</h1>
+          <h1>Samruna</h1>
           <p className="landing-copy">
             Turn hidden work patterns into governed automation, with validation before anything runs.
           </p>
@@ -155,7 +155,7 @@ function ProductPreview({
   workflowName: string;
 }) {
   return (
-    <aside className="product-preview" aria-label="Work Graph Foundry product preview">
+    <aside className="product-preview" aria-label="Samruna product preview">
       <div className="preview-topbar">
         <strong>{workflowName}</strong>
         <span>{aiProviderLabel}</span>

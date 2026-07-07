@@ -20,7 +20,7 @@ import { createWorkspaceService, WorkspaceError, type WorkspaceService } from ".
 const DEFAULT_PORT = 8787;
 
 const port = readNumberArg("--port") ?? Number(process.env.PORT ?? DEFAULT_PORT);
-const serveStatic = process.argv.includes("--serve-static") || process.env.WGF_SERVE_STATIC === "1";
+const serveStatic = process.argv.includes("--serve-static") || process.env.SAMRUNA_SERVE_STATIC === "1";
 const staticRoot = resolve(process.cwd(), "dist");
 
 const scenarioIds = new Set(listDemoScenarios().map((scenario) => scenario.id));
@@ -349,7 +349,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const server = createApp(service);
 
   server.listen(port, "127.0.0.1", () => {
-    console.log(`Work Graph Foundry backend listening at http://127.0.0.1:${port}`);
+    console.log(`Samruna backend listening at http://127.0.0.1:${port}`);
   });
 
   const shutdown = () => {

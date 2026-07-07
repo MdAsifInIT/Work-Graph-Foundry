@@ -12,10 +12,10 @@ describe("App", () => {
   it("renders the customer-facing landing page first", () => {
     render(<App />);
 
-    expect(screen.getByRole("heading", { name: "Work Graph Foundry" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Samruna" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Launch" })).toBeInTheDocument();
     expect(screen.getAllByRole("button", { name: "Launch" })).toHaveLength(1);
-    expect(screen.getByLabelText("Work Graph Foundry product preview")).toBeInTheDocument();
+    expect(screen.getByLabelText("Samruna product preview")).toBeInTheDocument();
     expect(screen.getByLabelText("Connected automation path")).toBeInTheDocument();
     expect(screen.getByRole("region", { name: "Landing workflow blocks" })).toBeInTheDocument();
     expect(screen.getByRole("region", { name: "Impact evidence" })).toBeInTheDocument();
@@ -127,7 +127,7 @@ describe("App", () => {
 
     render(<App />);
 
-    expect(screen.getByRole("heading", { name: "Work Graph Foundry" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Samruna" })).toBeInTheDocument();
 
     await waitFor(() => {
       expect(window.localStorage.getItem(DEMO_STORAGE_KEY)).toContain('"selectedScenarioId":"it-access"');

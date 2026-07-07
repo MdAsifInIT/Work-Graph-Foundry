@@ -4,7 +4,7 @@ Current reference: this plan documents the demo-grade full-stack backend impleme
 
 ## Purpose
 
-The current full-stack demo adds a demo-grade local backend to Work Graph Foundry while preserving the existing reproducible product demo.
+The current full-stack demo adds a demo-grade local backend to Samruna while preserving the existing reproducible product demo.
 
 The backend is local-only. It is meant for reviewers and developers who want to evaluate an API-backed flow with durable local state, not for production use.
 
@@ -14,12 +14,12 @@ The backend is local-only. It is meant for reviewers and developers who want to 
 - Backend: TypeScript on Node 24.
 - Database: local SQLite through Node's built-in `node:sqlite`.
 - Default backend URL: `http://127.0.0.1:8787`.
-- Default database path: `.wgf/work-graph-foundry.sqlite`.
+- Default database path: `.samruna/samruna.sqlite`.
 
 Override the database path with:
 
 ```powershell
-$env:WGF_DB_PATH="C:\tmp\work-graph-foundry.sqlite"
+$env:SAMRUNA_DB_PATH="C:\tmp\samruna.sqlite"
 ```
 
 Generated databases and SQLite sidecar files are ignored by git.

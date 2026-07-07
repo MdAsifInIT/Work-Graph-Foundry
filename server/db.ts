@@ -30,10 +30,10 @@ export interface StoredWorkspaceArtifact extends WorkspaceArtifact {
 
 const DEFAULT_WORKSPACE_ID = "local-demo";
 const SYNTHETIC_ORGANIZATION_ID = "synthetic-org-foundry-demo";
-export const DEFAULT_DB_PATH = join(process.cwd(), ".wgf", "work-graph-foundry.sqlite");
+export const DEFAULT_DB_PATH = join(process.cwd(), ".samruna", "samruna.sqlite");
 
 export function resolveWorkspaceDbPath(dbPath?: string): string {
-  return dbPath ?? process.env.WGF_DB_PATH ?? process.env.WGF_SQLITE_PATH ?? DEFAULT_DB_PATH;
+  return dbPath ?? process.env.SAMRUNA_DB_PATH ?? process.env.SAMRUNA_SQLITE_PATH ?? DEFAULT_DB_PATH;
 }
 
 export function openWorkspaceDatabase(dbPath = resolveWorkspaceDbPath()): WorkspaceDatabase {

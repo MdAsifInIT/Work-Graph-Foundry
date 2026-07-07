@@ -2,7 +2,7 @@
 
 ## 2.1 Architecture Summary
 
-Work Graph Foundry is implemented as a local-first full-stack demo. React renders a landing-first product page and a path-backed demo workspace, while a local TypeScript backend owns workspace state, SQLite persistence, API envelopes, seed/reset, import/export, and audit retrieval. Shared TypeScript domain modules still perform the deterministic product logic.
+Samruna is implemented as a local-first full-stack demo. React renders a landing-first product page and a path-backed demo workspace, while a local TypeScript backend owns workspace state, SQLite persistence, API envelopes, seed/reset, import/export, and audit retrieval. Shared TypeScript domain modules still perform the deterministic product logic.
 
 This architecture keeps the solution easy to run, easy to test, and easy for a new developer or agent to inspect.
 
@@ -187,7 +187,7 @@ The mock provider implements the default Historical validation engine. The OpenA
 - `loadDemoScenario(scenarioId)`
 - `loadDemoFixtures()` for the default IT access scenario
 
-`server/workspace.ts` owns the mutable backend workspace state and reuses `src/domain/persistence.ts` for export/import compatibility. The default SQLite path is `.wgf/work-graph-foundry.sqlite`, overrideable with `WGF_DB_PATH`.
+`server/workspace.ts` owns the mutable backend workspace state and reuses `src/domain/persistence.ts` for export/import compatibility. The default SQLite path is `.samruna/samruna.sqlite`, overrideable with `SAMRUNA_DB_PATH`.
 
 The persisted demo state includes:
 

@@ -1,4 +1,4 @@
-const storageKey = "work-graph-foundry.demo-state.v1";
+const storageKey = "samruna.demo-state.v1";
 const scenarioId = process.argv[3] === "procurement-intake" ? "procurement-intake" : "it-access";
 const command = process.argv[2] ?? "help";
 
@@ -30,7 +30,7 @@ if (command === "reset") {
   process.exit(0);
 }
 
-console.log("Work Graph Foundry demo state helper");
+console.log("Samruna demo state helper");
 console.log("");
 console.log("Commands:");
 console.log("  npm run demo:seed -- [it-access|procurement-intake]");

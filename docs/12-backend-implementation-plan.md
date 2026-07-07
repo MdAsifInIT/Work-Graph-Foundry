@@ -2,7 +2,7 @@
 
 ## 12.1 Purpose
 
-Historical reference: this plan captured the autonomous build instructions for the now-completed demo-grade full-stack version of Work Graph Foundry.
+Historical reference: this plan captured the autonomous build instructions for the now-completed demo-grade full-stack version of Samruna.
 
 The target outcome was a local backend, local database, seeded synthetic organization records, persisted workflow artifacts, and a frontend flow backed by API calls. The implementation preserved the existing local-first demo behavior, Historical validation engine, governance gate, and safe simulation boundary.
 
@@ -26,46 +26,6 @@ The build should follow the repository's worker-orchestrator model:
 - The orchestrator owns architecture, context, integration, review, and final verification.
 - Workers own bounded implementation and verification slices.
 - Worker output must be reviewed before integration.
-- Changes must stay minimal, intentional, and scoped.
-
-Recommended worker split:
-
-- `worker_major`: architecture-sensitive backend API, database schema, and frontend/backend state boundary.
-- `worker_nano`: backend implementation, frontend integration, scripts, and docs.
-- `worker_test`: tests, verification, and failure triage.
-
-## 12.4 Fresh Codex Prompt
-
-Historical execution prompt, retained for reference:
-
-```text
-You are the orchestrator/project manager for Work Graph Foundry.
-
-Goal:
-Build a demo-grade full-stack backend implementation from start to finish.
-
-Branch:
-Create and work on a git branch named backend-branch. If this is a Codex worktree, create the branch in this worktree. Do not check out backend-branch in another worktree at the same time. If backend-branch already exists and is unavailable because another worktree owns it, stop and report that exact blocker.
-
-Repository:
-C:\Users\Primary\Documents\Work Graph Foundry
-
-Operating model:
-Use the repo's worker-orchestrator model from AGENTS.md. The main thread is the orchestrator. Delegate bounded work to subagents. Do not implement everything directly in one pass.
-
-Use:
-- worker_major for architecture-sensitive backend/API/schema decisions.
-- worker_nano for bounded implementation slices.
-- worker_test for tests, verification, and failure triage.
-
-Read first:
-- AGENTS.md
-- README.md
-- package.json
-- opencode.json
-- docs/02-architecture.md
-- docs/05-data-access-and-security.md
-- docs/07-roadmap.md
 - docs/09-agentic-build-guide.md
 - src/domain/types.ts
 - src/domain/persistence.ts

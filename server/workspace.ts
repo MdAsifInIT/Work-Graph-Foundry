@@ -45,7 +45,7 @@ const PROPOSAL_GENERATED_AT_BASE = Date.UTC(2026, 4, 16, 9, 40, 0);
 export const demoOrganization: DemoOrganization = {
   id: "synthetic-foundry-org",
   name: "Synthetic Foundry Operations",
-  description: "Seeded local organization used for the Work Graph Foundry full-stack demo.",
+  description: "Seeded local organization used for the Samruna full-stack demo.",
   syntheticDataNotice: "All organization records, people, systems, tickets, vendors, approvals, and traces are synthetic.",
   scenarioIds: ["it-access", "procurement-intake"]
 };

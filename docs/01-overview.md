@@ -2,7 +2,7 @@
 
 ## 1.1 Purpose
 
-Work Graph Foundry is a local-first enterprise work intelligence and governed automation demo. It shows how an AI-native operating layer can observe messy work traces, infer the real process, identify repeated work patterns, generate governed automation, validate that automation against history, execute approved work in safe simulation mode, and recommend improvements.
+Samruna is a local-first enterprise work intelligence and governed automation demo. It shows how an AI-native operating layer can observe messy work traces, infer the real process, identify repeated work patterns, generate governed automation, validate that automation against history, execute approved work in safe simulation mode, and recommend improvements.
 
 The current demo opens with a customer-facing landing page rather than a chatbot. The first screen introduces the product and then moves into a `/dashboard` workspace with five primary views: Overview, Evidence, Graph, Review & Run, and Audit. The landing preview is intentionally explicit: three workflow blocks, a connected automation path, and an impact metrics band lead into the workspace. The workspace uses a compact topbar status strip, a progress stepper, before/after impact comparison, elevated graph metrics, collapsible technical details in Review & Run, and an execution success moment after safe execution completes. The product is meant to feel like a real enterprise tool for process owners, IT operators, compliance reviewers, and automation teams.
 
@@ -16,7 +16,7 @@ In large organizations, work moves through email, tickets, chat, spreadsheets, a
 - audit gaps
 - automation work that starts too late because humans first need to manually draw the workflow
 
-Work Graph Foundry demonstrates a different loop: discover the workflow from work traces first, then propose and govern automation.
+Samruna demonstrates a different loop: discover the workflow from work traces first, then propose and govern automation.
 
 ## 1.3 Current State
 

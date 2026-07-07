@@ -118,7 +118,7 @@ The e2e suite validates backend workspace readback plus browser mirror recovery 
 - recommendation
 - audit events
 
-`Import Summary` restores a previously exported Work Graph Foundry run summary pasted into the import textbox.
+`Import Summary` restores a previously exported Samruna run summary pasted into the import textbox.
 
 Do not commit exported run summaries unless they are intentionally added as synthetic documentation examples.
 

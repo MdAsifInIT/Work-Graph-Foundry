@@ -10,7 +10,7 @@ import type {
   WorkGraph
 } from "./types";
 
-export const DEMO_STORAGE_KEY = "work-graph-foundry.demo-state.v1";
+export const DEMO_STORAGE_KEY = "samruna.demo-state.v1";
 export const DEMO_STATE_VERSION = 1;
 
 export type AiProviderMode = "mock" | "openai";

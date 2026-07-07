@@ -53,7 +53,7 @@ Use `npm run test:e2e:preview` for the preview-backed Playwright path and `npm r
 
 ### 4.3.1 Open The Product Page
 
-Start with the landing page. Explain that Work Graph Foundry begins from traces, not a manually designed workflow, then click `Launch` to enter the local workspace.
+Start with the landing page. Explain that Samruna begins from traces, not a manually designed workflow, then click `Launch` to enter the local workspace.
 
 Point out:
 
@@ -202,7 +202,7 @@ Use the Historical validation engine. The demo is designed for this safe fallbac
 
 Short version:
 
-"Work Graph Foundry observes how work actually moves, builds a live graph, finds repeated patterns and bottlenecks, proposes governed automation, validates it against history, requires human approval, executes safely in simulation mode, persists the audit trail locally, and learns from exceptions."
+"Samruna observes how work actually moves, builds a live graph, finds repeated patterns and bottlenecks, proposes governed automation, validates it against history, requires human approval, executes safely in simulation mode, persists the audit trail locally, and learns from exceptions."
 
 For a shorter hackathon talk track and the exact browser fallback path, see [Hackathon Demo](11-hackathon-demo.md).
 

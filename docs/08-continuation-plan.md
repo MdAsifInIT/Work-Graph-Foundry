@@ -2,7 +2,7 @@
 
 ## 8.1 Current Baseline
 
-Work Graph Foundry already has a credible local-first foundation:
+Samruna already has a credible local-first foundation:
 
 - React/Vite/TypeScript landing page and path-backed demo workspace
 - deterministic IT access request scenario

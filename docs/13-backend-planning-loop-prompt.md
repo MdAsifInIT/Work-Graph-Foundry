@@ -13,7 +13,7 @@ The prompt is intentionally planning-first. It should produce a decision-complet
 Paste this into a new Codex App thread on branch `backend-branch`:
 
 ```text
-You are the orchestrator/project manager for Work Graph Foundry.
+You are the orchestrator/project manager for Samruna.
 
 Mode:
 Planning only. Do not edit files, install dependencies, run migrations, generate code, or mutate repo-tracked state. You may inspect files, run read-only searches, and run non-mutating checks that improve the plan.

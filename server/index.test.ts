@@ -15,7 +15,7 @@ let server: ReturnType<typeof createApp>;
 let nextPort = 49152;
 
 beforeEach(async () => {
-  const dbPath = join(mkdtempSync(join(tmpdir(), "wgf-api-")), "test.sqlite");
+  const dbPath = join(mkdtempSync(join(tmpdir(), "samruna-api-")), "test.sqlite");
   database = new WorkspaceDatabase(dbPath);
   service = new WorkspaceService(database);
   server = createApp(service);

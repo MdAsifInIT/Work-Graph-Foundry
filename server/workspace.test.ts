@@ -12,7 +12,7 @@ let database: WorkspaceDatabase;
 let service: WorkspaceService;
 
 beforeEach(() => {
-  const dbPath = join(mkdtempSync(join(tmpdir(), "wgf-backend-")), "test.sqlite");
+  const dbPath = join(mkdtempSync(join(tmpdir(), "samruna-backend-")), "test.sqlite");
   database = new WorkspaceDatabase(dbPath);
   service = new WorkspaceService(database);
 });
@@ -22,51 +22,51 @@ afterEach(() => {
 });
 
 describe("WorkspaceService", () => {
-  it("defaults the workspace database to the documented .wgf path", () => {
-    const originalDbPath = process.env.WGF_DB_PATH;
-    const originalSqlitePath = process.env.WGF_SQLITE_PATH;
+  it("defaults the workspace database to the documented .samruna path", () => {
+    const originalDbPath = process.env.SAMRUNA_DB_PATH;
+    const originalSqlitePath = process.env.SAMRUNA_SQLITE_PATH;
 
-    delete process.env.WGF_DB_PATH;
-    delete process.env.WGF_SQLITE_PATH;
+    delete process.env.SAMRUNA_DB_PATH;
+    delete process.env.SAMRUNA_SQLITE_PATH;
 
     try {
-      expect(DEFAULT_DB_PATH.endsWith(join(".wgf", "work-graph-foundry.sqlite"))).toBe(true);
+      expect(DEFAULT_DB_PATH.endsWith(join(".samruna", "samruna.sqlite"))).toBe(true);
       expect(resolveWorkspaceDbPath()).toBe(DEFAULT_DB_PATH);
 
-      process.env.WGF_SQLITE_PATH = join("legacy", "demo.sqlite");
+      process.env.SAMRUNA_SQLITE_PATH = join("legacy", "demo.sqlite");
       expect(resolveWorkspaceDbPath()).toBe(join("legacy", "demo.sqlite"));
 
-      process.env.WGF_DB_PATH = join("preferred", "demo.sqlite");
+      process.env.SAMRUNA_DB_PATH = join("preferred", "demo.sqlite");
       expect(resolveWorkspaceDbPath()).toBe(join("preferred", "demo.sqlite"));
     } finally {
       if (originalDbPath === undefined) {
-        delete process.env.WGF_DB_PATH;
+        delete process.env.SAMRUNA_DB_PATH;
       } else {
-        process.env.WGF_DB_PATH = originalDbPath;
+        process.env.SAMRUNA_DB_PATH = originalDbPath;
       }
 
       if (originalSqlitePath === undefined) {
-        delete process.env.WGF_SQLITE_PATH;
+        delete process.env.SAMRUNA_SQLITE_PATH;
       } else {
-        process.env.WGF_SQLITE_PATH = originalSqlitePath;
+        process.env.SAMRUNA_SQLITE_PATH = originalSqlitePath;
       }
     }
   });
 
   it("does not open the workspace database when the CLI module is imported", async () => {
-    const originalDbPath = process.env.WGF_DB_PATH;
-    const dbPath = join(mkdtempSync(join(tmpdir(), "wgf-cli-import-")), "cli-import.sqlite");
+    const originalDbPath = process.env.SAMRUNA_DB_PATH;
+    const dbPath = join(mkdtempSync(join(tmpdir(), "samruna-cli-import-")), "cli-import.sqlite");
 
-    process.env.WGF_DB_PATH = dbPath;
+    process.env.SAMRUNA_DB_PATH = dbPath;
 
     try {
       await import("./cli");
       expect(existsSync(dbPath)).toBe(false);
     } finally {
       if (originalDbPath === undefined) {
-        delete process.env.WGF_DB_PATH;
+        delete process.env.SAMRUNA_DB_PATH;
       } else {
-        process.env.WGF_DB_PATH = originalDbPath;
+        process.env.SAMRUNA_DB_PATH = originalDbPath;
       }
     }
   });

@@ -1,4 +1,4 @@
-# Work Graph Foundry Instructions
+# Samruna Instructions
 
 ## Operating Style
 

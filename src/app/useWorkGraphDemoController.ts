@@ -95,7 +95,6 @@ export interface VisualGraphEdge {
   source: VisualGraphNode;
   target: VisualGraphNode;
   exceptionRate: number;
-  labelOffsetY: number;
 }
 
 export interface FoundationPanel {
@@ -968,12 +967,13 @@ function buildVisualGraph(nodes: GraphNode[], edges: GraphEdge[]): { nodes: Visu
   const activeKinds = kindOrder.filter((kind) => nodesByKind.has(kind));
   const visualNodes = activeKinds.flatMap((kind, columnIndex) => {
     const group = nodesByKind.get(kind) ?? [];
-    const x = activeKinds.length === 1 ? 50 : 8 + (columnIndex / (activeKinds.length - 1)) * 84;
+    const x = activeKinds.length === 1 ? 50 : 10 + (columnIndex / (activeKinds.length - 1)) * 80;
+    const laneY = kind === "exception" ? 76 : 46;
 
     return group.map((node, rowIndex) => ({
       node,
       x,
-      y: group.length === 1 ? 50 : 15 + (rowIndex / (group.length - 1)) * 70
+      y: group.length === 1 ? laneY : laneY - 12 + (rowIndex / (group.length - 1)) * 24
     }));
   });
   const nodeLookup = new Map(visualNodes.map((visualNode) => [visualNode.node.id, visualNode]));
@@ -982,16 +982,12 @@ function buildVisualGraph(nodes: GraphNode[], edges: GraphEdge[]): { nodes: Visu
     const target = nodeLookup.get(edge.target);
 
     if (source && target) {
-      const offsets = [-45, -15, 15, 45];
-      const labelOffsetY = offsets[index % offsets.length];
-
       items.push({
         id: edge.id,
         label: edge.label,
         source,
         target,
-        exceptionRate: edge.exceptionRate,
-        labelOffsetY
+        exceptionRate: edge.exceptionRate
       });
     }
 

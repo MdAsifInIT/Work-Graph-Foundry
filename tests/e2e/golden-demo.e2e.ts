@@ -357,6 +357,25 @@ for (const viewport of qaViewports) {
   });
 }
 
+test("keeps the mobile graph fit-to-width without floating edge labels", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 900 });
+  await enterWorkspace(page);
+  await page.getByLabel("Select workflow").selectOption(scenarios[0].id);
+  await page.getByRole("button", { name: "Load workflow" }).click();
+  await page.getByRole("button", { name: "Analyze workflow" }).click();
+  await openView(page, "Graph");
+
+  await expect(page.getByRole("heading", { name: scenarios[0].graphTitle })).toBeVisible();
+  await expect(page.locator(".graph-edge-label")).toHaveCount(0);
+  await assertGraphWorkspaceFits(page, "mobile graph");
+
+  await page.getByLabel(/Select graph node Exception review/i).click();
+  const selectedDetail = page.locator(".detail-card").filter({ has: page.getByRole("heading", { name: "Exception review" }) });
+
+  await expect(selectedDetail).toContainText("requires human review");
+  await expect(selectedDetail).toContainText("manual decision");
+});
+
 async function runGoldenPath(page: Page, request: APIRequestContext, scenario: ScenarioExpectation) {
   await generateProposal(page, request, scenario);
 
@@ -490,6 +509,18 @@ async function assertNoHorizontalOverflow(page: Page, label: string) {
   expect(
     horizontalOverflow.amount,
     `Horizontal overflow during ${label}: ${JSON.stringify(horizontalOverflow, null, 2)}`
+  ).toBeLessThanOrEqual(1);
+}
+
+async function assertGraphWorkspaceFits(page: Page, label: string) {
+  const graphOverflow = await page.locator(".graph-workspace").evaluate((element) => ({
+    clientWidth: element.clientWidth,
+    scrollWidth: element.scrollWidth
+  }));
+
+  expect(
+    graphOverflow.scrollWidth - graphOverflow.clientWidth,
+    `Graph overflow during ${label}: ${JSON.stringify(graphOverflow, null, 2)}`
   ).toBeLessThanOrEqual(1);
 }
 

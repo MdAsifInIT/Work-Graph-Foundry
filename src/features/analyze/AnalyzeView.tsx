@@ -60,18 +60,6 @@ export function AnalyzeView({ controller }: AnalyzeViewProps) {
                       />
                     ))}
                   </svg>
-                  {visualGraph.edges.map((edge) => (
-                    <span
-                      key={`${edge.id}-label`}
-                      className="graph-edge-label"
-                      style={{
-                        left: `${(edge.source.x + edge.target.x) / 2}%`,
-                        top: `calc(${(edge.source.y + edge.target.y) / 2}% + ${edge.labelOffsetY}px)`
-                      }}
-                    >
-                      {edge.label}
-                    </span>
-                  ))}
                   {visualGraph.nodes.map(({ node, x, y }) => (
                     <button
                       key={node.id}

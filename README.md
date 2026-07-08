@@ -1,56 +1,105 @@
 # Samruna
 
-Fusing fragmented enterprise operations into autonomous, self-healing workflows. It builds a work graph, surfaces process intelligence, proposes workflow automation, validates changes against historical cases, and executes approved work in safe simulation mode.
+Samruna turns messy enterprise work traces into governed automation proposals.
 
-The product is designed to be easy to evaluate in a hackathon setting. Reviewers get a polished landing page, a direct path into the demo, and a clear before-and-after story: observe work, understand the pattern, govern the proposal, and execute only what is approved. The language and flows are intentionally customer-facing, while the seeded data and local validation behavior stay reproducible for reliable judging.
+It helps teams see where repeated work is happening, understand the bottlenecks behind it, review an AI-generated automation plan, and safely simulate execution only after approval.
 
-## Demo Value
+The current version is a local demo. It uses synthetic organization data, a reproducible workflow engine, and safe simulation mode so the experience is reliable without connecting to real enterprise systems.
 
-The demo shows how an organization can move from scattered requests and manual handoffs to governed automation without pretending the system has production access.
+## Why It Exists
 
-It highlights:
+Enterprise operations are often spread across tickets, email, chat, approvals, spreadsheets, and system logs. The same work happens again and again, but the process is hard to see clearly.
 
-- enterprise automation for repeated internal work
-- work graph modeling across people, systems, approvals, and outcomes
-- process intelligence that identifies bottlenecks and recurring patterns
-- governed AI automation with explicit review, simulation, and audit steps
-- workflow automation that stays safe through approval-gated execution and safe simulation mode
+Samruna gives teams a way to:
 
-## What The Demo Shows
+- discover repeated workflows from operational traces
+- turn those workflows into a visual work graph
+- identify delays, exceptions, and approval bottlenecks
+- generate a reviewable automation proposal
+- simulate the proposal against historical cases
+- require human approval before any execution
+- keep an audit trail of every decision and run
 
-The app includes two synthetic workflow scenarios:
+## What You Can Try
 
-1. IT access requests: employees request access through email, tickets, chat, approvals, and system logs.
-2. Procurement intake: teams request software purchases, vendor onboarding, and invoice exception handling through intake traces, approvals, and procurement-system updates.
+The demo includes two synthetic scenarios:
 
-The default scenario is IT access requests:
+1. **IT access requests**
+   Employees request application access through email, tickets, chat, approvals, and system logs.
 
-1. Employees request access through email, tickets, chat, approvals, and system logs.
-2. The app loads realistic multi-channel traces.
-3. It normalizes messy traces into typed work items.
-4. It discovers repeated access-request patterns.
-5. It builds a work graph with requesters, manager approval, policy checks, IT provisioning, audit logging, exceptions, and outcomes.
-6. It identifies manager approval as a bottleneck.
-7. It generates a governed automation proposal.
-8. It simulates that proposal against historical cases.
-9. A human reviewer approves the proposal.
-10. A new request runs through safe simulated actions.
-11. State persists locally for replay, export, import, and reset.
-12. The learning loop recommends a future improvement.
+2. **Procurement intake**
+   Teams request software purchases, vendor onboarding, and invoice exception handling.
 
-## Tech Stack
+In each scenario, Samruna walks through the same operating model:
 
-- TypeScript
-- React
-- Vite 6
-- Vitest
-- Local TypeScript backend for the full-stack demo
-- Node 24 built-in `node:sqlite`
-- Local JSON-like fixture data in TypeScript
-- Historical validation engine by default
-- Optional server-side OpenAI Responses API proposal generation for trusted runtimes
+1. Load workflow traces.
+2. Normalize the messy source evidence.
+3. Detect repeated work patterns.
+4. Build a graph of people, approvals, systems, exceptions, and outcomes.
+5. Surface the main bottleneck.
+6. Generate a governed automation proposal.
+7. Review policy checks, required data, forbidden data, assumptions, and escalations.
+8. Approve or reject the proposal.
+9. Execute only in safe simulation mode.
+10. Review the audit trail, export the run, or reset the demo.
 
-## Run Locally
+## Demo Walkthrough
+
+1. Open the app.
+2. Click **Launch**.
+3. Choose **IT access requests** or **Procurement intake**.
+4. Click **Load Workflow**.
+5. Click **Analyze**.
+6. Open **Evidence** to review source traces and normalized work items.
+7. Open **Graph** to inspect the repeated workflow and bottleneck.
+8. Click **Generate Proposal**.
+9. Open **Review & Run** to inspect the proposal, simulation, and governance gate.
+10. Click **Approve** or **Reject**.
+11. If approved, click **Execute workflow**.
+12. Open **Audit** to review events, export a summary, import a prior run, or reset.
+
+## What The AI Does
+
+Samruna uses AI as a workflow automation planner.
+
+The AI does:
+
+- read structured workflow context prepared by the system
+- generate a proposal with triggers, required data, allowed actions, policy checks, and escalation paths
+- explain the governance and simulation rationale
+
+The AI does not:
+
+- execute actions on its own
+- bypass human approval
+- connect directly to enterprise systems from the browser
+- receive API keys in frontend code
+- replace audit, policy, or compliance review
+
+If live OpenAI credentials are not configured, Samruna uses the built-in historical validation engine so the demo still works.
+
+## Safety Model
+
+The demo is intentionally safe by default:
+
+- all scenario records are synthetic
+- execution is simulated
+- proposals require human approval
+- browser code never receives OpenAI API keys
+- backend provider errors are sanitized before reaching the UI
+- export/import data is local demo state, not customer production data
+- reset restores the seeded demo state
+
+For a production deployment, Samruna would need enterprise identity, role-based access control, scoped connectors, durable storage, immutable audit logs, and carefully governed execution tools.
+
+## Run The Demo Locally
+
+Requirements:
+
+- Node.js 24 or newer
+- npm
+
+Install dependencies and start the frontend demo:
 
 ```powershell
 npm install
@@ -59,123 +108,34 @@ npm run demo:dev
 
 Open the local URL printed by Vite.
 
-If Vite dev dependency optimization is blocked by a local sandbox, use the production artifact path:
+If local dev-server dependency optimization is blocked, use the production preview path:
 
 ```powershell
 npm run build
 npm run preview
 ```
 
-To run the API-backed full-stack demo:
+## Run With The Local Backend
+
+The full-stack demo adds a local API and SQLite-backed workspace state.
 
 ```powershell
 npm run backend:seed
 npm run dev:fullstack
 ```
 
-The local backend listens on `127.0.0.1:8787` by default, and the Vite app proxies `/api` to it. The generated SQLite database is stored at `.samruna/samruna.sqlite` unless `SAMRUNA_DB_PATH` is set.
+The backend listens on `127.0.0.1:8787` by default. The generated SQLite database is stored at `.samruna/samruna.sqlite` unless `SAMRUNA_DB_PATH` is set.
 
-If Vite dev dependency optimization is blocked by a local sandbox, use the built full-stack server:
+To use the built full-stack server:
 
 ```powershell
 npm run build
 npm run preview:fullstack -- --port 4174
 ```
 
-## Demo Path
+## Optional Live OpenAI Proposal Generation
 
-1. Click `Launch` from the product page to open `/dashboard`.
-2. Choose `IT access requests` or `Procurement intake`.
-3. Click `Load Workflow`.
-4. Click `Analyze` and inspect `Graph`.
-5. Open `Evidence` when source traces or normalized evidence need review.
-6. Click `Generate Proposal`.
-7. Review required data, forbidden data, assumptions, policy checks, escalations, simulation results, and governance notes in `Review & Run`.
-8. Use the `Approve` and `Reject` actions in `Review & Run`.
-9. Click `Execute workflow` after approval in `Review & Run`.
-10. Open `Audit` to review export/import controls and persisted audit state.
-11. Use `Export Summary` in `Audit` for a portable run summary or `Reset` in `Audit` to restore seeded state.
-
-## Scripts
-
-```powershell
-npm run dev         # Start local development server
-npm run demo:dev    # Start local demo server
-npm run demo:seed   # Print deterministic seed state JSON
-npm run demo:reset  # Print browser fallback mirror reset snippet
-npm run backend:dev  # Start the local backend API
-npm run backend:seed # Seed or reset the local SQLite demo state
-npm run dev:fullstack # Start backend and Vite with the /api proxy
-npm run preview:fullstack # Serve the built app and API from one backend origin
-npm run build       # Typecheck and build production artifact
-npm run verify:demo # Run typecheck, tests, build, and audit
-npm run verify:fullstack # Run typecheck, app tests, backend tests, build, and audit
-npm run test:e2e    # Run Playwright Chromium e2e tests
-npm run preview     # Preview production build
-npm run typecheck   # Run TypeScript checks
-npm test            # Run Vitest suite
-```
-
-## Project Structure
-
-```text
-src/
-  ai/          # AI provider abstraction, mock provider, optional OpenAI provider implementation
-  domain/      # Scenarios, persistence, ingestion, graph, patterns, planner, simulation, governance, execution
-  fixtures/    # Seeded synthetic scenario traces and policy data
-  test/        # Test setup
-docs/
-  README.md
-  01-overview.md
-  02-architecture.md
-  03-development.md
-  04-demo-setup.md
-  05-data-access-and-security.md
-  06-testing-and-validation.md
-  07-roadmap.md
-  08-continuation-plan.md
-  09-agentic-build-guide.md
-  10-demo-operations.md
-  11-hackathon-demo.md
-  12-fullstack-demo-plan.md
-  12-backend-implementation-plan.md
-  13-backend-planning-loop-prompt.md
-  archive/
-```
-
-## Documentation
-
-- [Documentation Index](docs/README.md): ordered guide list for developers and agents.
-- [1. Overview](docs/01-overview.md): purpose, current state, main flows, and agentic loop.
-- [2. Architecture](docs/02-architecture.md): components, data flow, module responsibilities, and production direction.
-- [3. Development](docs/03-development.md): setup, build, test, extension recipes, and agent development rules.
-- [4. Demo Setup](docs/04-demo-setup.md): requirements, local run steps, walkthrough, reset, and recovery.
-- [5. Data Access And Security](docs/05-data-access-and-security.md): organization access, data needs, non-needs, governance, and compliance FAQ.
-- [6. Testing And Validation](docs/06-testing-and-validation.md): unit tests, integration checks, UI smoke tests, and agentic verification steps.
-- [7. Roadmap](docs/07-roadmap.md): current limitations, future improvements, productionization, and testing roadmap.
-- [8. Continuation Plan](docs/08-continuation-plan.md): current handoff, guardrails, and next useful work.
-- [9. Agentic Build Guide](docs/09-agentic-build-guide.md): safe continuation checklist for future agents.
-- [10. Demo Operations](docs/10-demo-operations.md): operator runbook, reset, import/export, and recovery.
-- [11. Hackathon Demo](docs/11-hackathon-demo.md): concise hackathon talk track, safety framing, and verification commands.
-- [12. Full-Stack Demo Plan](docs/12-fullstack-demo-plan.md): current backend/API demo reference.
-- [12b. Backend Implementation Plan](docs/12-backend-implementation-plan.md): completed backend build plan, kept as a reference.
-- [13. Backend Planning Loop Prompt](docs/13-backend-planning-loop-prompt.md): completed planning prompt, kept as a reference.
-
-Historical planning prompts and phase notes are archived under `docs/archive/`. Archive files may use older product language and are not canonical run instructions.
-
-## AI Provider Behavior
-
-The app runs without live OpenAI credentials. The browser demo uses backend-supplied provider metadata, a compact backend status strip, and a historical validation engine fallback so it is reliable in local and judging environments.
-
-The provider boundary is owned by the backend:
-
-- `MockAiProvider` implements the default historical validation engine.
-- `OpenAiResponsesProvider` targets the Responses API with structured JSON output.
-- `server/ai.ts` reads `OPENAI_API_KEY`, optional `OPENAI_MODEL`, and optional `OPENAI_TIMEOUT_MS`.
-- The backend sets Responses API storage to `false` for proposal generation.
-- Provider mode, model, validation status, and fallback reason codes are persisted as non-secret metadata.
-
-Do not expose `OPENAI_API_KEY` directly in browser code. The browser must not import OpenAI-capable provider code or receive keys, request headers, prompts, or raw provider errors.
+Samruna works without OpenAI credentials. Leave `OPENAI_API_KEY` unset to use the historical validation engine.
 
 To try live proposal generation locally, set the key only for the backend process:
 
@@ -186,55 +146,49 @@ npm run backend:seed
 npm run dev:fullstack
 ```
 
-Leave `OPENAI_API_KEY` unset to use the historical validation engine for proposal generation.
+Never put `OPENAI_API_KEY` in browser code or frontend environment variables.
 
-## Full-Stack Backend Behavior
-
-The full-stack demo includes a local backend under `server/` with `/api` routes for health, scenarios, workspace state, workflow actions, governance, execution, reset, export, import, and audit retrieval.
-
-The backend is the primary source of truth for demo state and persists it to SQLite, while the browser keeps a small mirror for reload resilience and local test fallback. It reuses the existing deterministic domain modules for ingestion, graphing, pattern detection, simulation, governance, safe simulated execution, and learning recommendations. Proposal generation routes through the backend AI provider with historical validation fallback. Seeded organization records remain synthetic. Enterprise connectors, production auth/RBAC, real provisioning, live customer data, and browser-side secrets remain out of scope.
-
-See [12. Full-Stack Demo Plan](docs/12-fullstack-demo-plan.md) for API routes, DB path, commands, and verification.
-
-## Verification
-
-Before handoff or push, run:
+## Useful Commands
 
 ```powershell
-npm run verify:demo
-npm run verify:fullstack
+npm run demo:dev          # Start the local frontend demo
+npm run dev:fullstack     # Start backend and frontend together
+npm run backend:seed      # Reset local backend demo state
+npm run build             # Typecheck and build production assets
+npm test                  # Run unit tests
+npm run test:e2e          # Run Playwright browser tests
+npm run verify:demo       # Typecheck, test, build, and audit demo
+npm run verify:fullstack  # Full verification path for frontend and backend
 ```
 
-For browser coverage, install Chromium if needed and then run the Playwright suite:
+## Documentation
 
-```powershell
-npm run test:e2e:install
-npm run test:e2e:preview
-npm run test:e2e
-npm run typecheck:e2e
-```
+- [FAQ](FAQ.md): product, demo, data, safety, and implementation questions.
+- [Documentation Index](docs/README.md): full project documentation.
+- [Overview](docs/01-overview.md): purpose, current state, and main flows.
+- [Demo Setup](docs/04-demo-setup.md): local run steps and operator guidance.
+- [Data Access And Security](docs/05-data-access-and-security.md): data needs and safety model.
+- [Testing And Validation](docs/06-testing-and-validation.md): verification coverage.
+- [Roadmap](docs/07-roadmap.md): current limits and production direction.
 
-Current non-browser baseline:
+## Current Scope
 
-- Vitest suite passes
-- production build passes
-- audit reports 0 vulnerabilities
+Samruna is currently a demo-grade product experience. It proves the workflow:
 
-Current browser baseline:
+- observe work
+- understand the pattern
+- propose automation
+- govern the proposal
+- simulate execution
+- audit the result
 
-- Playwright e2e exists under `tests/e2e`
-- `npm run test:e2e` runs the golden demo path in Chromium
-- sandboxed environments may require permission to install Chromium or launch the browser
-- if Chromium launch is blocked, use `npm run verify:demo` plus `npm run build` and `npm run preview` as the fallback local check
+It does not yet include production authentication, live enterprise connectors, real provisioning actions, customer data ingestion, production infrastructure, or final compliance controls.
 
 ## Troubleshooting
 
-- If `npm run dev` fails during dependency optimization in a restricted sandbox, run `npm run build` followed by `npm run preview`.
-- If `npm run dev:fullstack` hits the same dependency optimization issue, run `npm run build` followed by `npm run preview:fullstack -- --port 4174`.
-- If live OpenAI calls fail, leave `OPENAI_API_KEY` unset and use the historical validation engine.
-- If the UI appears stale after changes, rebuild or reload the preview server.
-- If Playwright binaries are missing, run `npm run test:e2e:install` before retrying browser tests.
+- If the dev server fails in a restricted environment, run `npm run build` and then `npm run preview`.
+- If the full-stack dev server fails, run `npm run build` and then `npm run preview:fullstack -- --port 4174`.
+- If live OpenAI calls fail, remove `OPENAI_API_KEY` and use the historical validation engine.
+- If Playwright browsers are missing, run `npm run test:e2e:install`.
+- If the UI appears stale, reload the page or rebuild the preview server.
 
-## Contributing
-
-Keep the product landing-first and reviewer-focused. Avoid turning the app into a generic chatbot or generic marketing page. New features should preserve typed contracts, reproducible demo behavior, governance visibility, and safe simulation mode by default.

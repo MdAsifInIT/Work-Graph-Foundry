@@ -37,18 +37,9 @@ export function WorkGraphAnimation({ onPrepareWorkspace }: WorkGraphAnimationPro
 
         {/* Abstract Workflow Visual */}
         <div className="landing-workgraph relative h-64 md:h-80 w-full flex items-center justify-center" aria-label="Samruna product preview">
-          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 200" preserveAspectRatio="none">
-            <path
-              d="M 0,100 L 1000,100"
-              fill="transparent"
-              stroke="#0369A1"
-              strokeWidth="2"
-              strokeDasharray="8 8"
-              className="opacity-30"
-              vectorEffect="non-scaling-stroke"
-            />
-          </svg>
-          <div className="landing-workgraph-flow" aria-hidden="true" />
+          <div className="landing-workgraph-connector" aria-hidden="true">
+            <span className="landing-workgraph-flow" />
+          </div>
 
           <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10" aria-label="Connected automation path">
             <Node title="Pattern found" subtitle={scenarioLabel} />
@@ -63,7 +54,7 @@ export function WorkGraphAnimation({ onPrepareWorkspace }: WorkGraphAnimationPro
 
 function Node({ title, subtitle }: { title: string; subtitle: string }) {
   return (
-    <div className="flex flex-col items-center text-center p-6 bg-white/75 rounded-2xl border border-white shadow-md hover:shadow-lg transition-[transform,box-shadow,border-color,background-color] duration-300">
+    <div className="flex flex-col items-center text-center p-6 bg-white rounded-2xl border border-white shadow-md hover:shadow-lg transition-[transform,box-shadow,border-color,background-color] duration-300">
       <span className="text-sm font-bold text-[#020617] mb-1">{title}</span>
       <span className="text-xs font-medium text-[#404040]">{subtitle}</span>
     </div>

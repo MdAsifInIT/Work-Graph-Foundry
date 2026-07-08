@@ -670,28 +670,61 @@ h2 {
   transform: scale(0.98);
 }
 
-.landing-workgraph-flow {
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(3, 105, 161, 0) 0,
-    rgba(3, 105, 161, 0) 14px,
-    rgba(3, 105, 161, 0.28) 14px,
-    rgba(3, 105, 161, 0.28) 32px,
-    rgba(3, 105, 161, 0) 32px,
-    rgba(3, 105, 161, 0) 48px
-  );
-  height: 3px;
-  left: 0;
+.landing-workgraph-connector {
+  height: 28px;
+  left: clamp(1rem, 4vw, 3rem);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
   pointer-events: none;
+  position: absolute;
+  right: clamp(1rem, 4vw, 3rem);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.landing-workgraph-connector::before {
+  background-image: radial-gradient(circle, rgba(3, 105, 161, 0.24) 0 2px, transparent 2.4px);
+  background-position: center;
+  background-repeat: repeat-x;
+  background-size: 24px 8px;
+  content: "";
+  height: 8px;
+  left: 0;
+  opacity: 0.8;
   position: absolute;
   right: 0;
   top: 50%;
-  transform: translate3d(-16px, -50%, 0);
+  transform: translateY(-50%);
+}
+
+.landing-workgraph-flow {
+  background: linear-gradient(90deg, transparent, rgba(3, 105, 161, 0.42), transparent);
+  border-radius: var(--radius-full);
+  height: 8px;
+  left: -28%;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translate3d(0, -50%, 0);
+  width: 28%;
   will-change: transform;
 }
 
+.landing-workgraph-flow::after {
+  background: #0369A1;
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 16px rgba(3, 105, 161, 0.36);
+  content: "";
+  height: 4px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 42px;
+}
+
 .landing-workgraph-active .landing-workgraph-flow {
-  animation: connectorSlide 2.4s linear infinite;
+  animation: connectorSlide 3.2s ease-in-out infinite;
 }
 
 .landing-workgraph-section,
@@ -3721,11 +3754,11 @@ h2 {
 
 @keyframes connectorSlide {
   from {
-    transform: translate3d(-16px, -50%, 0);
+    transform: translate3d(0, -50%, 0);
   }
 
   to {
-    transform: translate3d(16px, -50%, 0);
+    transform: translate3d(456%, -50%, 0);
   }
 }
 
@@ -3953,6 +3986,10 @@ h2 {
 }
 
 @media (max-width: 640px) {
+  .landing-workgraph-connector {
+    display: none;
+  }
+
   .main-shell {
     padding: 10px 12px 20px;
   }

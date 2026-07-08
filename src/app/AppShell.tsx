@@ -26,10 +26,11 @@ interface AppShellProps {
   activeView: ViewId;
   children: ReactNode;
   controller: WorkGraphDemoController;
+  onClose: () => void;
   onViewChange: (viewId: ViewId) => void;
 }
 
-export function AppShell({ activeView, children, controller, onViewChange }: AppShellProps) {
+export function AppShell({ activeView, children, controller, onClose, onViewChange }: AppShellProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sidebarResizing, setSidebarResizing] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState(SIDEBAR_DEFAULT_WIDTH);
@@ -131,8 +132,7 @@ export function AppShell({ activeView, children, controller, onViewChange }: App
             href="/"
             onClick={(e) => {
               e.preventDefault();
-              window.history.pushState(window.history.state, "", "/");
-              window.dispatchEvent(new PopStateEvent("popstate"));
+              onClose();
             }}
           >
             <BrandLogo variant="sidebar" />

@@ -3,11 +3,12 @@ import { landingContent } from "./landingContent";
 
 interface FinalCtaProps {
   onLaunch: () => void;
+  onPrepareWorkspace: () => void;
 }
 
-export function FinalCta({ onLaunch }: FinalCtaProps) {
+export function FinalCta({ onLaunch, onPrepareWorkspace }: FinalCtaProps) {
   return (
-    <section className="w-full max-w-5xl mx-auto px-6 mb-24" aria-label="Impact evidence">
+    <section className="landing-final-cta w-full max-w-5xl mx-auto px-6 mb-24" aria-label="Impact evidence">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
@@ -21,25 +22,25 @@ export function FinalCta({ onLaunch }: FinalCtaProps) {
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-white" style={{ fontFamily: "'Lexend', sans-serif" }}>
             {landingContent.proof.title}
           </h2>
-          <motion.p
+          <p
             className="text-lg md:text-xl text-[#E8ECF0] max-w-2xl mx-auto mb-10 font-medium"
           >
             {landingContent.proof.subtitle}
-          </motion.p>
+          </p>
 
-          <motion.button
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
+          <button
             type="button"
             onClick={onLaunch}
-            className="bg-white text-[#0F172A] hover:bg-gray-50 px-10 py-5 rounded-2xl font-bold text-lg shadow-[0_0_40px_rgba(255,255,255,0.3)] transition-all duration-300 flex items-center justify-center gap-3 mx-auto group relative z-10"
+            onMouseEnter={onPrepareWorkspace}
+            onFocus={onPrepareWorkspace}
+            className="landing-secondary-cta bg-white text-[#0F172A] hover:bg-gray-50 px-10 py-5 rounded-2xl font-bold text-lg shadow-[0_0_40px_rgba(255,255,255,0.3)] flex items-center justify-center gap-3 mx-auto group relative z-10"
           >
             Open workspace
             <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="group-hover:translate-x-1 transition-transform">
               <path d="M3.33331 8H12.6666" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <path d="M8 3.33337L12.6667 8.00004L8 12.6667" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-          </motion.button>
+          </button>
         </div>
       </motion.div>
     </section>

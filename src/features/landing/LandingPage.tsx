@@ -5,17 +5,13 @@ import { BentoFeatures } from "./BentoFeatures";
 import { FinalCta } from "./FinalCta";
 
 interface LandingPageProps {
-  aiProviderLabel: string;
-  scenarioLabel: string;
-  scenarioName: string;
   onLaunch: () => void;
+  onPrepareWorkspace: () => void;
 }
 
 export function LandingPage({
-  aiProviderLabel,
-  scenarioLabel,
-  scenarioName,
-  onLaunch
+  onLaunch,
+  onPrepareWorkspace
 }: LandingPageProps) {
   return (
     <main 
@@ -26,17 +22,13 @@ export function LandingPage({
         <BrandLogo variant="landing" />
       </header>
 
-      <HeroSection onLaunch={onLaunch} />
+      <HeroSection onLaunch={onLaunch} onPrepareWorkspace={onPrepareWorkspace} />
       
-      <WorkGraphAnimation 
-        aiProviderLabel={aiProviderLabel}
-        scenarioLabel={scenarioLabel}
-        scenarioName={scenarioName}
-      />
+      <WorkGraphAnimation onPrepareWorkspace={onPrepareWorkspace} />
       
       <BentoFeatures />
       
-      <FinalCta onLaunch={onLaunch} />
+      <FinalCta onLaunch={onLaunch} onPrepareWorkspace={onPrepareWorkspace} />
     </main>
   );
 }

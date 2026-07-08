@@ -339,6 +339,96 @@ test("performance smoke keeps core interactions within the long-task budget", as
   expect(longTasks, `Long tasks >= 200ms: ${JSON.stringify(longTasks, null, 2)}`).toEqual([]);
 });
 
+test("landing performance smoke keeps scroll animation within the frame budget", async ({ page }) => {
+  await page.addInitScript(() => {
+    const monitoredWindow = window as Window & { __samrunaLandingLongTasks?: LongTaskEntry[] };
+    monitoredWindow.__samrunaLandingLongTasks = [];
+
+    try {
+      const observer = new PerformanceObserver((list) => {
+        monitoredWindow.__samrunaLandingLongTasks?.push(
+          ...list.getEntries().map((entry) => ({
+            duration: entry.duration,
+            name: entry.name,
+            startTime: entry.startTime
+          }))
+        );
+      });
+
+      observer.observe({ type: "longtask", buffered: true });
+    } catch {
+      monitoredWindow.__samrunaLandingLongTasks = [];
+    }
+  });
+
+  await page.goto("/");
+  await expect(page.getByRole("heading", { name: "Samruna" })).toBeVisible();
+  await expect(page.getByLabel("Samruna product preview")).toBeVisible();
+
+  const frameStats = await page.evaluate(async () => {
+    const frameGaps: number[] = [];
+    let lastFrameTime = performance.now();
+    const maxScrollY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+
+    for (let index = 0; index <= 40; index += 1) {
+      window.scrollTo(0, maxScrollY * (index / 40));
+      await new Promise<void>((resolve) => {
+        requestAnimationFrame((frameTime) => {
+          frameGaps.push(frameTime - lastFrameTime);
+          lastFrameTime = frameTime;
+          resolve();
+        });
+      });
+    }
+
+    window.scrollTo(0, 0);
+
+    return {
+      averageFrameGap: Math.round(frameGaps.reduce((total, gap) => total + gap, 0) / frameGaps.length),
+      maxFrameGap: Math.round(Math.max(...frameGaps))
+    };
+  });
+
+  const longTasks = await page.evaluate(() => {
+    const monitoredWindow = window as Window & { __samrunaLandingLongTasks?: LongTaskEntry[] };
+
+    return (monitoredWindow.__samrunaLandingLongTasks ?? [])
+      .filter((entry) => entry.duration >= 150)
+      .map((entry) => ({
+        duration: Math.round(entry.duration),
+        name: entry.name,
+        startTime: Math.round(entry.startTime)
+      }));
+  });
+
+  expect(frameStats.maxFrameGap, `Landing scroll frame stats: ${JSON.stringify(frameStats, null, 2)}`).toBeLessThan(120);
+  expect(longTasks, `Landing long tasks >= 150ms: ${JSON.stringify(longTasks, null, 2)}`).toEqual([]);
+
+  await page.getByRole("button", { name: "Launch" }).click();
+  await expect(page).toHaveURL(/\/dashboard$/);
+  await expect(page.getByRole("button", { name: "Overview", exact: true })).toHaveAttribute("aria-current", "page");
+});
+
+test("landing connector respects reduced motion preference", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await expect(page.getByLabel("Samruna product preview")).toBeVisible();
+  await page.locator(".landing-workgraph-flow").scrollIntoViewIfNeeded();
+
+  const connectorAnimation = await page.locator(".landing-workgraph-flow").evaluate((element) => {
+    const style = window.getComputedStyle(element);
+
+    return {
+      animationDuration: style.animationDuration,
+      animationName: style.animationName
+    };
+  });
+
+  expect(connectorAnimation.animationName).toBe("none");
+  await page.getByRole("button", { name: "Launch" }).click();
+  await expect(page).toHaveURL(/\/dashboard$/);
+});
+
 for (const viewport of qaViewports) {
   test(`keeps the landing page and workspace usable without horizontal overflow at ${viewport.width}px ${viewport.name}`, async ({
     page,
@@ -533,11 +623,18 @@ async function enterWorkspace(page: Page) {
   }
 
   const overviewButton = page.getByRole("button", { name: "Overview", exact: true });
+  const viewPicker = page.getByLabel("Select app view");
+
+  await expect
+    .poll(async () => (await overviewButton.isVisible()) || (await viewPicker.isVisible()), {
+      message: "workspace navigation becomes visible"
+    })
+    .toBe(true);
 
   if (await overviewButton.isVisible()) {
     await expect(overviewButton).toBeVisible();
   } else {
-    await expect(page.getByLabel("Select app view")).toBeVisible();
+    await expect(viewPicker).toBeVisible();
   }
 }
 

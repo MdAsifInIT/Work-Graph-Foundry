@@ -4,6 +4,11 @@ export const landingContent = {
     description: "Turn hidden work patterns into governed automation, with validation before anything runs.",
     primaryCta: "Launch",
   },
+  preview: {
+    aiProviderLabel: "Samruna AI",
+    scenarioLabel: "Customer escalation",
+    scenarioName: "Work graph preview",
+  },
   stages: [
     {
       id: "01",

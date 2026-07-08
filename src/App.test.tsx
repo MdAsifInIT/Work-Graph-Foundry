@@ -81,12 +81,12 @@ describe("App", () => {
     expect(appShell.style.getPropertyValue("--sidebar-width")).toBe("320px");
   });
 
-  it("opens the workspace directly at /dashboard", () => {
+  it("opens the workspace directly at /dashboard", async () => {
     window.history.pushState(null, "", "/dashboard");
 
     render(<App />);
 
-    expect(screen.getByRole("button", { name: "Overview" })).toHaveAttribute("aria-current", "page");
+    expect(await screen.findByRole("button", { name: "Overview" })).toHaveAttribute("aria-current", "page");
     expect(screen.getByRole("heading", { name: "Overview" })).toBeInTheDocument();
   });
 
@@ -99,7 +99,7 @@ describe("App", () => {
       expect(window.location.pathname).toBe("/dashboard");
     });
     expect(window.location.hash).toBe("");
-    expect(screen.getByRole("button", { name: "Overview" })).toHaveAttribute("aria-current", "page");
+    expect(await screen.findByRole("button", { name: "Overview" })).toHaveAttribute("aria-current", "page");
   });
 
   it("returns to the landing page on browser back navigation", async () => {
@@ -162,6 +162,7 @@ describe("App", () => {
     render(<App />);
 
     expect(screen.getByRole("heading", { name: "Samruna" })).toBeInTheDocument();
+    await launchDemo();
 
     await waitFor(() => {
       expect(window.localStorage.getItem(DEMO_STORAGE_KEY)).toContain('"selectedScenarioId":"it-access"');

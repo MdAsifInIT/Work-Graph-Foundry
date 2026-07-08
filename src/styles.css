@@ -636,6 +636,79 @@ h2 {
   max-width: 60ch;
 }
 
+.landing-hero-section {
+  isolation: isolate;
+}
+
+.landing-hero-glow {
+  width: min(58rem, 90vw);
+  height: min(34rem, 58vw);
+  background: radial-gradient(circle at center, rgba(3, 105, 161, 0.18) 0%, rgba(15, 23, 42, 0.08) 36%, rgba(255, 255, 255, 0) 72%);
+  filter: blur(56px);
+  opacity: 0.95;
+}
+
+.landing-primary-cta,
+.landing-secondary-cta {
+  transition:
+    background-color var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out),
+    transform var(--duration-normal) var(--motion-spring);
+}
+
+.landing-primary-cta:hover,
+.landing-primary-cta:focus-visible,
+.landing-secondary-cta:hover,
+.landing-secondary-cta:focus-visible {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.landing-primary-cta:active,
+.landing-secondary-cta:active {
+  transform: scale(0.98);
+}
+
+.landing-workgraph-flow {
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(3, 105, 161, 0) 0,
+    rgba(3, 105, 161, 0) 14px,
+    rgba(3, 105, 161, 0.28) 14px,
+    rgba(3, 105, 161, 0.28) 32px,
+    rgba(3, 105, 161, 0) 32px,
+    rgba(3, 105, 161, 0) 48px
+  );
+  height: 3px;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate3d(-16px, -50%, 0);
+  will-change: transform;
+}
+
+.landing-workgraph-active .landing-workgraph-flow {
+  animation: connectorSlide 2.4s linear infinite;
+}
+
+.landing-workgraph-section,
+.landing-bento-section,
+.landing-final-cta {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 900px;
+}
+
+.landing-bento-section {
+  contain-intrinsic-size: 1px 720px;
+}
+
+.landing-final-cta {
+  contain-intrinsic-size: 1px 560px;
+}
+
 .impact-metrics {
   display: grid;
   gap: var(--gap-md);
@@ -3646,6 +3719,16 @@ h2 {
   }
 }
 
+@keyframes connectorSlide {
+  from {
+    transform: translate3d(-16px, -50%, 0);
+  }
+
+  to {
+    transform: translate3d(16px, -50%, 0);
+  }
+}
+
 .landing-hero-copy {
   animation: fadeSlideUp var(--motion-enter) var(--motion-spring) both;
   will-change: opacity, transform;
@@ -3714,6 +3797,11 @@ h2 {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .landing-workgraph-flow {
+    animation: none !important;
+    transform: translate3d(0, -50%, 0) !important;
   }
 }
 

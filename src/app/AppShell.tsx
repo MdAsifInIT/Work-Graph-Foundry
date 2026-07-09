@@ -9,9 +9,10 @@ import {
   RefreshCw,
   RotateCcw,
   CheckCircle2,
-  Circle
+  Circle,
+  Loader2
 } from "lucide-react";
-import { type CSSProperties, type PointerEvent as ReactPointerEvent, type ReactNode, useState } from "react";
+import { type CSSProperties, type PointerEvent as ReactPointerEvent, type ReactNode, useState, useEffect } from "react";
 import { BrandLogo } from "../components/shared/BrandLogo";
 import { ToolbarButton } from "../components/shared/ToolbarButton";
 import type { ScenarioId } from "../domain/types";
@@ -55,6 +56,21 @@ export function AppShell({ activeView, children, controller, onClose, onViewChan
     
   const syncTone: "good" | "warn" | "blocked" =
     backendSyncStatus === "synced" ? "good" : backendSyncStatus === "error" ? "blocked" : "warn";
+    
+  const isSyncingOrConnecting = backendSyncStatus === "syncing" || backendSyncStatus === "connecting";
+  const [showTaskLoadingIndicator, setShowTaskLoadingIndicator] = useState(false);
+
+  useEffect(() => {
+    let timeoutId: number;
+    if (isSyncingOrConnecting) {
+      timeoutId = window.setTimeout(() => setShowTaskLoadingIndicator(true), 300);
+    } else {
+      setShowTaskLoadingIndicator(false);
+    }
+    return () => window.clearTimeout(timeoutId);
+  }, [isSyncingOrConnecting]);
+
+  const taskLoadingLabel = backendSyncStatus === "syncing" ? "Syncing tasks" : "Loading tasks";
     
   const shellStyle = {
     "--sidebar-width": `${sidebarCollapsed ? SIDEBAR_COLLAPSED_WIDTH : sidebarWidth}px`
@@ -197,7 +213,14 @@ export function AppShell({ activeView, children, controller, onClose, onViewChan
           <p className="sidebar-footer-scenario" title={scenario.workflowName}>{scenario.workflowName}</p>
           <div className="sidebar-footer-status">
             <span className={`status-dot ${providerTone}`} title={providerStatusDetail} /> <span className="sidebar-label">AI</span>
-            <span className={`status-dot ${syncTone}`} title={backendSyncStatusToLabel(backendSyncStatus)} /> <span className="sidebar-label">Sync</span>
+            {showTaskLoadingIndicator ? (
+              <span className="task-loading-indicator" role="status" aria-live="polite" aria-label={taskLoadingLabel}>
+                <Loader2 size={12} aria-hidden="true" />
+              </span>
+            ) : (
+              <span className={`status-dot ${syncTone}`} title={backendSyncStatusToLabel(backendSyncStatus)} />
+            )}
+            <span className="sidebar-label">Sync</span>
           </div>
         </div>
         <div

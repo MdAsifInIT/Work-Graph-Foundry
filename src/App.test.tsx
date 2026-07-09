@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
 import { App } from "./App";
+import { AppShell } from "./app/AppShell";
 import { createSeedDemoState, DEMO_STORAGE_KEY, saveDemoState } from "./domain/persistence";
 
 describe("App", () => {
@@ -160,6 +161,41 @@ describe("App", () => {
     });
     expect(screen.getByRole("button", { name: "Retry" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Reset" })).toBeInTheDocument();
+  });
+
+  it("shows a compact task-loading indicator while backend sync is in progress", async () => {
+    render(
+      <AppShell
+        activeView="overview"
+        controller={
+          {
+            actions: {},
+            backendSyncError: "",
+            backendSyncStatus: "syncing",
+            demoState: {
+              sampleLoaded: false,
+              analysisRequested: false,
+              proposalRequested: false,
+              runRequested: false,
+              selectedScenarioId: "it-access"
+            },
+            executionReady: false,
+            proposalGenerationReady: false,
+            providerFallbackMessage: "",
+            providerStatusDetail: "",
+            providerStatusLabel: "Live OpenAI",
+            scenario: { workflowName: "Access request operations" },
+            scenarioOptions: []
+          } as never
+        }
+        onClose={() => undefined}
+        onViewChange={() => undefined}
+      >
+        <div />
+      </AppShell>
+    );
+
+    expect(await screen.findByRole("status", { name: /Syncing tasks/i })).toBeInTheDocument();
   });
 
   it("shows sanitized provider fallback metadata from the browser mirror", async () => {

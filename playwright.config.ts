@@ -2,6 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 
 const port = 4173;
 const browserExecutablePath = process.env.E2E_BROWSER_EXECUTABLE;
+const dbPath = ".samruna/playwright-e2e.sqlite";
 
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -29,6 +30,9 @@ export default defineConfig({
   webServer: {
     command: `node --import tsx server/index.ts --serve-static --port ${port}`,
     url: `http://127.0.0.1:${port}`,
+    env: {
+      SAMRUNA_DB_PATH: dbPath
+    },
     reuseExistingServer: !process.env.CI,
     timeout: 120_000
   }

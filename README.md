@@ -1,6 +1,6 @@
 # Samruna
 
-Samruna is a governed workflow intelligence POC - Proof Of Concept for enterprise operations.
+Samruna is a governed workflow intelligence prototype for enterprise operations.
 
 It shows, in under 90 seconds, how messy work traces become a visible process, how that process becomes an AI-generated automation proposal, and how the proposal is still gated by human approval plus safe simulation. The point is simple: prove that automation can be fast, explainable, and governed before any real enterprise side effect exists.
 
@@ -83,10 +83,10 @@ Samruna is safe by design:
 - approval is required before execution
 - browser code never receives OpenAI API keys
 - backend provider errors are sanitized before reaching the UI
-- export/import operates on local POC - Proof Of Concept state
+- export/import operates on local prototype state
 - reset restores the seeded workspace
 
-No real enterprise systems are mutated by this POC - Proof Of Concept.
+No real enterprise systems are mutated by this prototype.
 
 ## Key Screens
 
@@ -99,13 +99,13 @@ No real enterprise systems are mutated by this POC - Proof Of Concept.
 ## Useful Commands
 
 ```powershell
-npm run demo:dev          # Start the local frontend POC - Proof Of Concept
+npm run demo:dev          # Start the local frontend demo
 npm run dev:fullstack     # Start backend and frontend together
-npm run backend:seed      # Reset local backend POC - Proof Of Concept state
+npm run backend:seed      # Reset local backend state
 npm run build             # Typecheck and build production assets
 npm test                  # Run unit tests
 npm run test:e2e          # Run Playwright browser tests
-npm run verify:demo       # Typecheck, test, build, and audit POC - Proof Of Concept
+npm run verify:demo       # Typecheck, test, build, and audit the demo
 npm run verify:fullstack  # Full verification path for frontend and backend
 ```
 
@@ -114,12 +114,12 @@ npm run verify:fullstack  # Full verification path for frontend and backend
 - [FAQ](FAQ.md): product, safety, OpenAI mode, and local run questions.
 - [Documentation Index](docs/README.md): full project documentation.
 - [Overview](docs/01-overview.md): purpose, current state, and main flows.
-- [POC - Proof Of Concept Setup](docs/04-demo-setup.md): local run steps and operator guidance.
+- [Demo Setup](docs/04-demo-setup.md): local run steps and operator guidance.
 - [Data Access And Security](docs/05-data-access-and-security.md): data needs and safety model.
 - [Testing And Validation](docs/06-testing-and-validation.md): verification coverage.
-- [POC - Proof Of Concept Operations](docs/10-demo-operations.md): canonical operator runbook.
-- [Hackathon POC - Proof Of Concept](docs/11-hackathon-demo.md): pitch framing and talk track.
-- [Full-Stack POC - Proof Of Concept Plan](docs/12-fullstack-demo-plan.md): backend/API reference.
+- [Demo Operations](docs/10-demo-operations.md): canonical operator runbook.
+- [Hackathon Demo](docs/11-hackathon-demo.md): pitch framing and talk track.
+- [Full-Stack Demo Plan](docs/12-fullstack-demo-plan.md): backend/API reference.
 
 ## Verification
 

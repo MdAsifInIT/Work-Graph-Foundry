@@ -127,7 +127,7 @@ No. It uses local fixture data only.
 
 ### 5.8.2 Does the MVP require an OpenAI API key?
 
-No. The default provider is the Historical validation engine. If `OPENAI_API_KEY` is set for the backend process, proposal generation can use live OpenAI while execution remains safe and simulated.
+No. The default provider is the Historical validation engine. If `OPENAI_API_KEY` is set for the backend process, proposal generation can use live OpenAI while synthetic execution runs can also be generated server-side, while execution remains safe and simulated.
 
 ### 5.8.3 Does the browser app expose secrets?
 

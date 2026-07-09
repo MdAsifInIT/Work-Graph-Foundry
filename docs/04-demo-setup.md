@@ -13,7 +13,7 @@ Required:
 
 Optional:
 
-- Optional `OPENAI_API_KEY` for trusted backend-only live proposal generation. The browser POC - Proof Of Concept does not use or receive it.
+- Optional `OPENAI_API_KEY` for trusted backend-only live proposal and synthetic execution generation. The browser POC - Proof Of Concept does not use or receive it.
 
 ## 4.2 Local Run Steps
 
@@ -75,7 +75,7 @@ Point out:
 
 ### 4.3.2 Choose A Scenario
 
-Use `IT access requests` for the default story. Use `Procurement intake` to show the same engine on software purchase, vendor onboarding, and invoice exception traces.
+Use `IT access requests` for the default story. The seeded synthetic scenarios are `it-access`, `procurement-intake`, `vendor-onboarding`, and `invoice-exceptions`. Use `Procurement intake` to show the same engine on software purchase, vendor onboarding, and invoice exception traces.
 
 All names, tickets, vendors, systems, approvals, and amounts are synthetic.
 

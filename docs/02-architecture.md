@@ -262,7 +262,7 @@ The local backend is intentionally POC - Proof Of Concept-grade:
 - execution remains safe and simulated
 - there is no authentication or RBAC
 - state persists to local SQLite
-- live OpenAI proposal generation is optional, server-side only, and not used by default
+- live OpenAI Responses API use is optional, server-side only, and can generate governed proposals plus synthetic execution runs; if the live call fails, the backend falls back to the deterministic Historical validation engine
 
 Production still requires authenticated APIs, scoped connectors, production secret management, immutable audit storage, and real tool-execution controls.
 

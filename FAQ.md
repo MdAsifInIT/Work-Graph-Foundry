@@ -35,10 +35,12 @@ Samruna shows a path from scattered work traces to governed automation:
 
 ## What can I do in the POC - Proof Of Concept?
 
-You can run two synthetic workflow scenarios:
+You can run four synthetic workflow scenarios:
 
-- **IT access requests**
-- **Procurement intake**
+- **it-access**
+- **procurement-intake**
+- **vendor-onboarding**
+- **invoice-exceptions**
 
 For each scenario, you can load workflow evidence, analyze the graph, review an automation proposal, approve or reject it, simulate execution, export the run, import a saved run, and reset the workspace.
 
@@ -60,7 +62,7 @@ It handles:
 - workflow analysis state
 - proposal, governance, execution, and audit records
 - export and import of POC - Proof Of Concept state
-- optional server-side OpenAI proposal generation
+- optional server-side OpenAI proposal and synthetic execution generation
 - fallback to the historical validation engine
 
 The backend also keeps sensitive provider logic away from the browser.
@@ -86,7 +88,7 @@ The browser never receives OpenAI API keys.
 
 OpenAI is optional and backend-only.
 
-When `OPENAI_API_KEY` is configured for the backend, Samruna can ask the OpenAI Responses API to generate a structured automation proposal from already-analyzed workflow context.
+When `OPENAI_API_KEY` is configured for the backend, Samruna can ask the OpenAI Responses API to generate a structured automation proposal and synthetic execution run from already-analyzed workflow context.
 
 When no key is configured, or if live generation fails, Samruna uses the historical validation engine so the POC - Proof Of Concept remains reliable.
 

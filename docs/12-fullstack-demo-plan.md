@@ -154,4 +154,4 @@ Still simulated or out of scope:
 - browser-side secrets
 - production-hosted OpenAI deployment and live-key CI
 
-Optional live OpenAI proposal generation is backend-only. Execution remains in safe simulation mode and approval-gated.
+Optional live OpenAI proposal and synthetic execution generation is backend-only. Execution remains in safe simulation mode and approval-gated.

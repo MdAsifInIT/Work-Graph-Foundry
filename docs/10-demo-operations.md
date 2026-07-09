@@ -32,7 +32,7 @@ Browser e2e verification:
 npm run test:e2e
 ```
 
-That command starts the full-stack app through Playwright, runs deterministic local Chromium tests, and verifies both golden scenarios plus menu navigation, backend workspace readback, browser mirror reload, reset recovery, export/import, rejection, and mobile overflow.
+That command starts the full-stack app through Playwright, runs deterministic local Chromium tests, and verifies the golden browser scenarios plus menu navigation, backend workspace readback, browser mirror reload, reset recovery, export/import, rejection, and mobile overflow.
 
 Production-preview fallback:
 
@@ -47,8 +47,10 @@ For the compact hackathon talk track, safe/local scope, and browser fallback ste
 
 Available scenarios:
 
-- `IT access requests`: default access-request workflow with manager approval bottleneck, policy checks, safe simulated provisioning, and audit logging.
-- `Procurement intake`: software procurement, vendor onboarding, and invoice exception workflow with procurement, finance, legal, and policy review paths.
+- `it-access`: default access-request workflow with manager approval bottleneck, policy checks, safe simulated provisioning, and audit logging.
+- `procurement-intake`: software procurement intake with policy review paths and approval routing.
+- `vendor-onboarding`: supplier setup workflow with compliance review and cross-functional checks.
+- `invoice-exceptions`: invoice discrepancy workflow with finance escalation and exception handling.
 
 All scenario data is synthetic and stored in `src/fixtures/demoData.ts`.
 
@@ -72,9 +74,9 @@ All scenario data is synthetic and stored in `src/fixtures/demoData.ts`.
 16. Confirm the exported run summary JSON appears.
 17. Click `Reset` in `Audit`.
 18. Confirm generated output clears from Graph, Review & Run, and Audit.
-19. Switch to `Procurement intake` and repeat load, analyze, inspect graph, and proposal generation.
+19. Switch to `procurement-intake`, `vendor-onboarding`, and `invoice-exceptions` as needed and repeat load, analyze, inspect graph, and proposal generation.
 
-The Playwright e2e suite exercises this path for both scenarios with deterministic POC - Proof Of Concept data and the menu-based shell. On failure, Playwright captures screenshots, videos, and traces for debugging; do not commit those artifacts unless they are intentionally attached to an investigation.
+The Playwright e2e suite exercises the golden browser path with deterministic POC - Proof Of Concept data and the menu-based shell. On failure, Playwright captures screenshots, videos, and traces for debugging; do not commit those artifacts unless they are intentionally attached to an investigation.
 
 The landing page that starts this path should show one visible `Launch` CTA, the landing impact metrics band, three workflow blocks, a connected automation path, and a proof band action that also enters `/dashboard`.
 
@@ -125,6 +127,7 @@ Do not commit exported run summaries unless they are intentionally added as synt
 ## 10.6 Safety Notes
 
 - The default AI provider is the Historical validation engine.
+- The backend can use OpenAI Responses API proposal and execution generation when `OPENAI_API_KEY` is set.
 - The browser POC - Proof Of Concept does not need `OPENAI_API_KEY`.
 - Live OpenAI calls, if added later, must be server-side only.
 - Execution uses safe simulation mode and never mutates external systems.

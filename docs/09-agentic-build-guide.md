@@ -71,7 +71,7 @@ Expected outcomes:
 
 - Scenario added without policy rules or approval history.
 - Ingestion inference does not recognize new request types.
-- Proposal generation works only for the default scenario.
+- Proposal generation and synthetic execution generation should work across all seeded scenarios, not just the default scenario.
 - Governance records are skipped to make execution easier.
 - Exported run summaries or real local data are committed.
 - Browser code reads secrets.

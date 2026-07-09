@@ -39,7 +39,7 @@ Production-ready next steps:
 
 ## 7.4 Server-Side OpenAI Integration
 
-A production-ready OpenAI integration should extend the existing backend-only proposal route and:
+A production-ready OpenAI integration should extend the existing backend-only proposal and synthetic execution generation flow and:
 
 - live outside browser code
 - own `OPENAI_API_KEY` securely
@@ -77,6 +77,8 @@ Implemented local scenarios:
 
 - IT access requests
 - Procurement intake
+- Vendor onboarding
+- Invoice exceptions
 
 Good next workflows:
 

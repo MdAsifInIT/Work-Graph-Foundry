@@ -1,143 +1,69 @@
 # Samruna
 
-Samruna turns messy enterprise work traces into governed automation proposals.
+Samruna is a governed workflow intelligence POC - Proof Of Concept for enterprise operations.
 
-It helps teams see where repeated work is happening, understand the bottlenecks behind it, review an AI-generated automation plan, and safely simulate execution only after approval.
+It shows, in under 90 seconds, how messy work traces become a visible process, how that process becomes an AI-generated automation proposal, and how the proposal is still gated by human approval plus safe simulation. The point is simple: prove that automation can be fast, explainable, and governed before any real enterprise side effect exists.
 
-The current version is a local POC - Proof Of Concept. It uses synthetic organization data, a reproducible workflow engine, and safe simulation mode so the experience is reliable without connecting to real enterprise systems.
+This repository ships a local, synthetic, hackathon-friendly experience. It is intentionally safe by default, uses seeded scenarios, and can run with deterministic historical validation or with backend-only OpenAI Responses API proposal and execution generation when `OPENAI_API_KEY` is configured.
 
-## Why It Exists
+## What It Proves
 
-Enterprise operations are often spread across tickets, email, chat, approvals, spreadsheets, and system logs. The same work happens again and again, but the process is hard to see clearly.
+- You can discover real workflow structure from noisy operational traces.
+- You can surface bottlenecks, exceptions, and approval paths clearly enough for review.
+- You can generate a structured automation proposal without handing control to the model.
+- You can keep execution in safe simulation mode until a human approves it.
+- You can preserve an audit trail and reset to seeded state at any time.
 
-Samruna gives teams a way to:
+## Reviewer Quickstart
 
-- discover repeated workflows from operational traces
-- turn those workflows into a visual work graph
-- identify delays, exceptions, and approval bottlenecks
-- generate a reviewable automation proposal
-- simulate the proposal against historical cases
-- require human approval before any execution
-- keep an audit trail of every decision and run
-
-## What You Can Try
-
-The POC - Proof Of Concept includes two synthetic scenarios:
-
-1. **IT access requests**
-   Employees request application access through email, tickets, chat, approvals, and system logs.
-
-2. **Procurement intake**
-   Teams request software purchases, vendor onboarding, and invoice exception handling.
-
-In each scenario, Samruna walks through the same operating model:
-
-1. Load workflow traces.
-2. Normalize the messy source evidence.
-3. Detect repeated work patterns.
-4. Build a graph of people, approvals, systems, exceptions, and outcomes.
-5. Surface the main bottleneck.
-6. Generate a governed automation proposal.
-7. Review policy checks, required data, forbidden data, assumptions, and escalations.
-8. Approve or reject the proposal.
-9. Execute only in safe simulation mode.
-10. Review the audit trail, export the run, or reset the POC - Proof Of Concept.
-
-## POC - Proof Of Concept Walkthrough
-
-1. Open the app.
-2. Click **Launch**.
-3. Choose **IT access requests** or **Procurement intake**.
-4. Click **Load Workflow**.
-5. Click **Analyze**.
-6. Open **Evidence** to review source traces and normalized work items.
-7. Open **Graph** to inspect the repeated workflow and bottleneck.
-8. Click **Generate Proposal**.
-9. Open **Review & Run** to inspect the proposal, simulation, and governance gate.
-10. Click **Approve** or **Reject**.
-11. If approved, click **Execute workflow**.
-12. Open **Audit** to review events, export a summary, import a prior run, or reset.
-
-## What The AI Does
-
-Samruna uses AI as a workflow automation planner.
-
-The AI does:
-
-- read structured workflow context prepared by the system
-- generate a proposal with triggers, required data, allowed actions, policy checks, and escalation paths
-- explain the governance and simulation rationale
-
-The AI does not:
-
-- execute actions on its own
-- bypass human approval
-- connect directly to enterprise systems from the browser
-- receive API keys in frontend code
-- replace audit, policy, or compliance review
-
-If live OpenAI credentials are not configured, Samruna uses the built-in historical validation engine so the POC - Proof Of Concept still works.
-
-## Safety Model
-
-The POC - Proof Of Concept is intentionally safe by default:
-
-- all scenario records are synthetic
-- execution is simulated
-- proposals require human approval
-- browser code never receives OpenAI API keys
-- backend provider errors are sanitized before reaching the UI
-- export/import data is local POC - Proof Of Concept state, not customer production data
-- reset restores the seeded POC - Proof Of Concept state
-
-For a production deployment, Samruna would need enterprise identity, role-based access control, scoped connectors, durable storage, immutable audit logs, and carefully governed execution tools.
-
-## Run The POC - Proof Of Concept Locally
-
-Requirements:
-
-- Node.js 24 or newer
-- npm
-
-Install dependencies and start the frontend POC - Proof Of Concept:
+Full-stack path first:
 
 ```powershell
 npm install
-npm run demo:dev
-```
-
-Open the local URL printed by Vite.
-
-If local dev-server dependency optimization is blocked, use the production preview path:
-
-```powershell
-npm run build
-npm run preview
-```
-
-## Run With The Local Backend
-
-The full-stack POC - Proof Of Concept adds a local API and SQLite-backed workspace state.
-
-```powershell
 npm run backend:seed
 npm run dev:fullstack
 ```
 
-The backend listens on `127.0.0.1:8787` by default. The generated SQLite database is stored at `.samruna/samruna.sqlite` unless `SAMRUNA_DB_PATH` is set.
+Open the local URL printed by Vite.
 
-To use the built full-stack server:
+If Vite dependency optimization is blocked in your environment, use:
 
 ```powershell
 npm run build
 npm run preview:fullstack -- --port 4174
 ```
 
-## Optional Live OpenAI Proposal Generation
+## Scenario Set
 
-Samruna works without OpenAI credentials. Leave `OPENAI_API_KEY` unset to use the historical validation engine.
+Samruna includes four synthetic workflows:
 
-To try live proposal generation locally, set the key only for the backend process:
+- `it-access`: employee access requests, approvals, and safe simulated provisioning.
+- `procurement-intake`: purchase intake, routing, policy review, and approval flow.
+- `vendor-onboarding`: supplier setup, compliance checks, and cross-functional review.
+- `invoice-exceptions`: invoice discrepancy handling, escalation, and finance review.
+
+Each scenario follows the same governed loop:
+
+1. Load workflow traces.
+2. Normalize the source evidence.
+3. Detect repeated work patterns.
+4. Build the work graph.
+5. Surface bottlenecks and exceptions.
+6. Generate a governed automation proposal.
+7. Review policy checks, required data, forbidden data, assumptions, and escalations.
+8. Approve or reject the proposal.
+9. Execute only in safe simulation mode.
+10. Review the audit trail, export the run, import a prior run, or reset the workspace.
+
+## OpenAI Mode
+
+OpenAI is optional and backend-only.
+
+When `OPENAI_API_KEY` is set for the backend process, Samruna uses the OpenAI Responses API to generate proposal content and synthetic execution runs from already-analyzed workflow context. When the key is absent, or if the live call fails, the backend falls back to the deterministic historical validation engine.
+
+Use backend-only environment variables. Do not expose API keys to the browser or frontend code.
+
+Example local backend setup:
 
 ```powershell
 $env:OPENAI_API_KEY="sk-..."
@@ -146,7 +72,27 @@ npm run backend:seed
 npm run dev:fullstack
 ```
 
-Never put `OPENAI_API_KEY` in browser code or frontend environment variables.
+## Safety Model
+
+Samruna is safe by design:
+
+- all data is synthetic
+- execution is simulated only
+- approval is required before execution
+- browser code never receives OpenAI API keys
+- backend provider errors are sanitized before reaching the UI
+- export/import operates on local POC - Proof Of Concept state
+- reset restores the seeded workspace
+
+No real enterprise systems are mutated by this POC - Proof Of Concept.
+
+## Key Screens
+
+- `Launch`: enters the workspace from the landing page.
+- `Evidence`: shows source traces and normalized work items.
+- `Graph`: shows the repeated workflow and bottleneck structure.
+- `Review & Run`: shows the proposal, governance checks, and approval gate.
+- `Audit`: shows events, exports, imports, and reset controls.
 
 ## Useful Commands
 
@@ -163,17 +109,27 @@ npm run verify:fullstack  # Full verification path for frontend and backend
 
 ## Documentation
 
-- [FAQ](FAQ.md): product, POC - Proof Of Concept, data, safety, and implementation questions.
+- [FAQ](FAQ.md): product, safety, OpenAI mode, and local run questions.
 - [Documentation Index](docs/README.md): full project documentation.
 - [Overview](docs/01-overview.md): purpose, current state, and main flows.
 - [POC - Proof Of Concept Setup](docs/04-demo-setup.md): local run steps and operator guidance.
 - [Data Access And Security](docs/05-data-access-and-security.md): data needs and safety model.
 - [Testing And Validation](docs/06-testing-and-validation.md): verification coverage.
-- [Roadmap](docs/07-roadmap.md): current limits and production direction.
+- [POC - Proof Of Concept Operations](docs/10-demo-operations.md): canonical operator runbook.
+- [Hackathon POC - Proof Of Concept](docs/11-hackathon-demo.md): pitch framing and talk track.
+- [Full-Stack POC - Proof Of Concept Plan](docs/12-fullstack-demo-plan.md): backend/API reference.
+
+## Verification
+
+```powershell
+npm run typecheck:server
+```
+
+The full `npm run typecheck` path may currently be blocked by dependency resolution around `clsx` and `tailwind-merge`. The server typecheck remains the primary lightweight check for this repository state.
 
 ## Current Scope
 
-Samruna is currently a POC - Proof Of Concept-grade product experience. It proves the workflow:
+Samruna proves the workflow:
 
 - observe work
 - understand the pattern
@@ -183,12 +139,3 @@ Samruna is currently a POC - Proof Of Concept-grade product experience. It prove
 - audit the result
 
 It does not yet include production authentication, live enterprise connectors, real provisioning actions, customer data ingestion, production infrastructure, or final compliance controls.
-
-## Troubleshooting
-
-- If the dev server fails in a restricted environment, run `npm run build` and then `npm run preview`.
-- If the full-stack dev server fails, run `npm run build` and then `npm run preview:fullstack -- --port 4174`.
-- If live OpenAI calls fail, remove `OPENAI_API_KEY` and use the historical validation engine.
-- If Playwright browsers are missing, run `npm run test:e2e:install`.
-- If the UI appears stale, reload the page or rebuild the preview server.
-

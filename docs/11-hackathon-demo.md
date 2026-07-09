@@ -18,7 +18,7 @@ It does not mean the product is production-ready for enterprise use.
 The current POC - Proof Of Concept is safe for local and hackathon use because:
 
 - the default AI provider is the Historical validation engine
-- optional live OpenAI proposal generation runs server-side only, with validation fallback wording in the UI
+- optional live OpenAI proposal and synthetic execution generation runs server-side only, with validation fallback wording in the UI
 - the scenario data is synthetic
 - no `OPENAI_API_KEY` is required
 - execution uses safe simulation mode
@@ -42,7 +42,7 @@ Use this sequence for a live POC - Proof Of Concept:
 
 1. Start with `npm run backend:seed`, then `npm run dev:fullstack`.
 2. Open the printed local URL and click `Launch`.
-3. Select `IT access requests` for the default story.
+3. Select `IT access requests` for the default story. The seeded scenarios also include `Procurement intake`, `Vendor onboarding`, and `Invoice exceptions`.
 4. Click `Load workflow`.
 5. Click `Analyze workflow` and point out the `Evidence` and `Graph` views.
 6. Click `Generate automation proposal` and review `Review & Run`.
@@ -52,11 +52,11 @@ Use this sequence for a live POC - Proof Of Concept:
 8. Click `Execute workflow` and emphasize that no external system changes.
 9. Open `Audit`, then click `Export Summary` to show portable POC - Proof Of Concept state.
 10. Click `Reset workflow state` in `Audit` to prove the POC - Proof Of Concept can be replayed.
-11. Switch to `Procurement intake` if you want a second scenario.
+11. Switch to `Procurement intake` or another seeded scenario if you want to show a second path.
 
 Short talk track:
 
-"This POC - Proof Of Concept observes messy synthetic work traces, finds repeated patterns in an organization, can use live server-side OpenAI reasoning to generate a governed proposal, validates that proposal against history, requires human approval, executes safely in simulation mode, and persists the result through a local API and SQLite."
+"This POC - Proof Of Concept observes messy synthetic work traces, finds repeated patterns in an organization, can use live server-side OpenAI reasoning to generate a governed proposal and synthetic execution run, validates that output against history, requires human approval, executes safely in simulation mode, and persists the result through a local API and SQLite."
 
 The opening screen should read as a product landing page, not a shell: one visible `Launch` CTA, the landing impact metrics band, three workflow blocks, a connected automation path, a compact topbar status, and a proof band that points into the workspace.
 
@@ -101,4 +101,4 @@ npm run backend:seed
 npm run dev:fullstack
 ```
 
-Do not paste keys into the browser, fixtures, docs, exported run summaries, or screenshots. Live OpenAI affects proposal generation only; enterprise connectors, auth/RBAC, live provisioning, real customer data, browser-side secrets, and real execution remain out of scope.
+Do not paste keys into the browser, fixtures, docs, exported run summaries, or screenshots. Live OpenAI affects proposal and synthetic execution generation only; enterprise connectors, auth/RBAC, live provisioning, real customer data, browser-side secrets, and real execution remain out of scope.

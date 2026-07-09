@@ -101,7 +101,7 @@ When an agent validates this repo, it should perform these steps:
 26. Repeat load, analyze, generate proposal.
 27. Check mobile width for horizontal overflow and mobile view selection.
 
-The Playwright e2e suite is the preferred browser verification path. It serves Vite locally, runs deterministic Chromium tests, and validates the two golden scenarios plus backend workspace persistence, browser mirror recovery, reload, and reset recovery.
+The Playwright e2e suite is the preferred browser verification path. It serves Vite locally, runs deterministic Chromium tests, and validates the golden browser scenarios plus backend workspace persistence, browser mirror recovery, reload, and reset recovery. The fixture set contains four synthetic scenarios, but browser e2e coverage may still stay focused on the golden/core paths.
 
 ## 6.5 Playwright E2E Tests
 
@@ -151,7 +151,7 @@ Expected current baseline for `npm run test:e2e`:
 
 - local Vite server starts
 - deterministic Chromium browser tests pass
-- golden paths pass for `IT access requests` and `Procurement intake`
+- golden browser paths pass for `IT access requests` and `Procurement intake`
 - landing screen checks the three workflow blocks, connected automation path, impact proof band, and single visible `Launch` CTA
 - rejection, export/import, backend persistence readback, mirror recovery, mobile overflow, and preview-backed checks pass
 

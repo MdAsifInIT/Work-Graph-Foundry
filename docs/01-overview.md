@@ -23,7 +23,7 @@ Samruna demonstrates a different loop: discover the workflow from work traces fi
 The repository currently contains a complete local MVP:
 
 - React/Vite/TypeScript dashboard
-- seeded IT access request and procurement intake fixture data
+- seeded `it-access`, `procurement-intake`, `vendor-onboarding`, and `invoice-exceptions` fixture data
 - typed domain contracts
 - scenario selection and validation
 - local backend API with SQLite persisted POC - Proof Of Concept state
@@ -108,7 +108,7 @@ Important source files:
 
 ## 1.8 Current POC - Proof Of Concept Story
 
-The default story centers on IT access requests:
+The default story centers on `it-access`:
 
 - Employees request application access.
 - Requests arrive through several channels.
@@ -119,4 +119,4 @@ The default story centers on IT access requests:
 
 The strongest POC - Proof Of Concept moment is that the workflow is discovered from traces rather than predefined by the user.
 
-The second scenario, procurement intake, demonstrates that the same domain pipeline and local backend can handle another realistic enterprise workflow without a live connector. It keeps low-risk software procurement on a candidate fast path while vendor onboarding and invoice exceptions remain human-reviewed.
+The other scenarios, `procurement-intake`, `vendor-onboarding`, and `invoice-exceptions`, demonstrate that the same domain pipeline and local backend can handle adjacent enterprise workflows without a live connector. They keep low-risk intake on a candidate fast path while onboarding and exception handling remain human-reviewed.

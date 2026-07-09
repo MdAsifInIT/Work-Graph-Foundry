@@ -186,7 +186,10 @@ function isRunSummaryExport(value: unknown): value is RunSummaryExport {
 
   return (
     typeof candidate.exportedAt === "string" &&
-    (candidate.scenarioId === "it-access" || candidate.scenarioId === "procurement-intake") &&
+    (candidate.scenarioId === "it-access" ||
+      candidate.scenarioId === "procurement-intake" ||
+      candidate.scenarioId === "vendor-onboarding" ||
+      candidate.scenarioId === "invoice-exceptions") &&
     Boolean(normalizePersistedDemoState(candidate.state))
   );
 }
@@ -200,7 +203,10 @@ function normalizePersistedDemoState(value: unknown): PersistedDemoState | undef
 
   const valid =
     state.version === DEMO_STATE_VERSION &&
-    (state.selectedScenarioId === "it-access" || state.selectedScenarioId === "procurement-intake") &&
+    (state.selectedScenarioId === "it-access" ||
+      state.selectedScenarioId === "procurement-intake" ||
+      state.selectedScenarioId === "vendor-onboarding" ||
+      state.selectedScenarioId === "invoice-exceptions") &&
     typeof state.sampleLoaded === "boolean" &&
     typeof state.analysisRequested === "boolean" &&
     typeof state.proposalRequested === "boolean" &&

@@ -664,6 +664,405 @@ export const procurementDemoFixtures: DemoFixtureSet = {
   newIncomingTrace: procurementNewIncomingTrace
 };
 
+const vendorOnboardingSeeds: ProcurementCaseSeed[] = [
+  {
+    id: "case-5001",
+    requester: "Harper Cole",
+    department: "Procurement",
+    manager: "Priya Shah",
+    vendor: "Northstar Logistics",
+    system: "VendorRisk",
+    requestType: "vendor_onboarding",
+    urgency: "normal",
+    region: "NA",
+    amountUsd: 64000,
+    submittedAt: "2026-05-01T08:15:00Z",
+    approvedAt: "2026-05-02T14:10:00Z",
+    completedAt: "2026-05-02T15:30:00Z",
+    outcome: "approved"
+  },
+  {
+    id: "case-5002",
+    requester: "Jules Ramirez",
+    department: "Legal",
+    manager: "Marin Ito",
+    vendor: "Aster Records",
+    system: "VendorRisk",
+    requestType: "vendor_onboarding",
+    urgency: "normal",
+    region: "EMEA",
+    amountUsd: 28000,
+    submittedAt: "2026-05-01T10:40:00Z",
+    approvedAt: "2026-05-04T11:20:00Z",
+    completedAt: "2026-05-04T12:05:00Z",
+    exception: "data_processing_addendum_required",
+    outcome: "manual_review"
+  },
+  {
+    id: "case-5003",
+    requester: "Mina Torres",
+    department: "Finance",
+    manager: "Priya Shah",
+    vendor: "Blue Harbor Services",
+    system: "VendorRisk",
+    requestType: "vendor_onboarding",
+    urgency: "low",
+    region: "NA",
+    amountUsd: 19000,
+    submittedAt: "2026-05-02T09:05:00Z",
+    approvedAt: "2026-05-03T10:45:00Z",
+    completedAt: "2026-05-03T11:40:00Z",
+    outcome: "approved"
+  },
+  {
+    id: "case-5004",
+    requester: "Dylan Frost",
+    department: "Security",
+    manager: "Samira Khan",
+    vendor: "CloudGate Monitoring",
+    system: "VendorRisk",
+    requestType: "vendor_onboarding",
+    urgency: "high",
+    region: "APAC",
+    amountUsd: 73000,
+    submittedAt: "2026-05-02T12:30:00Z",
+    approvedAt: "2026-05-05T16:25:00Z",
+    completedAt: "2026-05-05T17:10:00Z",
+    exception: "security_questionnaire_pending",
+    outcome: "manual_review"
+  },
+  {
+    id: "case-5005",
+    requester: "Leah Morgan",
+    department: "Operations",
+    manager: "Ari Patel",
+    vendor: "ParcelWave",
+    system: "VendorRisk",
+    requestType: "vendor_onboarding",
+    urgency: "normal",
+    region: "NA",
+    amountUsd: 22000,
+    submittedAt: "2026-05-03T07:20:00Z",
+    approvedAt: "2026-05-04T13:15:00Z",
+    completedAt: "2026-05-04T14:00:00Z",
+    outcome: "approved"
+  },
+  {
+    id: "case-5006",
+    requester: "Noah Stein",
+    department: "IT",
+    manager: "Samira Khan",
+    vendor: "TicketBridge",
+    system: "VendorRisk",
+    requestType: "vendor_onboarding",
+    urgency: "normal",
+    region: "EMEA",
+    amountUsd: 46000,
+    submittedAt: "2026-05-03T15:10:00Z",
+    approvedAt: "2026-05-06T09:35:00Z",
+    completedAt: "2026-05-06T10:20:00Z",
+    outcome: "approved"
+  },
+  {
+    id: "case-5007",
+    requester: "Sofia Alvarez",
+    department: "People",
+    manager: "Marin Ito",
+    vendor: "PulseSurvey",
+    system: "VendorRisk",
+    requestType: "vendor_onboarding",
+    urgency: "normal",
+    region: "LATAM",
+    amountUsd: 15000,
+    submittedAt: "2026-05-04T11:55:00Z",
+    approvedAt: "2026-05-07T12:25:00Z",
+    completedAt: "2026-05-07T13:15:00Z",
+    outcome: "approved"
+  },
+  {
+    id: "case-5008",
+    requester: "Omar Haddad",
+    department: "Finance",
+    manager: "Priya Shah",
+    vendor: "LedgerWorks",
+    system: "VendorRisk",
+    requestType: "vendor_onboarding",
+    urgency: "high",
+    region: "NA",
+    amountUsd: 91000,
+    submittedAt: "2026-05-05T09:10:00Z",
+    approvedAt: "2026-05-08T15:45:00Z",
+    exception: "beneficial_ownership_review",
+    outcome: "manual_review"
+  },
+  {
+    id: "case-5009",
+    requester: "Tessa Green",
+    department: "Legal",
+    manager: "Marin Ito",
+    vendor: "ClausePilot",
+    system: "VendorRisk",
+    requestType: "vendor_onboarding",
+    urgency: "low",
+    region: "EMEA",
+    amountUsd: 24000,
+    submittedAt: "2026-05-06T08:05:00Z",
+    approvedAt: "2026-05-08T10:15:00Z",
+    completedAt: "2026-05-08T11:00:00Z",
+    outcome: "approved"
+  },
+  {
+    id: "case-5010",
+    requester: "Keiko Tan",
+    department: "Revenue Operations",
+    manager: "Ari Patel",
+    vendor: "RenewFlow",
+    system: "VendorRisk",
+    requestType: "vendor_onboarding",
+    urgency: "normal",
+    region: "APAC",
+    amountUsd: 31000,
+    submittedAt: "2026-05-07T14:22:00Z",
+    approvedAt: "2026-05-09T16:40:00Z",
+    completedAt: "2026-05-09T17:25:00Z",
+    outcome: "approved"
+  }
+];
+
+const invoiceExceptionSeeds: ProcurementCaseSeed[] = [
+  {
+    id: "case-6001",
+    requester: "Marco Bellini",
+    department: "Finance",
+    manager: "Priya Shah",
+    vendor: "OfficeGrid",
+    system: "NetSuite",
+    requestType: "invoice_exception",
+    urgency: "normal",
+    region: "NA",
+    amountUsd: 8400,
+    submittedAt: "2026-05-01T13:05:00Z",
+    approvedAt: "2026-05-02T16:30:00Z",
+    completedAt: "2026-05-02T17:20:00Z",
+    exception: "missing_purchase_order",
+    outcome: "manual_review"
+  },
+  {
+    id: "case-6002",
+    requester: "June Howard",
+    department: "Revenue Operations",
+    manager: "Ari Patel",
+    vendor: "DataDesk",
+    system: "NetSuite",
+    requestType: "invoice_exception",
+    urgency: "normal",
+    region: "NA",
+    amountUsd: 15300,
+    submittedAt: "2026-05-02T09:25:00Z",
+    approvedAt: "2026-05-03T11:10:00Z",
+    completedAt: "2026-05-03T12:00:00Z",
+    outcome: "approved"
+  },
+  {
+    id: "case-6003",
+    requester: "Iris Wu",
+    department: "People",
+    manager: "Devon Lane",
+    vendor: "Workday Services",
+    system: "NetSuite",
+    requestType: "invoice_exception",
+    urgency: "low",
+    region: "APAC",
+    amountUsd: 5200,
+    submittedAt: "2026-05-03T06:15:00Z",
+    approvedAt: "2026-05-04T08:40:00Z",
+    completedAt: "2026-05-04T09:20:00Z",
+    outcome: "approved"
+  },
+  {
+    id: "case-6004",
+    requester: "Ben Ito",
+    department: "Sales",
+    manager: "Nora Ellis",
+    vendor: "CallSense",
+    system: "NetSuite",
+    requestType: "invoice_exception",
+    urgency: "high",
+    region: "NA",
+    amountUsd: 12800,
+    submittedAt: "2026-05-03T15:30:00Z",
+    approvedAt: "2026-05-06T10:05:00Z",
+    completedAt: "2026-05-06T11:00:00Z",
+    exception: "amount_mismatch_review",
+    outcome: "manual_review"
+  },
+  {
+    id: "case-6005",
+    requester: "Nina Park",
+    department: "Customer Success",
+    manager: "Nora Ellis",
+    vendor: "SurveyLoop",
+    system: "NetSuite",
+    requestType: "invoice_exception",
+    urgency: "normal",
+    region: "EMEA",
+    amountUsd: 6900,
+    submittedAt: "2026-05-04T10:15:00Z",
+    approvedAt: "2026-05-05T13:35:00Z",
+    completedAt: "2026-05-05T14:15:00Z",
+    outcome: "approved"
+  },
+  {
+    id: "case-6006",
+    requester: "Amara Okafor",
+    department: "Marketing",
+    manager: "Devon Lane",
+    vendor: "BrightAds",
+    system: "NetSuite",
+    requestType: "invoice_exception",
+    urgency: "normal",
+    region: "NA",
+    amountUsd: 9900,
+    submittedAt: "2026-05-05T08:50:00Z",
+    approvedAt: "2026-05-07T12:20:00Z",
+    completedAt: "2026-05-07T13:05:00Z",
+    outcome: "approved"
+  },
+  {
+    id: "case-6007",
+    requester: "Felix Grant",
+    department: "Engineering",
+    manager: "Samira Khan",
+    vendor: "CloudForge",
+    system: "NetSuite",
+    requestType: "invoice_exception",
+    urgency: "high",
+    region: "EMEA",
+    amountUsd: 21500,
+    submittedAt: "2026-05-05T17:05:00Z",
+    approvedAt: "2026-05-08T09:50:00Z",
+    completedAt: "2026-05-08T10:35:00Z",
+    exception: "budget_owner_confirmation_missing",
+    outcome: "manual_review"
+  },
+  {
+    id: "case-6008",
+    requester: "Lena Fischer",
+    department: "Legal",
+    manager: "Marin Ito",
+    vendor: "ClausePilot",
+    system: "NetSuite",
+    requestType: "invoice_exception",
+    urgency: "normal",
+    region: "EMEA",
+    amountUsd: 4300,
+    submittedAt: "2026-05-06T12:45:00Z",
+    approvedAt: "2026-05-08T14:15:00Z",
+    completedAt: "2026-05-08T15:00:00Z",
+    outcome: "approved"
+  },
+  {
+    id: "case-6009",
+    requester: "Theo James",
+    department: "Finance",
+    manager: "Priya Shah",
+    vendor: "LedgerWorks",
+    system: "NetSuite",
+    requestType: "invoice_exception",
+    urgency: "normal",
+    region: "NA",
+    amountUsd: 17800,
+    submittedAt: "2026-05-07T07:55:00Z",
+    approvedAt: "2026-05-09T09:25:00Z",
+    completedAt: "2026-05-09T10:10:00Z",
+    outcome: "approved"
+  },
+  {
+    id: "case-6010",
+    requester: "Owen Brooks",
+    department: "Engineering",
+    manager: "Samira Khan",
+    vendor: "CloudForge",
+    system: "NetSuite",
+    requestType: "invoice_exception",
+    urgency: "high",
+    region: "APAC",
+    amountUsd: 26400,
+    submittedAt: "2026-05-08T14:05:00Z",
+    approvedAt: "2026-05-10T16:45:00Z",
+    completedAt: "2026-05-10T17:20:00Z",
+    outcome: "approved"
+  }
+];
+
+export const vendorOnboardingDemoFixtures: DemoFixtureSet = {
+  rawTraces: vendorOnboardingSeeds.flatMap(procurementTracesForSeed),
+  policyRules: procurementPolicyRules,
+  approvalHistory: vendorOnboardingSeeds.map((seed) => ({
+    id: `${seed.id}-approval`,
+    caseId: seed.id,
+    approver: seed.manager,
+    role: "legal",
+    decision: seed.outcome === "rejected" ? "rejected" : "approved",
+    requestedAt: seed.submittedAt,
+    decidedAt: seed.approvedAt,
+    comments: seed.exception
+      ? `Approved with vendor risk review required: ${seed.exception}.`
+      : `Approved ${seed.vendor} onboarding.`
+  })),
+  newIncomingTrace: {
+    id: "case-7001-email-1",
+    caseId: "case-7001",
+    channel: "email",
+    occurredAt: "2026-05-15T09:08:00Z",
+    actor: "Harper Cole",
+    participants: ["Harper Cole", "Priya Shah", "Procurement Operations"],
+    subject: "Vendor onboarding for Northstar Logistics",
+    body: "Harper Cole from Procurement needs normal VendorRisk onboarding for Northstar Logistics. Manager is Priya Shah. No live vendor secrets or contract bodies are included.",
+    metadata: {
+      department: "Procurement",
+      system: "VendorRisk",
+      ticketId: "PR-7001",
+      region: "NA",
+      severity: "normal"
+    }
+  }
+};
+
+export const invoiceExceptionDemoFixtures: DemoFixtureSet = {
+  rawTraces: invoiceExceptionSeeds.flatMap(procurementTracesForSeed),
+  policyRules: procurementPolicyRules,
+  approvalHistory: invoiceExceptionSeeds.map((seed) => ({
+    id: `${seed.id}-approval`,
+    caseId: seed.id,
+    approver: seed.manager,
+    role: "finance",
+    decision: seed.outcome === "rejected" ? "rejected" : "approved",
+    requestedAt: seed.submittedAt,
+    decidedAt: seed.approvedAt,
+    comments: seed.exception
+      ? `Approved with invoice exception review required: ${seed.exception}.`
+      : `Approved ${seed.vendor} invoice exception.`
+  })),
+  newIncomingTrace: {
+    id: "case-8001-email-1",
+    caseId: "case-8001",
+    channel: "email",
+    occurredAt: "2026-05-15T12:15:00Z",
+    actor: "Marco Bellini",
+    participants: ["Marco Bellini", "Priya Shah", "Procurement Operations"],
+    subject: "Invoice exception for OfficeGrid",
+    body: "Marco Bellini from Finance needs normal NetSuite invoice exception handling for OfficeGrid. Manager is Priya Shah. No bank details or live payment data are included.",
+    metadata: {
+      department: "Finance",
+      system: "NetSuite",
+      ticketId: "PR-8001",
+      region: "NA",
+      severity: "normal"
+    }
+  }
+};
+
 export const demoScenarios: DemoScenario[] = [
   {
     id: "it-access",
@@ -718,5 +1117,58 @@ export const demoScenarios: DemoScenario[] = [
       "unrestricted procurement admin access"
     ],
     fixtures: procurementDemoFixtures
+  },
+  {
+    id: "vendor-onboarding",
+    label: "Vendor onboarding",
+    workflowName: "Vendor risk onboarding",
+    description: "Procurement and legal teams review vendor onboarding requests through email, tickets, approvals, and vendor-risk system actions.",
+    operatorGoal: "Show how repeat vendor onboarding can be standardized while security and legal exceptions stay human-reviewed.",
+    graphTitle: "Vendor onboarding flow",
+    topSystemLabel: "Top vendor-risk system",
+    syntheticDataNotice: "Synthetic vendor onboarding workflow fixtures.",
+    requiredOrgData: [
+      "workflow metadata",
+      "vendor intake events",
+      "timestamps",
+      "approval records",
+      "review status",
+      "owner and approver roles",
+      "vendor-risk identifiers"
+    ],
+    excludedOrgData: [
+      "tax identifiers",
+      "bank account details",
+      "raw contract bodies",
+      "real vendor secrets",
+      "production vendor admin access"
+    ],
+    fixtures: vendorOnboardingDemoFixtures
+  },
+  {
+    id: "invoice-exceptions",
+    label: "Invoice exceptions",
+    workflowName: "Finance exception handling",
+    description: "Finance reviews invoices missing purchase orders or needing amount correction through intake, approvals, and system updates.",
+    operatorGoal: "Show how invoice exception handling can be partially automated while preserving finance review for mismatches and missing purchase orders.",
+    graphTitle: "Invoice exception flow",
+    topSystemLabel: "Top finance system",
+    syntheticDataNotice: "Synthetic invoice exception workflow fixtures.",
+    requiredOrgData: [
+      "workflow metadata",
+      "invoice exception events",
+      "timestamps",
+      "approval records",
+      "request owner and approver roles",
+      "finance-system identifiers"
+    ],
+    excludedOrgData: [
+      "bank account details",
+      "payment card data",
+      "raw invoice attachments",
+      "real vendor secrets",
+      "production finance admin access"
+    ],
+    fixtures: invoiceExceptionDemoFixtures
   }
 ];

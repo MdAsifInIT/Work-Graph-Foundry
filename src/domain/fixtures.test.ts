@@ -35,7 +35,12 @@ describe("demo fixtures", () => {
   it("loads all typed demo scenarios with valid synthetic data", () => {
     const scenarios = listDemoScenarios();
 
-    expect(scenarios.map((scenario) => scenario.id)).toEqual(["it-access", "procurement-intake"]);
+    expect(scenarios.map((scenario) => scenario.id)).toEqual([
+      "it-access",
+      "procurement-intake",
+      "vendor-onboarding",
+      "invoice-exceptions"
+    ]);
 
     for (const scenario of scenarios) {
       const result = validateDemoFixtures(scenario.fixtures);
@@ -55,5 +60,27 @@ describe("demo fixtures", () => {
     expect(result.summary.rawTraceCount).toBeGreaterThanOrEqual(40);
     expect(scenario.fixtures.policyRules.map((rule) => rule.id)).toContain("policy-software-procurement");
     expect(scenario.fixtures.newIncomingTrace.metadata.ticketId).toBe("PR-4001");
+  });
+
+  it("loads vendor onboarding as an additional enterprise workflow scenario", () => {
+    const scenario = loadDemoScenario("vendor-onboarding");
+    const result = validateDemoFixtures(scenario.fixtures);
+
+    expect(scenario.label).toBe("Vendor onboarding");
+    expect(result.valid).toBe(true);
+    expect(result.summary.caseCount).toBeGreaterThanOrEqual(10);
+    expect(scenario.fixtures.policyRules.map((rule) => rule.id)).toContain("policy-vendor-onboarding");
+    expect(scenario.fixtures.newIncomingTrace.metadata.ticketId).toBe("PR-7001");
+  });
+
+  it("loads invoice exceptions as an additional enterprise workflow scenario", () => {
+    const scenario = loadDemoScenario("invoice-exceptions");
+    const result = validateDemoFixtures(scenario.fixtures);
+
+    expect(scenario.label).toBe("Invoice exceptions");
+    expect(result.valid).toBe(true);
+    expect(result.summary.caseCount).toBeGreaterThanOrEqual(10);
+    expect(scenario.fixtures.policyRules.map((rule) => rule.id)).toContain("policy-invoice-exception");
+    expect(scenario.fixtures.newIncomingTrace.metadata.ticketId).toBe("PR-8001");
   });
 });

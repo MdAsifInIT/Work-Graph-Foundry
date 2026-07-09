@@ -50,7 +50,7 @@ export const demoOrganization: DemoOrganization = {
   name: "Synthetic Foundry Operations",
   description: "Seeded local organization used for the Samruna full-stack demo.",
   syntheticDataNotice: "All organization records, people, systems, tickets, vendors, approvals, and traces are synthetic.",
-  scenarioIds: ["it-access", "procurement-intake"]
+  scenarioIds: ["it-access", "procurement-intake", "vendor-onboarding", "invoice-exceptions"]
 };
 
 interface WorkspaceComputation {

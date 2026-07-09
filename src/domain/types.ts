@@ -22,7 +22,7 @@ export type RequestType =
   | "vendor_onboarding"
   | "invoice_exception";
 
-export type ScenarioId = "it-access" | "procurement-intake";
+export type ScenarioId = "it-access" | "procurement-intake" | "vendor-onboarding" | "invoice-exceptions";
 
 export interface RawWorkTrace {
   id: string;

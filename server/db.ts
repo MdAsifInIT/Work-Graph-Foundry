@@ -29,7 +29,7 @@ export interface StoredWorkspaceArtifact extends WorkspaceArtifact {
 }
 
 const DEFAULT_WORKSPACE_ID = "local-demo";
-const SYNTHETIC_ORGANIZATION_ID = "synthetic-org-foundry-demo";
+const SYNTHETIC_ORGANIZATION_ID = "synthetic-org-samruna";
 export const DEFAULT_DB_PATH = join(process.cwd(), ".samruna", "samruna.sqlite");
 
 export function resolveWorkspaceDbPath(dbPath?: string): string {

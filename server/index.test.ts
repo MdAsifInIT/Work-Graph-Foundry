@@ -129,6 +129,31 @@ describe("backend API", () => {
       }
     });
   });
+
+  it("allows configured GitHub Pages origins through CORS", async () => {
+    const response = await fetch(`${baseUrl}${workspaceRoutes.health}`, {
+      headers: { Origin: "https://mdasifinit.github.io" }
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("access-control-allow-origin")).toBe("https://mdasifinit.github.io");
+    expect(response.headers.get("vary")).toBe("Origin");
+  });
+
+  it("rejects unknown browser origins before route execution", async () => {
+    const response = await fetch(`${baseUrl}${workspaceRoutes.health}`, {
+      headers: { Origin: "https://example.invalid" }
+    });
+    const payload = (await response.json()) as ApiResponse<HealthResponse>;
+
+    expect(response.status).toBe(403);
+    expect(payload).toMatchObject({
+      ok: false,
+      error: {
+        code: "cors_forbidden"
+      }
+    });
+  });
 });
 
 async function get<T>(path: string): Promise<ApiResponse<T>> {

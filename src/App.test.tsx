@@ -36,6 +36,7 @@ describe("App", () => {
     expect(screen.getByRole("button", { name: "Review & Run" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Audit" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Load workflow/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Next" })).toBeEnabled();
     expect(screen.getByLabelText("System status")).toHaveTextContent("Provider");
     expect(screen.getByLabelText("System status")).toHaveTextContent("Validation engine");
 
@@ -46,6 +47,41 @@ describe("App", () => {
     expect(screen.getByRole("heading", { name: "After - Governed Automation" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Review boundary" })).toBeInTheDocument();
     expect(screen.getByLabelText("Select app view")).toHaveValue("overview");
+  });
+
+  it("advances through workspace pages only through the explicit Next button", async () => {
+    render(<App />);
+    await launchDemo();
+
+    fireEvent.click(screen.getByRole("button", { name: /Load workflow/i }));
+
+    expect(screen.getByRole("heading", { name: "Overview" })).toBeInTheDocument();
+    expect(screen.queryByText("Raw traces")).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
+
+    expect(screen.getByRole("heading", { name: "Evidence" })).toBeInTheDocument();
+    expect(screen.getByText("Raw traces")).toBeInTheDocument();
+    expect(screen.getByText("Cases")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: /Analyze workflow/i }));
+
+    expect(screen.getByRole("heading", { name: "Evidence" })).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
+
+    expect(screen.getByRole("heading", { name: "Graph" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /IT access request flow/i })).toBeInTheDocument();
+  });
+
+  it("disables Next when the next workspace page is still locked", async () => {
+    render(<App />);
+    await launchDemo();
+
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
+
+    expect(screen.getByRole("heading", { name: "Evidence" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Next" })).toBeDisabled();
   });
 
   it("collapses the sidebar while keeping navigation icons and reset available", async () => {
@@ -173,11 +209,13 @@ describe("App", () => {
     render(<App />);
     await launchDemo();
     fireEvent.click(screen.getByRole("button", { name: /Load workflow/i }));
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
 
     expect(screen.getByText("Raw traces")).toBeInTheDocument();
     expect(screen.getByText("Cases")).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: /Analyze workflow/i }));
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
 
     expect(screen.getByRole("heading", { name: /IT access request flow/i })).toBeInTheDocument();
     expect(screen.getAllByText("Manager approval").length).toBeGreaterThan(0);
@@ -200,6 +238,7 @@ describe("App", () => {
     expect(screen.getByText(/Representative cases/i)).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: /Generate automation proposal/i }));
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
 
     expect(screen.getByRole("heading", { name: /Is the automation safe to approve and run\?/i })).toBeInTheDocument();
     openTechnicalDetails();
@@ -248,6 +287,7 @@ describe("App", () => {
     fireEvent.click(screen.getByRole("button", { name: /Load workflow/i }));
     fireEvent.click(screen.getByRole("button", { name: /Analyze workflow/i }));
     fireEvent.click(screen.getByRole("button", { name: /Generate automation proposal/i }));
+    openView("Review & Run");
     fireEvent.click(screen.getAllByRole("button", { name: /Reject/i })[0]);
 
     expect(screen.getAllByText(/Rejected/i).length).toBeGreaterThan(0);
@@ -276,7 +316,9 @@ describe("App", () => {
       target: { value: scenarioId }
     });
     fireEvent.click(screen.getByRole("button", { name: /Load workflow/i }));
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
     fireEvent.click(screen.getByRole("button", { name: /Analyze workflow/i }));
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
 
     expect(screen.getByRole("heading", { name: graphTitle })).toBeInTheDocument();
 
@@ -292,6 +334,7 @@ describe("App", () => {
     expect(screen.getByText(/Representative cases:/i)).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: /Generate automation proposal/i }));
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
 
     openTechnicalDetails();
     expect(screen.getByRole("heading", { name: /Governed automation proposal/i })).toBeInTheDocument();
@@ -304,6 +347,7 @@ describe("App", () => {
     fireEvent.click(screen.getByRole("button", { name: /Load workflow/i }));
     fireEvent.click(screen.getByRole("button", { name: /Analyze workflow/i }));
     fireEvent.click(screen.getByRole("button", { name: /Generate automation proposal/i }));
+    openView("Review & Run");
 
     const versionSelector = screen.getByRole("combobox", { name: /Select proposal version/i }) as HTMLSelectElement;
 
@@ -344,6 +388,7 @@ describe("App", () => {
     fireEvent.click(screen.getByRole("button", { name: /Load workflow/i }));
     fireEvent.click(screen.getByRole("button", { name: /Analyze workflow/i }));
     fireEvent.click(screen.getByRole("button", { name: /Generate automation proposal/i }));
+    openView("Review & Run");
     fireEvent.click(screen.getAllByRole("button", { name: /Approve/i })[0]);
 
     openView("Audit");

@@ -1,4 +1,4 @@
-name: Deploy demo to GitHub Pages
+name: Deploy Samruna to GitHub Pages
 
 on:
   push:
@@ -17,8 +17,11 @@ concurrency:
 
 jobs:
   build:
-    name: Build demo
+    name: Build Samruna
     runs-on: ubuntu-latest
+    env:
+      VITE_BASE_PATH: /Samruna/
+      VITE_API_BASE_URL: https://samruna-api.onrender.com/api
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -55,7 +58,7 @@ jobs:
           path: dist
 
   deploy:
-    name: Deploy demo
+    name: Deploy Samruna
     needs: build
     runs-on: ubuntu-latest
     environment:

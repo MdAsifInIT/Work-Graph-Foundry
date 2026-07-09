@@ -46,8 +46,8 @@ const PROPOSAL_GENERATED_AT_BASE = Date.UTC(2026, 4, 16, 9, 40, 0);
 const EXECUTION_REQUESTED_AT = "2026-05-16T11:20:00.000Z";
 
 export const demoOrganization: DemoOrganization = {
-  id: "synthetic-foundry-org",
-  name: "Synthetic Foundry Operations",
+  id: "synthetic-samruna-org",
+  name: "Synthetic Samruna Operations",
   description: "Seeded local organization used for the Samruna full-stack POC - Proof Of Concept.",
   syntheticDataNotice: "All organization records, people, systems, tickets, vendors, approvals, and traces are synthetic.",
   scenarioIds: ["it-access", "procurement-intake", "vendor-onboarding", "invoice-exceptions"]

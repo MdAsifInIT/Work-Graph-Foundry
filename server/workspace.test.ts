@@ -75,7 +75,7 @@ describe("WorkspaceService", () => {
     expect(service.health()).toMatchObject({
       status: "ok",
       databaseReady: true,
-      organizationId: "synthetic-foundry-org",
+      organizationId: "synthetic-samruna-org",
       aiProvider: {
         mode: "mock",
         label: "Historical validation engine"

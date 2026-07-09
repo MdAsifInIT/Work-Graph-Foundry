@@ -1,5 +1,6 @@
 import {
   Brain,
+  ChevronRight,
   Database,
   PanelLeftClose,
   PanelLeftOpen,
@@ -118,6 +119,21 @@ export function AppShell({ activeView, children, controller, onClose, onViewChan
     return <Circle size={14} className="nav-icon-pending" />;
   };
 
+  const activeNavigationIndex = navigationItems.findIndex((item) => item.id === activeView);
+  const nextNavigationItem = activeNavigationIndex >= 0 ? navigationItems[activeNavigationIndex + 1] : undefined;
+  const nextNavigationState = nextNavigationItem ? getNavState(nextNavigationItem.id) : "locked";
+  const nextDisabled = !nextNavigationItem || nextNavigationState === "locked";
+  const nextTitle = nextNavigationItem
+    ? nextDisabled
+      ? `Complete the current step to unlock ${nextNavigationItem.label}`
+      : `Go to ${nextNavigationItem.label}`
+    : "No next step available";
+
+  const goToNextStep = () => {
+    if (!nextNavigationItem || nextDisabled) return;
+    onViewChange(nextNavigationItem.id);
+  };
+
   const resetWorkflow = () => {
     actions.resetDemo();
     onViewChange("overview");
@@ -216,6 +232,7 @@ export function AppShell({ activeView, children, controller, onClose, onViewChan
           
           <div className="header-center">
             <label className="mobile-view-picker">
+              <span>View</span>
               <select
                 aria-label="Select app view"
                 className="apple-select"
@@ -257,10 +274,7 @@ export function AppShell({ activeView, children, controller, onClose, onViewChan
                 aria-label="Load workflow"
                 title="Load workflow"
                 className="toolbar-button-primary"
-                onClick={() => {
-                  actions.loadSelectedScenario();
-                  onViewChange("evidence");
-                }}
+                onClick={actions.loadSelectedScenario}
               >
                 Load
               </ToolbarButton>
@@ -270,10 +284,7 @@ export function AppShell({ activeView, children, controller, onClose, onViewChan
                 title="Analyze workflow"
                 className="toolbar-button-primary"
                 disabled={!demoState.sampleLoaded}
-                onClick={() => {
-                  actions.analyzeWorkflow();
-                  onViewChange("graph");
-                }}
+                onClick={actions.analyzeWorkflow}
               >
                 Analyze
               </ToolbarButton>
@@ -283,10 +294,7 @@ export function AppShell({ activeView, children, controller, onClose, onViewChan
                 title="Generate automation proposal"
                 className="toolbar-button-primary"
                 disabled={!demoState.analysisRequested || !proposalGenerationReady}
-                onClick={() => {
-                  actions.generateProposalFromCurrentState();
-                  onViewChange("review-run");
-                }}
+                onClick={actions.generateProposalFromCurrentState}
               >
                 Generate
               </ToolbarButton>
@@ -294,9 +302,17 @@ export function AppShell({ activeView, children, controller, onClose, onViewChan
           </div>
 
           <div className="header-right">
-             <div className="compact-status" title={providerFallbackMessage || providerStatusDetail}>
-               <span className={`status-indicator ${providerTone}`} />
-             </div>
+            <button
+              type="button"
+              className="next-flow-button"
+              aria-label="Next"
+              disabled={nextDisabled}
+              title={nextTitle}
+              onClick={goToNextStep}
+            >
+              <span>Next</span>
+              <ChevronRight size={16} aria-hidden="true" />
+            </button>
           </div>
         </header>
 

@@ -15,6 +15,8 @@
     "backend:seed": "tsx server/cli.ts seed",
     "backend:reset": "tsx server/cli.ts reset",
     "dev:fullstack": "tsx server/dev-fullstack.ts",
+    "start": "tsx server/index.ts",
+    "start:render": "tsx server/index.ts",
     "preview:fullstack": "tsx server/index.ts --serve-static",
     "build": "tsc -b && vite build --configLoader runner",
     "verify:demo": "npm run typecheck && npm test && npm run build && npm audit --audit-level=low",
@@ -38,6 +40,7 @@
     "react": "19.2.7",
     "react-dom": "19.2.7",
     "tailwind-merge": "^3.6.0",
+    "tsx": "^4.23.0",
     "typescript": "6.0.3",
     "vite": "6.4.3"
   },
@@ -52,7 +55,6 @@
     "jsdom": "29.1.1",
     "postcss": "^8.5.16",
     "tailwindcss": "^3.4.19",
-    "tsx": "^4.23.0",
     "vitest": "4.1.9"
   }
 }

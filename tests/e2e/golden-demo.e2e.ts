@@ -93,6 +93,14 @@ const qaViewports = [
   { name: "small mobile", width: 375, height: 812 }
 ];
 
+const headerViewports = [
+  { name: "desktop", width: 1440, height: 1000, mobileNavigation: false },
+  { name: "mid breakpoint", width: 900, height: 900, mobileNavigation: true },
+  { name: "tablet", width: 768, height: 1024, mobileNavigation: true },
+  { name: "mobile", width: 390, height: 900, mobileNavigation: true },
+  { name: "small mobile", width: 375, height: 812, mobileNavigation: true }
+];
+
 test.beforeEach(async ({ page, request }) => {
   await request.post("/api/workspace/reset", { data: { scenarioId: "it-access" } });
   await page.goto("/");
@@ -238,8 +246,11 @@ test("restores a generated run from an exported summary import round trip", asyn
   await expectScenarioContext(page, scenarios[0].label);
   await expect(page.getByText(exportedScenario.mockOutput)).toHaveCount(0);
   await page.getByRole("button", { name: "Load workflow" }).click();
+  await page.getByRole("button", { name: "Next" }).click();
   await page.getByRole("button", { name: "Analyze workflow" }).click();
+  await page.getByRole("button", { name: "Next" }).click();
   await page.getByRole("button", { name: "Generate automation proposal" }).click();
+  await page.getByRole("button", { name: "Next" }).click();
   await page.getByRole("button", { name: "Approve", exact: true }).click();
   await expect(page.getByRole("button", { name: "Execute workflow" })).toBeEnabled();
 
@@ -461,6 +472,41 @@ for (const viewport of qaViewports) {
   });
 }
 
+for (const viewport of headerViewports) {
+  test(`keeps header selectors distinct and readable at ${viewport.width}px ${viewport.name}`, async ({ page }) => {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
+    await page.goto("/");
+    await enterWorkspace(page);
+
+    const viewPicker = page.getByLabel("Select app view");
+    const workflowPicker = page.getByLabel("Select workflow");
+    const mobileViewPicker = page.locator(".mobile-view-picker");
+    const workflowPickerShell = page.locator(".scenario-picker-inline");
+
+    await expect(viewPicker).toHaveCount(1);
+    await expect(workflowPicker).toHaveCount(1);
+    await expect(workflowPicker).toBeVisible();
+    await expect(workflowPickerShell).toContainText("Workflow");
+    await expect(page.getByRole("button", { name: "Load workflow" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Analyze workflow" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Generate automation proposal" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Next" })).toBeVisible();
+
+    if (viewport.mobileNavigation) {
+      await expect(page.locator(".sidebar")).toBeHidden();
+      await expect(mobileViewPicker).toBeVisible();
+      await expect(mobileViewPicker).toContainText("View");
+      await expect(viewPicker).toBeVisible();
+    } else {
+      await expect(page.locator(".sidebar")).toBeVisible();
+      await expect(mobileViewPicker).toBeHidden();
+      await expect(viewPicker).toBeHidden();
+    }
+
+    await assertNoHorizontalOverflow(page, `${viewport.name} header selectors`);
+  });
+}
+
 test("keeps the mobile graph fit-to-width without floating edge labels", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 900 });
   await enterWorkspace(page);
@@ -507,15 +553,17 @@ async function generateProposal(page: Page, request: APIRequestContext, scenario
   await expectScenarioContext(page, scenario.label);
 
   await page.getByRole("button", { name: "Load workflow" }).click();
+  await page.getByRole("button", { name: "Next" }).click();
   await expect(page.getByText("Raw traces")).toBeVisible();
   await expect(page.getByText("Cases")).toBeVisible();
 
   await page.getByRole("button", { name: "Analyze workflow" }).click();
+  await page.getByRole("button", { name: "Next" }).click();
   await expect(page.getByRole("heading", { name: scenario.graphTitle })).toBeVisible();
   await expect(page.getByRole("heading", { name: scenario.patternLabel })).toBeVisible();
 
   await page.getByRole("button", { name: "Generate automation proposal" }).click();
-  await openView(page, "Review & Run");
+  await page.getByRole("button", { name: "Next" }).click();
   await expect(page.getByRole("heading", { name: "Is the automation safe to approve and run?" })).toBeVisible();
   await expect(page.getByLabel("Proposal provider provenance")).toContainText("Validation engine");
   await expect(page.getByLabel("Proposal provider provenance")).toContainText("Proposal generated");
@@ -654,17 +702,26 @@ async function enterWorkspace(page: Page) {
 
 async function openView(page: Page, name: string) {
   const navButton = page.getByRole("button", { name, exact: true });
+  const navButtonCount = await navButton.count();
 
-  if (await navButton.isVisible()) {
-    if (!(await navButton.isEnabled())) {
+  for (let index = 0; index < navButtonCount; index += 1) {
+    const candidate = navButton.nth(index);
+
+    if (await candidate.isVisible()) {
+      if (await candidate.isEnabled()) {
+        await candidate.click();
+      }
+
       return;
     }
-
-    await navButton.click();
-    return;
   }
 
   const picker = page.getByLabel("Select app view");
+
+  if (!(await picker.isVisible())) {
+    return;
+  }
+
   const targetOption = picker.locator("option", { hasText: name });
 
   if ((await targetOption.count()) && !(await targetOption.first().isDisabled())) {

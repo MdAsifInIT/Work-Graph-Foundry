@@ -18,10 +18,21 @@ import { createServerAiProvider } from "./ai";
 import { createWorkspaceService, WorkspaceError, type WorkspaceService } from "./workspace";
 
 const DEFAULT_PORT = 8787;
+const DEFAULT_ALLOWED_ORIGINS = [
+  "https://mdasifinit.github.io",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+  "http://localhost:4173",
+  "http://127.0.0.1:4173",
+  "http://localhost:8787",
+  "http://127.0.0.1:8787"
+];
 
 const port = readNumberArg("--port") ?? Number(process.env.PORT ?? DEFAULT_PORT);
+const host = process.env.HOST ?? (process.env.RENDER ? "0.0.0.0" : "127.0.0.1");
 const serveStatic = process.argv.includes("--serve-static") || process.env.SAMRUNA_SERVE_STATIC === "1";
 const staticRoot = resolve(process.cwd(), "dist");
+const allowedOrigins = parseAllowedOrigins(process.env.CORS_ORIGINS);
 
 const scenarioIds = new Set(listDemoScenarios().map((scenario) => scenario.id));
 const governanceDecisions = new Set<GovernanceDecision>(["approved", "rejected", "changes_requested"]);
@@ -51,6 +62,10 @@ async function routeRequest(
   response: ServerResponse,
   workspaceService: WorkspaceService
 ): Promise<void> {
+  if (!applyCors(request, response)) {
+    return;
+  }
+
   const url = new URL(request.url ?? "/", `http://${request.headers.host ?? "127.0.0.1"}`);
 
   if (url.pathname.startsWith("/api/")) {
@@ -321,6 +336,40 @@ function serveStaticAsset(pathname: string, response: ServerResponse): void {
   createReadStream(target).pipe(response);
 }
 
+function applyCors(request: IncomingMessage, response: ServerResponse): boolean {
+  const origin = request.headers.origin;
+
+  if (origin) {
+    if (!allowedOrigins.has(origin)) {
+      sendCorsForbidden(response);
+      return false;
+    }
+
+    response.setHeader("Access-Control-Allow-Origin", origin);
+    response.setHeader("Vary", "Origin");
+    response.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+    response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  }
+
+  if (request.method === "OPTIONS") {
+    response.writeHead(204);
+    response.end();
+    return false;
+  }
+
+  return true;
+}
+
+function sendCorsForbidden(response: ServerResponse): void {
+  sendJson(response, 403, {
+    ok: false,
+    error: {
+      code: "cors_forbidden",
+      message: "Origin is not allowed by this API."
+    }
+  });
+}
+
 function isWithinStaticRoot(pathname: string): boolean {
   const child = relative(staticRoot, pathname);
 
@@ -350,12 +399,21 @@ function readNumberArg(name: string): number | undefined {
   return value ? Number(value) : undefined;
 }
 
+function parseAllowedOrigins(raw: string | undefined): Set<string> {
+  const configured = raw
+    ?.split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean) ?? [];
+
+  return new Set([...DEFAULT_ALLOWED_ORIGINS, ...configured]);
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const service = createWorkspaceService(undefined, createServerAiProvider());
   const server = createApp(service);
 
-  server.listen(port, "127.0.0.1", () => {
-    console.log(`Samruna backend listening at http://127.0.0.1:${port}`);
+  server.listen(port, host, () => {
+    console.log(`Samruna backend listening at http://${host}:${port}`);
   });
 
   const shutdown = () => {

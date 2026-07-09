@@ -11,6 +11,8 @@ import type {
 } from "../domain/api";
 import { API_BASE_PATH as DEFAULT_API_BASE_PATH, workspaceRoutes as routes } from "../domain/api";
 
+const configuredApiBaseUrl = normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL);
+
 export class ApiClientError extends Error {
   constructor(
     public readonly code: string,
@@ -36,7 +38,7 @@ export interface WorkspaceApiClient {
 }
 
 export function createApiClient(config: { baseUrl?: string; fetcher?: typeof fetch } = {}): WorkspaceApiClient {
-  const baseUrl = config.baseUrl;
+  const baseUrl = normalizeBaseUrl(config.baseUrl) ?? configuredApiBaseUrl;
   const fetcher = config.fetcher ?? globalThis.fetch?.bind(globalThis);
 
   async function request<T>(path: string, init?: RequestInit): Promise<T> {
@@ -91,4 +93,14 @@ function resolveRoute(path: string, baseUrl?: string): string {
   return path.startsWith(DEFAULT_API_BASE_PATH)
     ? `${baseUrl}${path.slice(DEFAULT_API_BASE_PATH.length)}`
     : `${baseUrl}${path}`;
+}
+
+function normalizeBaseUrl(baseUrl?: string): string | undefined {
+  const trimmed = baseUrl?.trim();
+
+  if (!trimmed) {
+    return undefined;
+  }
+
+  return trimmed.endsWith("/") ? trimmed.slice(0, -1) : trimmed;
 }

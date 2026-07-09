@@ -2284,7 +2284,7 @@ h2 {
 .graph-list button,
 .pattern-list button {
   background: var(--surface);
-  border: none;
+  border: 1px solid transparent;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
   color: inherit;
@@ -2328,15 +2328,27 @@ h2 {
 .graph-list button.selected,
 .pattern-list button.selected,
 .pattern-list article.selected {
-  background: var(--accent);
-  box-shadow: var(--shadow-md);
+  background: linear-gradient(180deg, rgb(255 255 255 / 96%), rgb(255 255 255 / 88%));
+  border-color: rgb(14 165 233 / 35%);
+  box-shadow:
+    0 10px 28px rgb(15 23 42 / 10%),
+    0 0 0 1px rgb(14 165 233 / 12%) inset;
+  transform: translateY(-1px);
 }
 
 .graph-list button.selected strong,
 .pattern-list button.selected strong,
 .graph-list button.selected span,
 .pattern-list button.selected span {
-  color: #ffffff;
+  color: var(--ink);
+}
+
+.pattern-list button.selected strong {
+  color: var(--accent-strong);
+}
+
+.pattern-list button.selected span {
+  color: var(--ink-secondary);
 }
 
 .detail-card ul,

@@ -2,9 +2,9 @@
 
 ## 1.1 Purpose
 
-Samruna is a local-first enterprise work intelligence and governed automation demo. It shows how an AI-native operating layer can observe messy work traces, infer the real process, identify repeated work patterns, generate governed automation, validate that automation against history, execute approved work in safe simulation mode, and recommend improvements.
+Samruna is a local-first enterprise work intelligence and governed automation POC - Proof Of Concept. It shows how an AI-native operating layer can observe messy work traces, infer the real process, identify repeated work patterns, generate governed automation, validate that automation against history, execute approved work in safe simulation mode, and recommend improvements.
 
-The current demo opens with a customer-facing landing page rather than a chatbot. The first screen introduces the product and then moves into a `/dashboard` workspace with five primary views: Overview, Evidence, Graph, Review & Run, and Audit. The landing preview is intentionally explicit: three workflow blocks, a connected automation path, and an impact metrics band lead into the workspace. The workspace uses a compact topbar status strip, a progress stepper, before/after impact comparison, elevated graph metrics, collapsible technical details in Review & Run, and an execution success moment after safe execution completes. The product is meant to feel like a real enterprise tool for process owners, IT operators, compliance reviewers, and automation teams.
+The current POC - Proof Of Concept opens with a customer-facing landing page rather than a chatbot. The first screen introduces the product and then moves into a `/dashboard` workspace with five primary views: Overview, Evidence, Graph, Review & Run, and Audit. The landing preview is intentionally explicit: three workflow blocks, a connected automation path, and an impact metrics band lead into the workspace. The workspace uses a compact topbar status strip, a progress stepper, before/after impact comparison, elevated graph metrics, collapsible technical details in Review & Run, and an execution success moment after safe execution completes. The product is meant to feel like a real enterprise tool for process owners, IT operators, compliance reviewers, and automation teams.
 
 ## 1.2 Product Problem
 
@@ -26,7 +26,7 @@ The repository currently contains a complete local MVP:
 - seeded IT access request and procurement intake fixture data
 - typed domain contracts
 - scenario selection and validation
-- local backend API with SQLite persisted demo state
+- local backend API with SQLite persisted POC - Proof Of Concept state
 - browser fallback mirror for reload resilience
 - deterministic ingestion and normalization
 - work graph generation
@@ -41,7 +41,7 @@ The repository currently contains a complete local MVP:
 - optional OpenAI Responses API provider boundary
 - unit and component tests
 
-The MVP is demo-ready and does not require enterprise credentials or an OpenAI API key.
+The MVP is POC - Proof Of Concept-ready and does not require enterprise credentials or an OpenAI API key.
 
 ## 1.4 Main User Flow
 
@@ -91,7 +91,7 @@ Those are future directions, not current scope.
 
 Start with:
 
-- `README.md` for quick setup and demo path.
+- `README.md` for quick setup and POC - Proof Of Concept path.
 - `docs/02-architecture.md` for how the app is built.
 - `docs/03-development.md` for how to continue development.
 - `docs/06-testing-and-validation.md` for test and agentic verification steps.
@@ -102,11 +102,11 @@ Important source files:
 - `src/App.tsx`: dashboard orchestration.
 - `server/workspace.ts`: backend workspace state, seed/reset, import/export, and API-backed action flow.
 - `src/domain/types.ts`: shared contracts.
-- `src/domain/persistence.ts`: versioned demo state export/import and browser fallback mirror.
+- `src/domain/persistence.ts`: versioned POC - Proof Of Concept state export/import and browser fallback mirror.
 - `src/fixtures/demoData.ts`: seeded synthetic scenario data.
 - `src/ai/providers.ts`: mock and optional OpenAI provider boundary.
 
-## 1.8 Current Demo Story
+## 1.8 Current POC - Proof Of Concept Story
 
 The default story centers on IT access requests:
 
@@ -117,6 +117,6 @@ The default story centers on IT access requests:
 - Privileged, contractor, finance, or exception cases need human review.
 - The system discovers this pattern, proposes an automation, validates it against historical cases, and executes only after governance approval.
 
-The strongest demo moment is that the workflow is discovered from traces rather than predefined by the user.
+The strongest POC - Proof Of Concept moment is that the workflow is discovered from traces rather than predefined by the user.
 
 The second scenario, procurement intake, demonstrates that the same domain pipeline and local backend can handle another realistic enterprise workflow without a live connector. It keeps low-risk software procurement on a candidate fast path while vendor onboarding and invoice exceptions remain human-reviewed.

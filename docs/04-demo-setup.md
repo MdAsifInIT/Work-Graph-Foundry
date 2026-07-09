@@ -1,4 +1,4 @@
-# 4. Demo Setup
+# 4. POC - Proof Of Concept Setup
 
 ## 4.1 Requirements
 
@@ -13,7 +13,7 @@ Required:
 
 Optional:
 
-- Optional `OPENAI_API_KEY` for trusted backend-only live proposal generation. The browser demo does not use or receive it.
+- Optional `OPENAI_API_KEY` for trusted backend-only live proposal generation. The browser POC - Proof Of Concept does not use or receive it.
 
 ## 4.2 Local Run Steps
 
@@ -23,14 +23,14 @@ Install:
 npm install
 ```
 
-Start the API-backed local demo:
+Start the API-backed local POC - Proof Of Concept:
 
 ```powershell
 npm run backend:seed
 npm run dev:fullstack
 ```
 
-Open the printed local URL, then click `Launch` to enter the path-backed demo workspace.
+Open the printed local URL, then click `Launch` to enter the path-backed POC - Proof Of Concept workspace.
 
 Fallback production path:
 
@@ -49,7 +49,7 @@ npm run test:e2e:install
 
 Use `npm run test:e2e:preview` for the preview-backed Playwright path and `npm run typecheck:e2e` for the e2e TypeScript project.
 
-## 4.3 Demo Walkthrough
+## 4.3 POC - Proof Of Concept Walkthrough
 
 ### 4.3.1 Open The Product Page
 
@@ -165,13 +165,13 @@ Explain:
 
 "The learning loop recommends splitting exception-heavy cases into a human-review lane."
 
-Show the persisted audit trail and exported run summary. Explain that the summary is portable demo state, not production evidence.
+Show the persisted audit trail and exported run summary. Explain that the summary is portable POC - Proof Of Concept state, not production evidence.
 
 This is the improve step.
 
 ## 4.4 Reset And Recovery
 
-Click `Reset workflow state` in `Audit` to replay the demo. In full-stack mode, reset clears generated backend state for the selected scenario, persists the deterministic seeded baseline to SQLite, and refreshes the browser fallback mirror.
+Click `Reset workflow state` in `Audit` to replay the POC - Proof Of Concept. In full-stack mode, reset clears generated backend state for the selected scenario, persists the deterministic seeded baseline to SQLite, and refreshes the browser fallback mirror.
 
 Backend seed/reset helpers:
 
@@ -196,7 +196,7 @@ If the app appears stale:
 
 If live AI is unavailable:
 
-Use the Historical validation engine. The demo is designed for this safe fallback path.
+Use the Historical validation engine. The POC - Proof Of Concept is designed for this safe fallback path.
 
 ## 4.5 Presenter Talk Track
 
@@ -204,9 +204,9 @@ Short version:
 
 "Samruna observes how work actually moves, builds a live graph, finds repeated patterns and bottlenecks, proposes governed automation, validates it against history, requires human approval, executes safely in simulation mode, persists the audit trail locally, and learns from exceptions."
 
-For a shorter hackathon talk track and the exact browser fallback path, see [Hackathon Demo](11-hackathon-demo.md).
+For a shorter hackathon talk track and the exact browser fallback path, see [Hackathon POC - Proof Of Concept](11-hackathon-demo.md).
 
-## 4.6 Demo Acceptance Checklist
+## 4.6 POC - Proof Of Concept Acceptance Checklist
 
 Before presenting:
 
@@ -223,7 +223,7 @@ Before presenting:
 - `Execute workflow` shows the execution success banner and `Completed` execution gate after execution.
 - Learning recommendation appears.
 - `Export Summary` produces JSON in `Audit`.
-- `Reset` restores seeded demo state in `Audit`.
+- `Reset` restores seeded POC - Proof Of Concept state in `Audit`.
 - No API key is required.
 - Mobile layout has no horizontal overflow.
 

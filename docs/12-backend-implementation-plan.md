@@ -2,9 +2,9 @@
 
 ## 12.1 Purpose
 
-Historical reference: this plan captured the autonomous build instructions for the now-completed demo-grade full-stack version of Samruna.
+Historical reference: this plan captured the autonomous build instructions for the now-completed POC - Proof Of Concept-grade full-stack version of Samruna.
 
-The target outcome was a local backend, local database, seeded synthetic organization records, persisted workflow artifacts, and a frontend flow backed by API calls. The implementation preserved the existing local-first demo behavior, Historical validation engine, governance gate, and safe simulation boundary.
+The target outcome was a local backend, local database, seeded synthetic organization records, persisted workflow artifacts, and a frontend flow backed by API calls. The implementation preserved the existing local-first POC - Proof Of Concept behavior, Historical validation engine, governance gate, and safe simulation boundary.
 
 ## 12.2 Recommended Tool
 
@@ -33,7 +33,7 @@ The build should follow the repository's worker-orchestrator model:
 - src/fixtures/demoData.ts
 
 Scope:
-Implement a demo-grade full-stack version:
+Implement a POC - Proof Of Concept-grade full-stack version:
 - local backend API
 - local database
 - organization records
@@ -66,7 +66,7 @@ Backend requirements:
 - Add /api/health.
 - Add organization/scenario loading routes.
 - Add workflow action routes for load, analyze, generate proposal, governance decision, execute workflow, reset, export, and import.
-- Persist server-side state for the demo run.
+- Persist server-side state for the POC - Proof Of Concept run.
 - Keep execution in safe simulation mode.
 
 Frontend requirements:
@@ -98,7 +98,7 @@ If Playwright browser launch is blocked, record the exact command and blocker.
 
 Docs requirements:
 Add docs/12-fullstack-demo-plan.md.
-Update README or demo docs with:
+Update README or POC - Proof Of Concept docs with:
 - full-stack run commands
 - backend architecture
 - DB seed/reset behavior
@@ -213,7 +213,7 @@ If Playwright is blocked by local browser permissions, record the exact blocker 
 
 - Codex App worktree is the primary autonomous build environment.
 - `backend-branch` is the implementation branch.
-- SQLite is acceptable for demo-grade local persistence.
+- SQLite is acceptable for POC - Proof Of Concept-grade local persistence.
 - Organization data remains synthetic.
 - Live OpenAI calls are not required.
 - Enterprise connectors and real execution remain out of scope.

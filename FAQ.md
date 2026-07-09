@@ -2,7 +2,7 @@
 
 ## What is Samruna?
 
-Samruna is a governed automation demo for enterprise workflows.
+Samruna is a governed automation POC - Proof Of Concept for enterprise workflows.
 
 It takes messy operational traces, turns them into a work graph, finds repeated patterns and bottlenecks, generates an automation proposal, and lets a human approve or reject the proposal before anything runs.
 
@@ -33,7 +33,7 @@ Samruna shows a path from scattered work traces to governed automation:
 6. simulate execution
 7. preserve an audit trail
 
-## What can I do in the demo?
+## What can I do in the POC - Proof Of Concept?
 
 You can run two synthetic workflow scenarios:
 
@@ -44,13 +44,13 @@ For each scenario, you can load workflow evidence, analyze the graph, review an 
 
 ## Is this using real customer data?
 
-No. The demo uses synthetic organization data only.
+No. The POC - Proof Of Concept uses synthetic organization data only.
 
 The scenarios are designed to feel realistic, but they do not contain real employee, customer, financial, HR, or production system records.
 
 ## What does the backend do?
 
-The backend provides the local engine behind the full-stack demo.
+The backend provides the local engine behind the full-stack POC - Proof Of Concept.
 
 It handles:
 
@@ -59,7 +59,7 @@ It handles:
 - scenario loading and reset
 - workflow analysis state
 - proposal, governance, execution, and audit records
-- export and import of demo state
+- export and import of POC - Proof Of Concept state
 - optional server-side OpenAI proposal generation
 - fallback to the historical validation engine
 
@@ -88,7 +88,7 @@ OpenAI is optional and backend-only.
 
 When `OPENAI_API_KEY` is configured for the backend, Samruna can ask the OpenAI Responses API to generate a structured automation proposal from already-analyzed workflow context.
 
-When no key is configured, or if live generation fails, Samruna uses the historical validation engine so the demo remains reliable.
+When no key is configured, or if live generation fails, Samruna uses the historical validation engine so the POC - Proof Of Concept remains reliable.
 
 ## What does the AI actually do?
 
@@ -139,7 +139,7 @@ It shows the generated proposal, simulation results, assumptions, policy checks,
 
 ## What is the Audit view?
 
-The **Audit** view shows the recorded events for the demo run.
+The **Audit** view shows the recorded events for the POC - Proof Of Concept run.
 
 It also includes export, import, and reset controls so a run can be shared, replayed, or restored to the seeded state.
 
@@ -172,7 +172,7 @@ A production deployment should use:
 - backend-only AI provider calls
 - summarized AI inputs instead of raw sensitive records where possible
 
-The local demo demonstrates the safety pattern, but it is not a finished production security system.
+The local POC - Proof Of Concept demonstrates the safety pattern, but it is not a finished production security system.
 
 ## Can Samruna execute real enterprise actions today?
 
@@ -182,7 +182,7 @@ Real execution would require production connectors, identity controls, approval 
 
 ## What still needs to be built for production?
 
-The demo proves the product flow, but production use would require:
+The POC - Proof Of Concept proves the product flow, but production use would require:
 
 - authentication and RBAC
 - real enterprise connectors
@@ -195,7 +195,7 @@ The demo proves the product flow, but production use would require:
 
 ## How do I run it locally?
 
-Install dependencies and start the demo:
+Install dependencies and start the POC - Proof Of Concept:
 
 ```powershell
 npm install
@@ -211,23 +211,23 @@ npm run backend:seed
 npm run dev:fullstack
 ```
 
-## How do I reset the demo?
+## How do I reset the POC - Proof Of Concept?
 
 From the product UI, open **Audit** and use **Reset**.
 
-For the backend-backed demo, you can also run:
+For the backend-backed POC - Proof Of Concept, you can also run:
 
 ```powershell
 npm run backend:seed
 ```
 
-## Does the demo work without OpenAI?
+## Does the POC - Proof Of Concept work without OpenAI?
 
 Yes. Samruna works without live OpenAI credentials.
 
-If `OPENAI_API_KEY` is not set, the historical validation engine generates reliable proposal behavior for the demo.
+If `OPENAI_API_KEY` is not set, the historical validation engine generates reliable proposal behavior for the POC - Proof Of Concept.
 
-## Why is this a strong hackathon demo?
+## Why is this a strong hackathon POC - Proof Of Concept?
 
 Samruna combines a clear enterprise problem with a complete governed workflow:
 

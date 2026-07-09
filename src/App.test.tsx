@@ -169,7 +169,7 @@ describe("App", () => {
     });
   });
 
-  it("runs the staged IT access demo path", async () => {
+  it("runs the staged IT access POC - Proof Of Concept path", async () => {
     render(<App />);
     await launchDemo();
     fireEvent.click(screen.getByRole("button", { name: /Load workflow/i }));

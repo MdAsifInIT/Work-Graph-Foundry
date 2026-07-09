@@ -1,10 +1,10 @@
-# 12. Full-Stack Demo Plan
+# 12. Full-Stack POC - Proof Of Concept Plan
 
-Current reference: this plan documents the demo-grade full-stack backend implementation and the resulting local runtime.
+Current reference: this plan documents the POC - Proof Of Concept-grade full-stack backend implementation and the resulting local runtime.
 
 ## Purpose
 
-The current full-stack demo adds a demo-grade local backend to Samruna while preserving the existing reproducible product demo.
+The current full-stack POC - Proof Of Concept adds a POC - Proof Of Concept-grade local backend to Samruna while preserving the existing reproducible product POC - Proof Of Concept.
 
 The backend is local-only. It is meant for reviewers and developers who want to evaluate an API-backed flow with durable local state, not for production use.
 
@@ -26,7 +26,7 @@ Generated databases and SQLite sidecar files are ignored by git.
 
 ## Architecture
 
-The backend owns the demo workspace state. It is the primary persistence layer, and the browser keeps a mirror for reload recovery and local fallback. It persists the same typed state shape the browser demo already used:
+The backend owns the POC - Proof Of Concept workspace state. It is the primary persistence layer, and the browser keeps a mirror for reload recovery and local fallback. It persists the same typed state shape the browser POC - Proof Of Concept already used:
 
 - selected scenario
 - staged workflow flags

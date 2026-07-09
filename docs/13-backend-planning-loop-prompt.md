@@ -6,7 +6,7 @@ Historical reference: this planning prompt was used for the completed backend im
 
 Use this prompt to start a fresh Codex chat for planning the backend implementation before any code is changed.
 
-The prompt is intentionally planning-first. It should produce a decision-complete implementation plan for the demo-grade backend branch, using the repository's worker-orchestrator model without mutating application code during the planning pass.
+The prompt is intentionally planning-first. It should produce a decision-complete implementation plan for the POC - Proof Of Concept-grade backend branch, using the repository's worker-orchestrator model without mutating application code during the planning pass.
 
 ## 13.2 Fresh Planning Prompt
 
@@ -19,7 +19,7 @@ Mode:
 Planning only. Do not edit files, install dependencies, run migrations, generate code, or mutate repo-tracked state. You may inspect files, run read-only searches, and run non-mutating checks that improve the plan.
 
 Goal:
-Create a decision-complete implementation plan for the demo-grade full-stack backend described in docs/12-backend-implementation-plan.md.
+Create a decision-complete implementation plan for the POC - Proof Of Concept-grade full-stack backend described in docs/12-backend-implementation-plan.md.
 
 Branch:
 Confirm the current branch is backend-branch. If it is not, stop and report the mismatch before planning.
@@ -64,7 +64,7 @@ Loop 2: Intent and boundary check
 
 Loop 3: Architecture contract
 - Decide the backend runtime, local DB strategy, API route groups, state ownership, seed/reset behavior, and frontend data boundary.
-- Define the minimum API capabilities needed for the existing demo flow.
+- Define the minimum API capabilities needed for the existing POC - Proof Of Concept flow.
 - Preserve existing domain logic wherever practical.
 
 Loop 4: Implementation decomposition

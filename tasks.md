@@ -15,7 +15,7 @@
 | --- | --- | --- | --- | --- |
 | 1 | Backend Execution & OpenAI Integration | `worker_major` for architecture, `worker_nano` for localized implementation | `worker_test` | Complete |
 | 2 | Synthetic Data Expansion | `worker_nano` | `worker_test` | Complete |
-| 3 | Terminology Standardization | `worker_nano` | `worker_test` | Planned |
+| 3 | Terminology Standardization | `worker_nano` | `worker_test` | Complete |
 | 4 | Documentation Overhaul | `worker_nano` | `worker_test` | Planned |
 | 5 | Quality Assurance & Remediation | `worker_major` for audit, `worker_nano` for fixes | `worker_test` | Planned |
 
@@ -26,6 +26,8 @@
 - 2026-07-09: Phase 1 verified by `worker_test`. `npm run typecheck:server`, `npm run test:backend`, and targeted provider/execution tests passed. Live local API smoke used `.env` OpenAI settings and succeeded for both proposal and execution generation.
 - 2026-07-09: Phase 2 started. Scope is to add additional business workflow scenarios with valid fixtures and scenario selection coverage.
 - 2026-07-09: Phase 2 verified by `worker_test`. Fixture/persistence/workspace tests, server typecheck, e2e typecheck, and mock-provider smokes passed for `vendor-onboarding` and `invoice-exceptions`.
+- 2026-07-09: Phase 3 started. Scope is context-aware terminology replacement from visible/documentation `demo` wording to `POC - Proof Of Concept`, while preserving identifiers, routes, file names, storage keys, and scripts.
+- 2026-07-09: Phase 3 verified by `worker_test`. Remaining `demo` hits are intentional structural references. Server typecheck, e2e typecheck, and targeted domain/server tests passed.
 
 ## Blockers
 

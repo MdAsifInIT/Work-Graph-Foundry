@@ -15,7 +15,7 @@ It does not connect to:
 - document repositories
 - databases
 
-All demo data is seeded locally in `src/fixtures/demoData.ts`. Mutable demo run state is stored by the local backend in SQLite, while the browser keeps a small `localStorage` mirror for reload resilience and backend-unavailable fallback.
+All POC - Proof Of Concept data is seeded locally in `src/fixtures/demoData.ts`. Mutable POC - Proof Of Concept run state is stored by the local backend in SQLite, while the browser keeps a small `localStorage` mirror for reload resilience and backend-unavailable fallback.
 
 ## 5.2 What Data The Solution Needs In A Real Deployment
 
@@ -57,7 +57,7 @@ The MVP uses local fixture fields:
 - source channel
 - synthetic vendor names, purchase request identifiers, and estimated amounts in the procurement scenario
 
-This data is fictional and committed as demo fixtures.
+This data is fictional and committed as POC - Proof Of Concept fixtures.
 
 ## 5.4 What It Does Not Need
 
@@ -93,13 +93,13 @@ Current safety controls:
 
 ## 5.6 OpenAI And Data Handling
 
-The browser demo does not send data to OpenAI.
+The browser POC - Proof Of Concept does not send data to OpenAI.
 
 `OpenAiResponsesProvider` is available only through the trusted backend runtime. The backend integration:
 
 1. run server-side
 2. owns `OPENAI_API_KEY` through server environment variables
-3. sends only synthetic demo fields in this repository
+3. sends only synthetic POC - Proof Of Concept fields in this repository
 4. sets Responses API storage to `false`
 5. validates model output before persistence
 6. logs non-secret model metadata and fallback reason codes
@@ -161,17 +161,17 @@ Simulation classifies privileged or policy-sensitive cases as human-review or po
 
 Retention should be configurable by source and policy. Store enough provenance for auditability, but avoid retaining unnecessary raw content.
 
-### 5.8.11 What is stored by the local demo?
+### 5.8.11 What is stored by the local POC - Proof Of Concept?
 
-The local demo stores selected scenario, staged workflow flags, generated graph, proposals, governance decisions, simulation result, safe execution result, learning recommendation, non-secret provider metadata, and audit events in local SQLite. The browser mirrors the same state in `localStorage` for fallback recovery.
+The local POC - Proof Of Concept stores selected scenario, staged workflow flags, generated graph, proposals, governance decisions, simulation result, safe execution result, learning recommendation, non-secret provider metadata, and audit events in local SQLite. The browser mirrors the same state in `localStorage` for fallback recovery.
 
 ### 5.8.12 Does reset delete production data?
 
-No. Reset only restores the local backend demo state and browser mirror for the selected synthetic scenario. There is no production connector or write path.
+No. Reset only restores the local backend POC - Proof Of Concept state and browser mirror for the selected synthetic scenario. There is no production connector or write path.
 
 ### 5.8.13 Can run summaries contain real customer data?
 
-They should not. Run summaries should only contain synthetic demo data unless a future production system adds approved export controls and redaction.
+They should not. Run summaries should only contain synthetic POC - Proof Of Concept data unless a future production system adds approved export controls and redaction.
 
 ## 5.9 Production Security Checklist
 

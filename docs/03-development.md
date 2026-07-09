@@ -16,7 +16,7 @@ npm run demo:dev
 
 Open the URL printed by Vite.
 
-For the API-backed local demo, run:
+For the API-backed local POC - Proof Of Concept, run:
 
 ```powershell
 npm run backend:seed
@@ -40,7 +40,7 @@ npm run build
 
 This runs TypeScript checks first and then builds `dist/`.
 
-The production artifact is the recommended verification target for final demo checks.
+The production artifact is the recommended verification target for final POC - Proof Of Concept checks.
 
 ## 3.3 Test
 
@@ -79,7 +79,7 @@ When adding new behavior, work from domain logic outward:
 4. Add deterministic domain logic.
 5. Add tests.
 6. Wire dashboard UI and persistence snapshots if state should survive reload.
-7. Verify the golden demo path.
+7. Verify the golden POC - Proof Of Concept path.
 
 Do not begin with UI-only mockups. The product should always demonstrate real typed transformations.
 
@@ -107,7 +107,7 @@ Implementation steps:
 
 ## 3.6 Local Persistence
 
-Backend demo state is owned by `server/workspace.ts` and persisted to SQLite at `.samruna/samruna.sqlite` by default. Set `SAMRUNA_DB_PATH` to use a different local database path. The browser writes a `localStorage` mirror through `src/domain/persistence.ts` for reload resilience and backend-unavailable fallback.
+Backend POC - Proof Of Concept state is owned by `server/workspace.ts` and persisted to SQLite at `.samruna/samruna.sqlite` by default. Set `SAMRUNA_DB_PATH` to use a different local database path. The browser writes a `localStorage` mirror through `src/domain/persistence.ts` for reload resilience and backend-unavailable fallback.
 
 It persists:
 
@@ -201,7 +201,7 @@ npm run verify:fullstack
 Avoid:
 
 - adding untyped JSON blobs
-- making live services required for the demo
+- making live services required for the POC - Proof Of Concept
 - exposing secrets to browser code
 - bypassing governance before execution
 - replacing the dashboard with a chatbot-first UI

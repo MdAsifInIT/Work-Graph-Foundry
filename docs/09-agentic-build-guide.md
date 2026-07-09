@@ -2,7 +2,7 @@
 
 ## 9.1 Purpose
 
-This guide is a historical handoff for a future agent or developer continuing Samruna safely. The repository is a runnable local full-stack demo, not a blank prototype. Preserve the existing React/Vite/TypeScript app, local backend, typed domain modules, Historical validation engine, governance flow, simulation logic, local persistence, fixtures, tests, and numbered docs.
+This guide is a historical handoff for a future agent or developer continuing Samruna safely. The repository is a runnable local full-stack POC - Proof Of Concept, not a blank prototype. Preserve the existing React/Vite/TypeScript app, local backend, typed domain modules, Historical validation engine, governance flow, simulation logic, local persistence, fixtures, tests, and numbered docs.
 
 ## 9.2 Required First Steps
 
@@ -37,7 +37,7 @@ Use this checklist before and after meaningful changes:
 5. Run `npm run verify:fullstack`.
 6. Install Playwright Chromium with `npm run test:e2e:install` if the browser is not already installed.
 7. Run `npm run test:e2e:preview` or `npm run test:e2e` when browser launch is allowed.
-8. Start local demo with `npm run backend:seed`, then `npm run dev:fullstack`.
+8. Start local POC - Proof Of Concept with `npm run backend:seed`, then `npm run dev:fullstack`.
 9. Walk the UI flow: landing page, `Launch`, scenario, load workflow, analyze workflow, generate automation proposal, approve in `Review & Run`, `Execute workflow`, export in `Audit`, reset in `Audit`.
 10. Switch to procurement and verify load, analyze, proposal generation.
 11. Verify reset/recovery restores seeded backend state and browser mirror state.
@@ -62,7 +62,7 @@ Expected outcomes:
 - Keep all sample data synthetic.
 - Add request types and scenario metadata in typed contracts.
 - Extend fixture validation when adding new scenario data.
-- Persist new demo state through the backend workspace service and keep `src/domain/persistence.ts` compatible for export/import and the browser mirror.
+- Persist new POC - Proof Of Concept state through the backend workspace service and keep `src/domain/persistence.ts` compatible for export/import and the browser mirror.
 - Keep live OpenAI calls server-side only.
 - Keep execution in safe simulation mode unless a future production architecture adds authenticated, allowlisted tool execution with approvals.
 - Keep Playwright e2e in the verification path when browser access is available, including the landing-first entry, five workspace views, the compact workflow context, responsive viewports, and performance smoke.

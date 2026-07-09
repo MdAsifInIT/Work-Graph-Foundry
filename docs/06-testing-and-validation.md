@@ -51,7 +51,7 @@ It checks:
 - landing page exposes exactly one visible `Launch` button
 - landing workflow blocks, connected automation path, and proof band render
 - sidebar navigation exposes Overview, Evidence, Graph, Review & Run, and Audit with active state
-- operational summary shows scenario, demo path, current stage, provider state, governance state, and safe execution boundary
+- operational summary shows scenario, POC - Proof Of Concept path, current stage, provider state, governance state, and safe execution boundary
 - topbar status stays compact, while the progress stepper keeps the staged path visible
 - scenario selector renders
 - `Launch` opens the workspace and `Load Workflow` opens Evidence with source counts
@@ -117,7 +117,7 @@ npm run test:e2e:preview
 Expected behavior:
 
 - Playwright starts the Vite app with a local web server.
-- Tests run in local Chromium against deterministic demo data.
+- Tests run in local Chromium against deterministic POC - Proof Of Concept data.
 - Both golden scenarios complete load, analyze, proposal generation, governance approval, safe execution, export, and reset checks.
 - Menu navigation is exercised for generated analysis, governance, execution, review, import, reload recovery, reset recovery, and mobile overflow.
 - Rejection, export/import round trip, backend workspace readback, malformed persistence recovery, and mobile horizontal overflow are covered in Chromium.

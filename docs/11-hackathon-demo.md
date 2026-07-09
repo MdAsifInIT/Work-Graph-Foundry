@@ -1,8 +1,8 @@
-# 11. Hackathon Demo
+# 11. Hackathon POC - Proof Of Concept
 
 ## 11.1 What "Production-Ready For A Hackathon" Means
 
-For this repository, hackathon-ready means the demo is:
+For this repository, hackathon-ready means the POC - Proof Of Concept is:
 
 - local-first and self-contained
 - deterministic by default
@@ -15,7 +15,7 @@ It does not mean the product is production-ready for enterprise use.
 
 ## 11.2 Safe Local Behavior Today
 
-The current demo is safe for local and hackathon use because:
+The current POC - Proof Of Concept is safe for local and hackathon use because:
 
 - the default AI provider is the Historical validation engine
 - optional live OpenAI proposal generation runs server-side only, with validation fallback wording in the UI
@@ -36,9 +36,9 @@ Before real production use, the product still needs:
 - production monitoring and rollback controls
 - validated model output and auditable decision logging
 
-## 11.4 Hackathon Demo Path
+## 11.4 Hackathon POC - Proof Of Concept Path
 
-Use this sequence for a live demo:
+Use this sequence for a live POC - Proof Of Concept:
 
 1. Start with `npm run backend:seed`, then `npm run dev:fullstack`.
 2. Open the printed local URL and click `Launch`.
@@ -50,13 +50,13 @@ Use this sequence for a live demo:
    - If no key is set, point out Historical validation engine proposal generation and the validation fallback wording in user-facing provider copy.
 7. Click `Approve` in `Review & Run`.
 8. Click `Execute workflow` and emphasize that no external system changes.
-9. Open `Audit`, then click `Export Summary` to show portable demo state.
-10. Click `Reset workflow state` in `Audit` to prove the demo can be replayed.
+9. Open `Audit`, then click `Export Summary` to show portable POC - Proof Of Concept state.
+10. Click `Reset workflow state` in `Audit` to prove the POC - Proof Of Concept can be replayed.
 11. Switch to `Procurement intake` if you want a second scenario.
 
 Short talk track:
 
-"This demo observes messy synthetic work traces, finds repeated patterns in an organization, can use live server-side OpenAI reasoning to generate a governed proposal, validates that proposal against history, requires human approval, executes safely in simulation mode, and persists the result through a local API and SQLite."
+"This POC - Proof Of Concept observes messy synthetic work traces, finds repeated patterns in an organization, can use live server-side OpenAI reasoning to generate a governed proposal, validates that proposal against history, requires human approval, executes safely in simulation mode, and persists the result through a local API and SQLite."
 
 The opening screen should read as a product landing page, not a shell: one visible `Launch` CTA, the landing impact metrics band, three workflow blocks, a connected automation path, a compact topbar status, and a proof band that points into the workspace.
 
@@ -88,11 +88,11 @@ npm run build
 npm run preview:fullstack -- --port 4174
 ```
 
-If Playwright still cannot launch, treat the local full-stack demo plus `verify:fullstack` as the fallback hackathon readiness check and record the browser blocker in the handoff.
+If Playwright still cannot launch, treat the local full-stack POC - Proof Of Concept plus `verify:fullstack` as the fallback hackathon readiness check and record the browser blocker in the handoff.
 
-## 11.6 Optional Live OpenAI Demo
+## 11.6 Optional Live OpenAI POC - Proof Of Concept
 
-For a local live-key demo, set the key only in the backend shell:
+For a local live-key POC - Proof Of Concept, set the key only in the backend shell:
 
 ```powershell
 $env:OPENAI_API_KEY="sk-..."

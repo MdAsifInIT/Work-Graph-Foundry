@@ -22,7 +22,7 @@ function makeStorage(): DemoStorage & { values: Map<string, string> } {
   };
 }
 
-describe("demo persistence", () => {
+describe("POC - Proof Of Concept persistence", () => {
   it("seeds and persists selected scenario state", () => {
     const storage = makeStorage();
     const state = createSeedDemoState("procurement-intake");
@@ -33,7 +33,7 @@ describe("demo persistence", () => {
     expect(loadPersistedDemoState(storage)?.selectedScenarioId).toBe("procurement-intake");
   });
 
-  it("resets local demo state to a known baseline", () => {
+  it("resets local POC - Proof Of Concept state to a known baseline", () => {
     const storage = makeStorage();
     const dirty: PersistedDemoState = {
       ...createSeedDemoState("it-access"),

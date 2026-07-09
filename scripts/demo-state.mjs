@@ -25,12 +25,12 @@ if (command === "seed") {
 
 if (command === "reset") {
   console.log(`Browser localStorage key: ${storageKey}`);
-  console.log("Run this in the local demo browser console, or click Reset in the app:");
+  console.log("Run this in the local POC - Proof Of Concept browser console, or click Reset in the app:");
   console.log(`localStorage.setItem(${JSON.stringify(storageKey)}, ${JSON.stringify(JSON.stringify(seedState))}); location.reload();`);
   process.exit(0);
 }
 
-console.log("Samruna demo state helper");
+console.log("Samruna POC - Proof Of Concept state helper");
 console.log("");
 console.log("Commands:");
 console.log("  npm run demo:seed -- [it-access|procurement-intake]");

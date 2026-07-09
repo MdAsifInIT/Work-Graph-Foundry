@@ -15,7 +15,7 @@ export function loadDemoScenario(scenarioId: ScenarioId = "it-access"): DemoScen
   const scenario = demoScenarios.find((item) => item.id === scenarioId);
 
   if (!scenario) {
-    throw new Error(`Unknown demo scenario: ${scenarioId}`);
+    throw new Error(`Unknown POC - Proof Of Concept scenario: ${scenarioId}`);
   }
 
   return scenario;

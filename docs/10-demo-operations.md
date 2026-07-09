@@ -1,8 +1,8 @@
-# 10. Demo Operations
+# 10. POC - Proof Of Concept Operations
 
-## 10.1 Local Demo Command
+## 10.1 Local POC - Proof Of Concept Command
 
-Start the demo:
+Start the POC - Proof Of Concept:
 
 ```powershell
 npm run backend:seed
@@ -41,7 +41,7 @@ npm run build
 npm run preview:fullstack -- --port 4174
 ```
 
-For the compact hackathon talk track, safe/local scope, and browser fallback steps, see [Hackathon Demo](11-hackathon-demo.md).
+For the compact hackathon talk track, safe/local scope, and browser fallback steps, see [Hackathon POC - Proof Of Concept](11-hackathon-demo.md).
 
 ## 10.2 Scenarios
 
@@ -74,7 +74,7 @@ All scenario data is synthetic and stored in `src/fixtures/demoData.ts`.
 18. Confirm generated output clears from Graph, Review & Run, and Audit.
 19. Switch to `Procurement intake` and repeat load, analyze, inspect graph, and proposal generation.
 
-The Playwright e2e suite exercises this path for both scenarios with deterministic demo data and the menu-based shell. On failure, Playwright captures screenshots, videos, and traces for debugging; do not commit those artifacts unless they are intentionally attached to an investigation.
+The Playwright e2e suite exercises this path for both scenarios with deterministic POC - Proof Of Concept data and the menu-based shell. On failure, Playwright captures screenshots, videos, and traces for debugging; do not commit those artifacts unless they are intentionally attached to an investigation.
 
 The landing page that starts this path should show one visible `Launch` CTA, the landing impact metrics band, three workflow blocks, a connected automation path, and a proof band action that also enters `/dashboard`.
 
@@ -125,10 +125,10 @@ Do not commit exported run summaries unless they are intentionally added as synt
 ## 10.6 Safety Notes
 
 - The default AI provider is the Historical validation engine.
-- The browser demo does not need `OPENAI_API_KEY`.
+- The browser POC - Proof Of Concept does not need `OPENAI_API_KEY`.
 - Live OpenAI calls, if added later, must be server-side only.
 - Execution uses safe simulation mode and never mutates external systems.
-- The demo does not need passwords, raw secrets, private message bodies, production write access, or unrestricted admin access.
+- The POC - Proof Of Concept does not need passwords, raw secrets, private message bodies, production write access, or unrestricted admin access.
 
 ## 10.7 Recovery
 

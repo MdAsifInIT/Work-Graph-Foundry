@@ -13,14 +13,14 @@ The MVP is intentionally scoped. Current limitations:
 - no richer visual graph canvas beyond the current selectable graph/pattern inspection
 - limited browser automation coverage beyond the current Chromium golden path
 
-These limitations are acceptable for a local-first demo but should be addressed before production use.
+These limitations are acceptable for a local-first POC - Proof Of Concept but should be addressed before production use.
 
 ## 7.2 Near-Term Local POC Needs
 
 Recommended local POC improvements:
 
 1. Expand Playwright e2e beyond the current Chromium golden path.
-2. Add mobile viewport e2e coverage for the full demo path.
+2. Add mobile viewport e2e coverage for the full POC - Proof Of Concept path.
 3. Add accessibility checks for keyboard navigation, labels, focus order, and contrast.
 4. Add CI coverage for typecheck, unit tests, build, audit, and Playwright.
 5. Add a richer visual graph canvas.
@@ -132,7 +132,7 @@ Why it fits:
 
 Suggested order:
 
-1. Harden the local demo with expanded e2e, mobile, accessibility, and CI checks.
+1. Harden the local POC - Proof Of Concept with expanded e2e, mobile, accessibility, and CI checks.
 2. Add a richer graph visualization that preserves provenance and bottleneck inspection.
 3. Harden the existing backend API contracts for authenticated multi-user use.
 4. Replace local SQLite with production-grade durable storage and immutable audit retention.
@@ -200,4 +200,4 @@ The product is production-ready only when:
 - monitoring captures failures and overrides
 - deployment and rollback are documented
 
-For the hackathon-specific readiness bar, see [Hackathon Demo](11-hackathon-demo.md).
+For the hackathon-specific readiness bar, see [Hackathon POC - Proof Of Concept](11-hackathon-demo.md).

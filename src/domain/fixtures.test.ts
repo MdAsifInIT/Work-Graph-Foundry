@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { listDemoScenarios, loadDemoFixtures, loadDemoScenario, validateDemoFixtures } from "./fixtures";
 
-describe("demo fixtures", () => {
+describe("POC - Proof Of Concept fixtures", () => {
   it("load a valid enterprise access request fixture set", () => {
     const fixtures = loadDemoFixtures();
     const result = validateDemoFixtures(fixtures);
@@ -32,7 +32,7 @@ describe("demo fixtures", () => {
     expect(fixtures.newIncomingTrace.body).toMatch(/No privileged role requested/i);
   });
 
-  it("loads all typed demo scenarios with valid synthetic data", () => {
+  it("loads all typed POC - Proof Of Concept scenarios with valid synthetic data", () => {
     const scenarios = listDemoScenarios();
 
     expect(scenarios.map((scenario) => scenario.id)).toEqual([

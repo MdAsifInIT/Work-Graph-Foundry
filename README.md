@@ -4,7 +4,7 @@ Samruna turns messy enterprise work traces into governed automation proposals.
 
 It helps teams see where repeated work is happening, understand the bottlenecks behind it, review an AI-generated automation plan, and safely simulate execution only after approval.
 
-The current version is a local demo. It uses synthetic organization data, a reproducible workflow engine, and safe simulation mode so the experience is reliable without connecting to real enterprise systems.
+The current version is a local POC - Proof Of Concept. It uses synthetic organization data, a reproducible workflow engine, and safe simulation mode so the experience is reliable without connecting to real enterprise systems.
 
 ## Why It Exists
 
@@ -22,7 +22,7 @@ Samruna gives teams a way to:
 
 ## What You Can Try
 
-The demo includes two synthetic scenarios:
+The POC - Proof Of Concept includes two synthetic scenarios:
 
 1. **IT access requests**
    Employees request application access through email, tickets, chat, approvals, and system logs.
@@ -41,9 +41,9 @@ In each scenario, Samruna walks through the same operating model:
 7. Review policy checks, required data, forbidden data, assumptions, and escalations.
 8. Approve or reject the proposal.
 9. Execute only in safe simulation mode.
-10. Review the audit trail, export the run, or reset the demo.
+10. Review the audit trail, export the run, or reset the POC - Proof Of Concept.
 
-## Demo Walkthrough
+## POC - Proof Of Concept Walkthrough
 
 1. Open the app.
 2. Click **Launch**.
@@ -76,30 +76,30 @@ The AI does not:
 - receive API keys in frontend code
 - replace audit, policy, or compliance review
 
-If live OpenAI credentials are not configured, Samruna uses the built-in historical validation engine so the demo still works.
+If live OpenAI credentials are not configured, Samruna uses the built-in historical validation engine so the POC - Proof Of Concept still works.
 
 ## Safety Model
 
-The demo is intentionally safe by default:
+The POC - Proof Of Concept is intentionally safe by default:
 
 - all scenario records are synthetic
 - execution is simulated
 - proposals require human approval
 - browser code never receives OpenAI API keys
 - backend provider errors are sanitized before reaching the UI
-- export/import data is local demo state, not customer production data
-- reset restores the seeded demo state
+- export/import data is local POC - Proof Of Concept state, not customer production data
+- reset restores the seeded POC - Proof Of Concept state
 
 For a production deployment, Samruna would need enterprise identity, role-based access control, scoped connectors, durable storage, immutable audit logs, and carefully governed execution tools.
 
-## Run The Demo Locally
+## Run The POC - Proof Of Concept Locally
 
 Requirements:
 
 - Node.js 24 or newer
 - npm
 
-Install dependencies and start the frontend demo:
+Install dependencies and start the frontend POC - Proof Of Concept:
 
 ```powershell
 npm install
@@ -117,7 +117,7 @@ npm run preview
 
 ## Run With The Local Backend
 
-The full-stack demo adds a local API and SQLite-backed workspace state.
+The full-stack POC - Proof Of Concept adds a local API and SQLite-backed workspace state.
 
 ```powershell
 npm run backend:seed
@@ -151,29 +151,29 @@ Never put `OPENAI_API_KEY` in browser code or frontend environment variables.
 ## Useful Commands
 
 ```powershell
-npm run demo:dev          # Start the local frontend demo
+npm run demo:dev          # Start the local frontend POC - Proof Of Concept
 npm run dev:fullstack     # Start backend and frontend together
-npm run backend:seed      # Reset local backend demo state
+npm run backend:seed      # Reset local backend POC - Proof Of Concept state
 npm run build             # Typecheck and build production assets
 npm test                  # Run unit tests
 npm run test:e2e          # Run Playwright browser tests
-npm run verify:demo       # Typecheck, test, build, and audit demo
+npm run verify:demo       # Typecheck, test, build, and audit POC - Proof Of Concept
 npm run verify:fullstack  # Full verification path for frontend and backend
 ```
 
 ## Documentation
 
-- [FAQ](FAQ.md): product, demo, data, safety, and implementation questions.
+- [FAQ](FAQ.md): product, POC - Proof Of Concept, data, safety, and implementation questions.
 - [Documentation Index](docs/README.md): full project documentation.
 - [Overview](docs/01-overview.md): purpose, current state, and main flows.
-- [Demo Setup](docs/04-demo-setup.md): local run steps and operator guidance.
+- [POC - Proof Of Concept Setup](docs/04-demo-setup.md): local run steps and operator guidance.
 - [Data Access And Security](docs/05-data-access-and-security.md): data needs and safety model.
 - [Testing And Validation](docs/06-testing-and-validation.md): verification coverage.
 - [Roadmap](docs/07-roadmap.md): current limits and production direction.
 
 ## Current Scope
 
-Samruna is currently a demo-grade product experience. It proves the workflow:
+Samruna is currently a POC - Proof Of Concept-grade product experience. It proves the workflow:
 
 - observe work
 - understand the pattern

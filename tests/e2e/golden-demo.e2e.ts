@@ -116,7 +116,7 @@ test("loads the landing-first screen without browser page or console errors", as
 });
 
 for (const scenario of scenarios) {
-  test(`runs the ${scenario.id} workflow demo path and reset clears generated output`, async ({ page, request }) => {
+  test(`runs the ${scenario.id} workflow POC - Proof Of Concept path and reset clears generated output`, async ({ page, request }) => {
     await runGoldenPath(page, request, scenario);
 
     const exported = await exportSummary(page);

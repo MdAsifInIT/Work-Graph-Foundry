@@ -2,7 +2,7 @@
 
 ## 2.1 Architecture Summary
 
-Samruna is implemented as a local-first full-stack demo. React renders a landing-first product page and a path-backed demo workspace, while a local TypeScript backend owns workspace state, SQLite persistence, API envelopes, seed/reset, import/export, and audit retrieval. Shared TypeScript domain modules still perform the deterministic product logic.
+Samruna is implemented as a local-first full-stack POC - Proof Of Concept. React renders a landing-first product page and a path-backed POC - Proof Of Concept workspace, while a local TypeScript backend owns workspace state, SQLite persistence, API envelopes, seed/reset, import/export, and audit retrieval. Shared TypeScript domain modules still perform the deterministic product logic.
 
 This architecture keeps the solution easy to run, easy to test, and easy for a new developer or agent to inspect.
 
@@ -44,11 +44,11 @@ flowchart LR
 
 ### 2.3.1 Frontend Shell
 
-`src/App.tsx` is the composition root. It creates the demo controller, renders the customer-facing landing page at `/`, opens the interactive workspace at `/dashboard`, owns the local active view state, and renders `src/app/AppShell.tsx` plus the selected feature view.
+`src/App.tsx` is the composition root. It creates the POC - Proof Of Concept controller, renders the customer-facing landing page at `/`, opens the interactive workspace at `/dashboard`, owns the local active view state, and renders `src/app/AppShell.tsx` plus the selected feature view.
 
 The frontend is split into:
 
-- `src/app/useWorkGraphDemoController.ts`: demo state, derived workflow data, persistence snapshot, and workflow actions.
+- `src/app/useWorkGraphDemoController.ts`: POC - Proof Of Concept state, derived workflow data, persistence snapshot, and workflow actions.
 - `src/app/navigation.ts`: menu metadata and the `ViewId` union.
 - `src/App.tsx`: landing page, `/dashboard` workspace entry, and workspace view composition.
 - `src/app/AppShell.tsx`: sidebar navigation, mobile view selector, compact topbar status, progress stepper, scenario selector, workflow controls, and main content region.
@@ -189,7 +189,7 @@ The mock provider implements the default Historical validation engine. The OpenA
 
 `server/workspace.ts` owns the mutable backend workspace state and reuses `src/domain/persistence.ts` for export/import compatibility. The default SQLite path is `.samruna/samruna.sqlite`, overrideable with `SAMRUNA_DB_PATH`.
 
-The persisted demo state includes:
+The persisted POC - Proof Of Concept state includes:
 
 - selected scenario
 - staged operator flags
@@ -243,8 +243,8 @@ This approach keeps behavior deterministic for demos and tests while preserving 
 The menu-based console includes:
 
 - landing page with a code-native product preview, `Launch` CTA, and impact metrics band
-- global demo controls and scenario selector in the shell toolbar
-- progress stepper for the staged demo path
+- global POC - Proof Of Concept controls and scenario selector in the shell toolbar
+- progress stepper for the staged POC - Proof Of Concept path
 - Overview view for workspace orientation, next action, state summary, before/after impact, and system details
 - Evidence view for scenario evidence, channel counts, fixture validation, ingestion summary, and normalized work item details
 - Graph view for hero workflow metrics, the work graph, node inspection, patterns, bottlenecks, and opportunity/risk signals
@@ -256,7 +256,7 @@ The layout is responsive, landing-first, and avoids cluttered dashboard chrome.
 
 ## 2.7 Backend Boundary
 
-The local backend is intentionally demo-grade:
+The local backend is intentionally POC - Proof Of Concept-grade:
 
 - data remains synthetic and local
 - execution remains safe and simulated

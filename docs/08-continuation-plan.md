@@ -4,7 +4,7 @@
 
 Samruna already has a credible local-first foundation:
 
-- React/Vite/TypeScript landing page and path-backed demo workspace
+- React/Vite/TypeScript landing page and path-backed POC - Proof Of Concept workspace
 - deterministic IT access request scenario
 - typed fixtures and validation
 - domain modules for ingestion, graphing, pattern detection, planning, simulation, governance, execution, and learning
